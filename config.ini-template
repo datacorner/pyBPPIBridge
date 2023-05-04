@@ -1,0 +1,54 @@
+[database]
+# SQL Server ODBC COnnection string
+connectionstring=DRIVER={ODBC Driver 18 for SQL Server};SERVER=localhost\SQLEXPRESS;DATABASE=blueprism;UID=*;PWD=***;ENCRYPT=No
+# FOR ODBC ONLY
+# multiline_values = are handled just fine as long as they are indented deeper than the first line of a value
+query={SQL Query}
+
+[blueprism]
+# FOR BLUE PRISM ONLY 
+# Process Name to gather logs
+processname=IFA Application Process
+# Name of the parameters (separated by a comma) to gather from the BP log files (into the xmlattributes field)
+parameters=Customer Number,Product,Investment,Deposit
+# Filter out/remove these stagetype (list of stagetype separated by a comma) from the gathered logs
+# 1 (always remove this one)
+# 2 -> Action
+# 4, 65536 -> Decision
+# 8 -> Calculation
+# 536870912 -> Multi Calculation
+# 128 -> Call page
+# 1024, 262144 -> Start
+# 2048 -> End
+# 131072 -> Writer
+# 262144 -> Navigate
+# 4194304 -> Wait
+# 16777216 -> Alert
+# 33554432 -> Exception
+stagetypefilters=1,4,65536,8,536870912
+# Include or not (yes/no) the VBO logs
+includevbo=yes
+# unicode logs (yes/no)
+unicode=no
+
+[bppi]
+# BPPI URL (without / at the end)
+url=https://mybppiserver.com
+# BPPI token generated on the repository
+token=***
+# Repository Table name (if empty takes the one in the BPPI Configuration)
+table=repotablename
+# To Do list to execute after loading here (separated by comma) (if empty takes the one in the BPPI Configuration)
+todos=TODO_1,TODO_2
+
+[other]
+# Log file location (optional)
+logfolder={Folder with a slash at the end}
+# Log filename (optional)
+logfilename=bppi-bridge.log
+
+[events]
+# Map the event names in the source dataset with a event map file (CSV file with two columns)
+eventmap=no/yes
+eventmaptable=./test/evtmap.csv
+eventcolumn={column to map in the data source}
