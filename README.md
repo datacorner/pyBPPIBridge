@@ -1,4 +1,5 @@
 # Introduction
+
 This repository proposes a Python program that makes a bridge between Blue Prism Process Intelligence (alias BPPI) and external data sources. Its purpose is to access these external datasources, collect them ant automate their importation into a BPPI instance (cloud or on-prem). Currently this bridge can access to
 * External file (CSV)
 * ODBC Data Sources (checked with SQL Server) by using an configurable SQL query
