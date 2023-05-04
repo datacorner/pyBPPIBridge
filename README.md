@@ -9,11 +9,12 @@ This bridge reads the data from the Datasource and upload them into the BPPI Rep
 Note: BPPI is the solution provided by Blue Prism for Process and Task Mining (ABBYY Timeline OEM).
 
 # Requirements (Python)
-Python 3.10.x minimum
-Each Python sub projects has its own requirements.txt file available, to install the needed package just execute:
+* Python 3.10.x mminimum
+* Python library: execute the command below
 ```
 pip install -r requirements.txt
 ```
+* To use this API it's mandatory to configure correctly the BPPI repository first (Cf. Data Sources / DBMS CLI tool configuration). Cf. https://help.abbyy.com/en-us/timeline/6/user_guide/connectingtodbmsdatasource/
 
 # Project description 
 The BPPI Repository Python API Wrapper ! 
@@ -22,38 +23,27 @@ This project contains the API wrapper for Python which enables to load data dire
 * Load a SQL Server Query (by using pyODBC)
 * Load the Blue Prism logs data from the Blue Prism Repository
 All of these loads also offer the posibility to execute one or several BPPI To do (to directly load the data into a project) 
-## Requirements:
-* Python 3.10.x mminimum
-* Python library: time, requests, json, urllib, logging, pyODBC
-* To use this API it's mandatory to configure correctly the BPPI repository first (Cf. Data Sources / DBMS CLI tool configuration). Cf. https://help.abbyy.com/en-us/timeline/5/user_guide/connectingtodbmsdatasource/
 ## CLI Arguments
 ### Load from a CSV file
-Program name loadcsv.py  
 * **-filename** file to load (CSV format)
 * **-token** Token (provided while configuring BPPI datasource)
 * **-url** Server URL (without last slash)
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
-$ python3 bppibridge.py -sourcetype csv -filename {InternationalDeclarations.csv} -token {token} -url {BPPI Server URL}
+$ python3 bppibridge.py -sourcetype csv -filename {myfile.csv} -token {token} -url {BPPI Server URL}
 ```
-### Load from an SQL Server Query (via ODBC)
-Program name loadsql.py  
-* **-query** Query to execute to get the data
-* **-token** BPPI Token from the CLI configuration screen
-* **-url** BPPI http URL server
-* **-connectionstring** ODBC Connection String
+### Load from an SQL Server Query (via ODBC) 
 * **-configfile** Config file with all configuration details (INI format, see the template below)
-if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyProcessMiningTools/blob/main/pyBPPIAPI/config.ini-template)  (rename it as an *.ini file)
+if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template)  (rename it as an *.ini file)
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
 $ python3 bppibridge.py -sourcetype odbc -configfile {config.ini}
 ```
 **ODBC Connection String example:** DRIVER={ODBC Driver 18 for SQL Server};SERVER=localhost\SQLEXPRESS;DATABASE=***;UID=***;PWD=***;ENCRYPT=No
-### Load from a Blue Prism Repository (from 7.x)  
-Program name loadbp.py  
-* **-configfile** Config file with all configuration details (INI format) / must follow the INI format rules. Example/Template -> See the [config.ini-template](https://github.com/datacorner/pyProcessMiningTools/blob/main/pyBPPIAPI/config.ini-template) (rename it as an *.ini file)*
+### Load from a Blue Prism Repository (from 7.x)   
+* **-configfile** Config file with all configuration details (INI format) / must follow the INI format rules. Example/Template -> See the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template) (rename it as an *.ini file)*
 Capabilities:
 * Can connect directly to the Blue Prism Repository by using an ODBC Connection String
 * Gather logs from a selected Blue Prism process (use the processname parameter)
