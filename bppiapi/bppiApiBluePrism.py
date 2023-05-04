@@ -66,8 +66,7 @@ class bppiApiBluePrism(bppiApiODBC):
             else:
                 tablelog = C.BPLOG_LOG_NONUNICODE
             # Finalize the SQL Query by replacing the parameters
-            valuesToReplace = {
-                                "attrxml" : C.BPLOG_ATTRIBUTE_COL, 
+            valuesToReplace = { 
                                 "processname" : processname, 
                                 "stagetypefilters" : stagetypes, 
                                 "onlybpprocess" : novbo, 
@@ -118,7 +117,7 @@ class bppiApiBluePrism(bppiApiODBC):
             self.log.error("__parseAttrs() -> Unable to parse the BP Attribute " + str(e))
             return dfattributes
 
-    def __manageLogs(self, df) -> pd.DataFrame:
+    def __getAttributesFromLogs(self, df) -> pd.DataFrame:
         """Extract the logs (especially the parameters from the logs which are stored in XML format)
             Note: if no parameters in the list, no import
         Args:
@@ -148,7 +147,6 @@ class bppiApiBluePrism(bppiApiODBC):
             self.log.info("Build the final dataset with parameters")
             # add the IN or OUT parameter (the commented line below creates 2 differents parameters if the same param for IN and OUT)
             dfattributes['FullName'] = dfattributes['Name']
-            #dfattributes['FullName'] = dfattributes[['in_out', 'Name']].apply(lambda x: '_'.join(x), axis=1)
             dfattributesInCols = pd.pivot_table(dfattributes, values='value', index=['logid'], columns=['FullName'], aggfunc=np.sum, fill_value="")
             dfattributesInCols.reset_index()
             # Merge the Dataframes
@@ -165,5 +163,17 @@ class bppiApiBluePrism(bppiApiODBC):
         Returns:
             pd.DataFrame: Altered dataset with the selected parameters as new columns
         """
-        df = self.__manageLogs(df)
+        # Filter out the df by selecting only the Start & End (main page / process) stages if requested
+        if (self.config.getParameter(C.PARAM_BPFILTERSTEND) == C.YES):
+            mainpage = self.config.getParameter(C.PARAM_BPMAINPROCESSPAGE, C.BP_MAINPAGE_DEFAULT) 
+            # Remove the logs with stagename = "End" outside the "Main Page"
+            oldCount = df.shape[0]
+            df = df[~((df[C.BPLOG_STAGENAME_COL] == C.BP_STAGE_END) & (df[C.BPLOG_PAGENAME_COL] != mainpage))]
+            self.log.info("{} records have been removed (No <End> stage outside the Main Process Page)".format(oldCount - df.shape[0]))
+            # Remove the logs with stagename = "Start" outside the "Main Page"
+            oldCount = df.shape[0] 
+            df = df[~((df[C.BPLOG_STAGENAME_COL] == C.BP_STAGE_START) & (df[C.BPLOG_PAGENAME_COL] != mainpage))]
+            self.log.info("{} records have been removed (No <Start> stage outside the Main Process Page)".format(oldCount - df.shape[0]))
+        # Get the attributes from the BP logs
+        df = self.__getAttributesFromLogs(df)
         return super().alterData(df)

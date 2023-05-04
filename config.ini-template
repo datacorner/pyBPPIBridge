@@ -30,6 +30,10 @@ stagetypefilters=1,4,65536,8,536870912
 includevbo=yes
 # unicode logs (yes/no)
 unicode=no
+# Only keep the Start and End stages in the main Process page (remove all the other Start & End stages) (yes/no)
+startendfilter=yes
+# if startendfilter=yes, name of the main Process page (by default Main Page)
+mainprocesspage=Main Page
 
 [bppi]
 # BPPI URL (without / at the end)

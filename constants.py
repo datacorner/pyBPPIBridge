@@ -27,9 +27,11 @@ PARAM_BPPITABLE = "bppi.table"                          # Name of the table in t
 PARAM_BPPITODOS = "bppi.todos"                          # List of BPPI TO DOs to execute after loading
 PARAM_LOGFOLDER = "other.logfolder"                     # Folder to store the Logs
 PARAM_BPPARAMSATTR = "blueprism.parameters"             # {Blue Prism} List (separated by a comma) of the BP parameters/attributes to gather (will be added in new columns)
-PARAM_EVENTMAP = "events.map"                      # yes/no : manage event mapping
-PARAM_EVENTMAPTABLE = "events.maptable"            # Map the events with the dataset. This param contains the name of the csv file which stores the event map (col 1: source event name, col 2: new event name)
-PARAM_EVENTMAPNAME = "events.column"               # Name of the event column name in the original source
+PARAM_EVENTMAP = "events.map"                           # yes/no : manage event mapping
+PARAM_EVENTMAPTABLE = "events.maptable"                 # Map the events with the dataset. This param contains the name of the csv file which stores the event map (col 1: source event name, col 2: new event name)
+PARAM_EVENTMAPNAME = "events.column"                    # Name of the event column name in the original source
+PARAM_BPFILTERSTEND = "blueprism.startendfilter"        #
+PARAM_BPMAINPROCESSPAGE = "blueprism.mainprocesspage"
 
 # BPPI API
 API_1_0 = "/api/ext/1.0/"
@@ -54,8 +56,13 @@ TRACE_MAXBYTES = 1000000
 TEMP_SQLDUMP = "-temp-sqlserver-dump.csv"
 
 # Blue Prism stuff
-BPLOG_ATTRIBUTE_COL = "attributexml"                # Name of the attributes XML column in the BP Repo
 BPLOG_STAGETYPE_COL = "stagetype"                   # Name of the stagetype column in the BP Repo
+BPLOG_STAGENAME_COL = "stagename"                   # Name of the stagename column in the BP Repo
+BPLOG_PAGENAME_COL = "pagename"                     # Name of the pagename column in the BP Repo
+BPLOG_ATTRIBUTE_COL = "attributexml"                # Name of the attributexml column in the BP Repo
 BPLOG_LOG_UNICODE = "BPASessionLog_Unicode"         # BP Log table name for unicode
 BPLOG_LOG_NONUNICODE = "BPASessionLog_NonUnicode"   # BP Log table name for non unicode
 BPLOG_INI4SQL = "bplogs.sql"                         # File which contains the BP SQL Query
+BP_STAGE_START = "Start"
+BP_STAGE_END = "End"
+BP_MAINPAGE_DEFAULT = "Main Page"

@@ -1,4 +1,4 @@
-SELECT logid,LOG.sessionnumber,stagename,pagename,result,LOG.startdatetime, stagetype, $attrxml,
+SELECT logid, LOG.sessionnumber, stagename, pagename, result,LOG.startdatetime, stagetype, attributexml,
 IIF(processname IS NULL, 'BP OBJECT', 'BP PROCESS') as OBJECT_TYPE, 
 IIF(processname IS NULL, objectname, processname) as OBJECT_NAME,
 BPAResource.name as DWName
