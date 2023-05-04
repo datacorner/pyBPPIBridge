@@ -43,9 +43,10 @@ Launch the program in the shell (windows or linux) command line like this:
 $ python3 bppibridge.py -sourcetype odbc -configfile {config.ini}
 ```
 **ODBC Connection String example:** DRIVER={ODBC Driver 18 for SQL Server};SERVER=localhost\SQLEXPRESS;DATABASE=***;UID=***;PWD=***;ENCRYPT=No
+
 ### Load from a Blue Prism Repository (from 7.x)   
 * **-configfile** Config file with all configuration details (INI format) / must follow the INI format rules. Example/Template -> See the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template) (rename it as an *.ini file)*
-Capabilities:
+#### Capabilities
 * Can connect directly to the Blue Prism Repository by using an ODBC Connection String
 * Gather logs from a selected Blue Prism process (use the processname parameter)
 * Collect only the Blue Prism variable from the list (parameters parameter in the ini file)
@@ -53,6 +54,7 @@ Capabilities:
 * Include or not the VBO logs (use the includevbo option)
 * Support Unicode (use the unicode option)
 * Can gather Blue Prism logs data beteween 2 dates (use the command line todate and/or fromdate). By this way it's possible to manage full or delta load
+* Can exclude all the Start and End stages except the First & Last one in the BP parent process (the ones in the Main Page)
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
