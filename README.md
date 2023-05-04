@@ -1,5 +1,12 @@
 # Introduction
-This repository proposes a Python program that makes a bridge between Blue Prism Process Intelligence (alias BPPI) and external data sources. Its purpose is to access these external datasources, collect them ant automate their importation into a BPPI instance (cloud or on-prem). BPPI is the solution provided by Blue Prism for Process and Task Mining and is a ABBYY Timeline OEM provided by Blue Prism. But when it is about Process Mining it necessary about data as this kind of solutions needs their oil to work properly.  
+This repository proposes a Python program that makes a bridge between Blue Prism Process Intelligence (alias BPPI) and external data sources. Its purpose is to access these external datasources, collect them ant automate their importation into a BPPI instance (cloud or on-prem). Currently this bridge can access to
+* External file (CSV)
+* ODBC Data Sources (checked with SQL Server) by using an configurable SQL query
+* Blue Prism repository (Can gather all the session logs for a specified process)  
+
+This bridge reads the data from the Datasource and upload them into the BPPI Repository. Inside BPPI it's also possible to configure a TODO to automate some transformations and load the data into a BPPI Project (The program can execute thess To Do automatically). To make this bridge usable the user must configure a Data Source in the BPPI Repository, and get a token.  
+
+Note: BPPI is the solution provided by Blue Prism for Process and Task Mining (ABBYY Timeline OEM).
 
 # Requirements (Python)
 Python 3.10.x minimum
