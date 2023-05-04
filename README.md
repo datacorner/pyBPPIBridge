@@ -24,18 +24,20 @@ pip install -r requirements.txt
 
 # Usage 
 This project leverages the BPPI API and loads data directly into BPPI. Using this bridge is pretty easy as you just have to launch a command line (CLI).
-## CLI Arguments
 ### Load from a CSV file
-* **-filename** file to load (CSV format)
-* **-token** Token (provided while configuring BPPI datasource)
-* **-url** Server URL (without last slash)
+#### CLI 
+* **-filename** (Mandatory) file to load (CSV format)
+* **-token** (Mandatory) Token (provided while configuring BPPI datasource)
+* **-url** (Mandatory) Server URL (without last slash)
+* **-other.logfilename** [Optional] Log filename and path
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
-$ python3 bppibridge.py -sourcetype csv -filename {myfile.csv} -token {token} -url {BPPI Server URL}
+$ python3 bppibridge.py -sourcetype csv -filename {myfile.csv} -token {token} -url {BPPI Server URL} [-other.logfilename filenameandpath] 
 ```
-### Load from an SQL Server Query (via ODBC) 
-* **-configfile** Config file with all configuration details (INI format, see the template below)
+### Load from an SQL Server Query (via ODBC)
+#### CLI 
+* **-configfile** (Mandatory) Config file with all configuration details (INI format, see the template below)
 if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template)  (rename it as an *.ini file)
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
@@ -44,8 +46,11 @@ $ python3 bppibridge.py -sourcetype odbc -configfile {config.ini}
 ```
 **ODBC Connection String example:** DRIVER={ODBC Driver 18 for SQL Server};SERVER=localhost\SQLEXPRESS;DATABASE=***;UID=***;PWD=***;ENCRYPT=No
 
-### Load from a Blue Prism Repository (from 7.x)   
-* **-configfile** Config file with all configuration details (INI format) / must follow the INI format rules. Example/Template -> See the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template) (rename it as an *.ini file)*
+### Load from a Blue Prism Repository (from 7.x)  
+#### CLI 
+* **-configfile** (Mandatory) Config file with all configuration details (INI format) / must follow the INI format rules. Example/Template -> See the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template) (rename it as an *.ini file)*
+* **-fromdate** [Optional] From Date filtering (Delta load) (Format expected YYYY-MM-DD HH:MM:SS)
+* **-todate** [Optional] To Date filtering (Delta load) (Format expected YYYY-MM-DD HH:MM:SS)
 #### Capabilities
 * Can connect directly to the Blue Prism Repository by using an ODBC Connection String
 * Gather logs from a selected Blue Prism process (use the processname parameter)
