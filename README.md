@@ -9,7 +9,7 @@ This bridge reads the data from the Datasource and upload them into the BPPI Rep
 Note: BPPI is the solution provided by Blue Prism for Process and Task Mining (ABBYY Timeline OEM).
 
 # Requirements (Python)
-* Python 3.10.x mminimum
+* [Python 3.10.x mminimum](https://www.python.org/downloads/release/python-3100)
 * Python library: execute the command below
 ```
 pip install -r requirements.txt
