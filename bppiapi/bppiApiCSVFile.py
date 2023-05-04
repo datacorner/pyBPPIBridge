@@ -1,9 +1,6 @@
-from bppiapi.bppiApiWrapper import bppiApiWrapper
-import json
 import constants as C
 from bppiapi.bppiApiParent import bppiApiParent
 import pandas as pd
-from utils.iniConfig import iniConfig
 
 CSV_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME, C.PARAM_BPPITOKEN, C.PARAM_BPPIURL]
 

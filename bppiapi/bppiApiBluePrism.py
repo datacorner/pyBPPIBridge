@@ -1,11 +1,9 @@
 import constants as C
 from bppiapi.bppiApiODBC import bppiApiODBC
 import pandas as pd
-import csv
 import xml.etree.ElementTree as ET
 import warnings
 import numpy as np
-import configparser
 from string import Template
 import pathlib
 
