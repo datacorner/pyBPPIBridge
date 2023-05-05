@@ -45,17 +45,18 @@ if __name__ == "__main__":
 		parser.print_help()
 
     # INSTANCIATE THE RIGHT CLASS / DATA SOURCE TYPE
-	if (args[C.PARAM_SRCTYPE] == C.PARAM_SRCTYPE_VALCSV):
-		api = bppiApiCSVFile(config)
-	if (args[C.PARAM_SRCTYPE] == C.PARAM_SRCTYPE_VALXLS):
-		api = bppiApiExcelFile(config)
-	elif (args[C.PARAM_SRCTYPE] == C.PARAM_SRCTYPE_VALODBC):
-		api = bppiApiODBC(config)
-	elif (args[C.PARAM_SRCTYPE] == C.PARAM_SRCTYPE_VALBP):
-		api = bppiApiBluePrism(config)
-	else:
-		parser.print_help()
-		exit()
+	match args[C.PARAM_SRCTYPE]:
+		case C.PARAM_SRCTYPE_VALCSV:
+			api = bppiApiCSVFile(config)
+		case C.PARAM_SRCTYPE_VALXLS:
+			api = bppiApiExcelFile(config)
+		case C.PARAM_SRCTYPE_VALODBC:
+			api = bppiApiODBC(config)
+		case C.PARAM_SRCTYPE_VALBP:
+			api = bppiApiBluePrism(config)
+		case _:
+			parser.print_help()
+			exit()
 	
     # PROCESS THE DATA
 	if (api.initialize()):
