@@ -1,3 +1,7 @@
+__author__ = "Benoit CAYLA"
+__email__ = "benoit@datacorner.fr"
+__license__ = "GPL"
+
 import logging
 
 ENCODING = "utf-8"

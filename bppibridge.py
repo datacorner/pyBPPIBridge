@@ -1,3 +1,7 @@
+__author__ = "Benoit CAYLA"
+__email__ = "benoit@datacorner.fr"
+__license__ = "GPL"
+
 from datasources.bppiApiCSVFile import bppiApiCSVFile
 from datasources.bppiApiODBC import bppiApiODBC
 from datasources.bppiApiBluePrism import bppiApiBluePrism

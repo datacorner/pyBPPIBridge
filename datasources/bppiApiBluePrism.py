@@ -1,3 +1,7 @@
+__author__ = "Benoit CAYLA"
+__email__ = "benoit@datacorner.fr"
+__license__ = "GPL"
+
 import constants as C
 from datasources.bppiApiODBC import bppiApiODBC
 import pandas as pd

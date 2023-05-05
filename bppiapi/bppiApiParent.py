@@ -1,3 +1,7 @@
+__author__ = "Benoit CAYLA"
+__email__ = "benoit@datacorner.fr"
+__license__ = "GPL"
+
 from bppiapi.bppiApiWrapper import bppiApiWrapper
 from utils.log import log
 import pandas as pd
