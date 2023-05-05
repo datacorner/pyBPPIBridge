@@ -1,6 +1,7 @@
-from bppiapi.bppiApiCSVFile import bppiApiCSVFile
-from bppiapi.bppiApiODBC import bppiApiODBC
-from bppiapi.bppiApiBluePrism import bppiApiBluePrism
+from datasources.bppiApiCSVFile import bppiApiCSVFile
+from datasources.bppiApiODBC import bppiApiODBC
+from datasources.bppiApiBluePrism import bppiApiBluePrism
+from datasources.bppiApiExcelFile import bppiApiExcelFile
 import argparse
 from utils.iniConfig import iniConfig
 import constants as C
@@ -9,16 +10,19 @@ if __name__ == "__main__":
 	# MANAGE CLI ARGUMENTS
 	parser = argparse.ArgumentParser()
 	try:
-		parser.add_argument("-" + C.PARAM_SRCTYPE, help="Data source type {csv|odbc|blueprism}", required=True)
+		parser.add_argument("-" + C.PARAM_SRCTYPE, help="Data source type {csv|excel|odbc|blueprism}", required=True)
 		parser.add_argument("-" + C.PARAM_CONFIGFILE, help="(blueprism|odbc) Config file with all configuration details (INI format)", default="")
 		parser.add_argument("-" + C.PARAM_FILENAME, help="(csv) CSV file name and path to import", default="")
 		parser.add_argument("-" + C.PARAM_BPPITOKEN, help="(csv) BPPI Token from the CLI configuration screen", default="")
 		parser.add_argument("-" + C.PARAM_BPPIURL, help="(csv) BPPI http URL server", default="")
 		parser.add_argument("-" + C.PARAM_LOGFILENAME, help="(csv) Log Filename and path", default="")
+		parser.add_argument("-" + C.PARAM_EXCELSHEETNAME, help="(excel) Excel Sheet name", default="0")
 		parser.add_argument("-" + C.PARAM_FROMDATE, help="(blueprism) FROM date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default="")
 		parser.add_argument("-" + C.PARAM_TODATE, help="(blueprism) TO date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default="")
 		args = vars(parser.parse_args())
 		config = iniConfig()
+		if (not(args[C.PARAM_SRCTYPE] in C.PARAM_SRCTYPE_SUPPORTED)):
+			raise ("Missing Data Source type {csv|excel|odbc|blueprism}")
 		if (args[C.PARAM_SRCTYPE] == C.PARAM_SRCTYPE_VALCSV):
 			# For CSV only takes the CLI args and put them in the config object
 			config.addParameter(C.PARAM_BPPITOKEN, args[C.PARAM_BPPITOKEN])
@@ -31,7 +35,7 @@ if __name__ == "__main__":
 				config = iniConfig()
 				config.loadini(args[C.PARAM_CONFIGFILE])
 			else:
-				raise ("Missing config file argument")
+				raise ("Missing config file argument {}".format(C.PARAM_CONFIGFILE))
 	except Exception as e:
 		print(e)
 		parser.print_help()
@@ -39,6 +43,8 @@ if __name__ == "__main__":
     # INSTANCIATE THE RIGHT CLASS / DATA SOURCE TYPE
 	if (args[C.PARAM_SRCTYPE] == C.PARAM_SRCTYPE_VALCSV):
 		api = bppiApiCSVFile(config)
+	if (args[C.PARAM_SRCTYPE] == C.PARAM_SRCTYPE_VALXLS):
+		api = bppiApiExcelFile(config)
 	elif (args[C.PARAM_SRCTYPE] == C.PARAM_SRCTYPE_VALODBC):
 		api = bppiApiODBC(config)
 	elif (args[C.PARAM_SRCTYPE] == C.PARAM_SRCTYPE_VALBP):

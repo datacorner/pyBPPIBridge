@@ -5,33 +5,39 @@ YES = "yes"
 NO = "no"
 
 # Parameter Names
+PARAM_SRCTYPE = "sourcetype"                            # Data source type {csv|excel|odbc|blueprism}
+PARAM_SRCTYPE_VALCSV = "csv"                            # sourcetype = csv
+PARAM_SRCTYPE_VALODBC = "odbc"                          # sourcetype = odbc
+PARAM_SRCTYPE_VALBP = "blueprism"                       # sourcetype = blueprism
+PARAM_SRCTYPE_VALXLS = "excel"                          # sourcetype = excel
+PARAM_SRCTYPE_SUPPORTED = [PARAM_SRCTYPE_VALCSV,
+                           PARAM_SRCTYPE_VALODBC,
+                           PARAM_SRCTYPE_VALXLS,
+                           PARAM_SRCTYPE_VALBP]
 PARAM_FILENAME = "filename"                             # Source file dataset
-PARAM_CONFIGFILE = "configfile"                         # Config / INI file
-PARAM_SRCTYPE = "sourcetype"                            # Data source type {csv|odbc|blueprism}
-PARAM_SRCTYPE_VALCSV = "csv"
-PARAM_SRCTYPE_VALODBC = "odbc"
-PARAM_SRCTYPE_VALBP = "blueprism"
+PARAM_CONFIGFILE = "configfile"                         # {odbc|blueprism} Config / INI file
+PARAM_EXCELSHEETNAME = "sheet"                          # {excel} Excel spreadsheet name
 # Parameters which can be in the INI file
 PARAM_LOGFILENAME = "other.logfilename"                 # Filename of the Log file
-PARAM_BPPITOKEN = "bppi.token"                          # BPPI Token
-PARAM_BPPIURL = "bppi.url"                              # BPPI URL
+PARAM_BPPITOKEN = "bppi.token"                          # {csv|excel|odbc|blueprism} BPPI Token
+PARAM_BPPIURL = "bppi.url"                              # {csv|excel|odbc|blueprism} BPPI URL
 PARAM_CONNECTIONSTRING = "database.connectionstring"    # {ODBC/Blue Prism} ODBC Connection String
 PARAM_QUERY = "database.query"                          # {ODBC} Query to gather data
-PARAM_FROMDATE = "fromdate"                             # {Blue Prism}From Date (delta extraction)
-PARAM_TODATE = "todate"                                 # {Blue Prism}To Date (delta extraction)
-PARAM_BPPROCESSNAME = "blueprism.processname"           # {Blue Prism} Process Name  (to gather the logs from)
-PARAM_BPSTAGETYPES = "blueprism.stagetypefilters"       # {Blue Prism} filter out these stages (list of stages type separated by comma)
-PARAM_BPINCLUDEVBO = "blueprism.includevbo"             # {Blue Prism} yes/no : Extract the VBO logs
-PARAM_BPUNICODE = "blueprism.unicode"                   # {Blue Prism}yes/no : Blue Prism logs in unicode or not
-PARAM_BPPITABLE = "bppi.table"                          # Name of the table in the BPPI repository
-PARAM_BPPITODOS = "bppi.todos"                          # List of BPPI TO DOs to execute after loading
-PARAM_LOGFOLDER = "other.logfolder"                     # Folder to store the Logs
-PARAM_BPPARAMSATTR = "blueprism.parameters"             # {Blue Prism} List (separated by a comma) of the BP parameters/attributes to gather (will be added in new columns)
-PARAM_EVENTMAP = "events.map"                           # yes/no : manage event mapping
-PARAM_EVENTMAPTABLE = "events.maptable"                 # Map the events with the dataset. This param contains the name of the csv file which stores the event map (col 1: source event name, col 2: new event name)
-PARAM_EVENTMAPNAME = "events.column"                    # Name of the event column name in the original source
-PARAM_BPFILTERSTEND = "blueprism.startendfilter"        #
-PARAM_BPMAINPROCESSPAGE = "blueprism.mainprocesspage"
+PARAM_FROMDATE = "fromdate"                             # {blueprism}From Date (delta extraction)
+PARAM_TODATE = "todate"                                 # {blueprism}To Date (delta extraction)
+PARAM_BPPROCESSNAME = "blueprism.processname"           # {blueprism} Process Name  (to gather the logs from)
+PARAM_BPSTAGETYPES = "blueprism.stagetypefilters"       # {blueprism} filter out these stages (list of stages type separated by comma)
+PARAM_BPINCLUDEVBO = "blueprism.includevbo"             # {blueprism} yes/no : Extract the VBO logs
+PARAM_BPUNICODE = "blueprism.unicode"                   # {blueprism} yes/no : Blue Prism logs in unicode or not
+PARAM_BPPITABLE = "bppi.table"                          # {odbc|blueprism} Name of the table in the BPPI repository
+PARAM_BPPITODOS = "bppi.todos"                          # {odbc|blueprism} List of BPPI TO DOs to execute after loading
+PARAM_LOGFOLDER = "other.logfolder"                     # {csv|excel|odbc|blueprism} Folder to store the Logs
+PARAM_BPPARAMSATTR = "blueprism.parameters"             # {blueprism} List (separated by a comma) of the BP parameters/attributes to gather (will be added in new columns)
+PARAM_EVENTMAP = "events.map"                           # {odbc|blueprism} yes/no : manage event mapping
+PARAM_EVENTMAPTABLE = "events.maptable"                 # {odbc|blueprism} Map the events with the dataset. This param contains the name of the csv file which stores the event map (col 1: source event name, col 2: new event name)
+PARAM_EVENTMAPNAME = "events.column"                    # {odbc|blueprism} Name of the event column name in the original source
+PARAM_BPFILTERSTEND = "blueprism.startendfilter"        # {blueprism} yes/no: filtr out all Start & End stages except the Main Page ones
+PARAM_BPMAINPROCESSPAGE = "blueprism.mainprocesspage"   # {blueprism} BP Process Main Page name
 
 # BPPI API
 API_1_0 = "/api/ext/1.0/"

@@ -1,5 +1,5 @@
 import constants as C
-from bppiapi.bppiApiODBC import bppiApiODBC
+from datasources.bppiApiODBC import bppiApiODBC
 import pandas as pd
 import xml.etree.ElementTree as ET
 import warnings

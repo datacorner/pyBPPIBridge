@@ -1,5 +1,5 @@
 import constants as C
-from bppiapi.bppiApiCSVFile import bppiApiCSVFile
+from datasources.bppiApiCSVFile import bppiApiCSVFile
 import pyodbc
 import pandas as pd
 
