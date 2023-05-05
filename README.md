@@ -1,7 +1,8 @@
 # Introduction
 
 This repository proposes a Python program that makes a bridge between Blue Prism Process Intelligence (alias BPPI) and external data sources. Its purpose is to access these external datasources, collect them ant automate their importation into a BPPI instance (cloud or on-prem). Currently this bridge can access to
-* External file (CSV)
+* External file (csv)
+* External Excel Spreadsheet (xls, xlsx, xlsm, xlsb, odf, ods and odt)
 * ODBC Data Sources (checked with SQL Server) by using an configurable SQL query
 * Blue Prism repository (Can gather all the session logs for a specified process)  
 
@@ -25,8 +26,10 @@ pip install -r requirements.txt
 
 # Usage 
 This project leverages the BPPI API and loads data directly into BPPI. Using this bridge is pretty easy as you just have to launch a command line (CLI).
+
 ### Load from a CSV file
 #### CLI 
+* **-sourcetype** (Mandatory) csv
 * **-filename** (Mandatory) file to load (CSV format)
 * **-token** (Mandatory) Token (provided while configuring BPPI datasource)
 * **-url** (Mandatory) Server URL (without last slash)
@@ -36,8 +39,24 @@ Launch the program in the shell (windows or linux) command line like this:
 ```
 $ python3 bppibridge.py -sourcetype csv -filename {myfile.csv} -token {token} -url {BPPI Server URL} [-other.logfilename filenameandpath] 
 ```
-### Load from an SQL Server Query (via ODBC)
-#### CLI 
+
+### Load from an Excel file
+#### CLI
+* **-sourcetype** (Mandatory) excel
+* **-filename** (Mandatory) file to load (CSV format)
+* **-token** (Mandatory) Token (provided while configuring BPPI datasource)
+* **-url** (Mandatory) Server URL (without last slash)
+* **-sheet** [Optional] Sheet nema (by default takes the first one
+* **-other.logfilename** [Optional] Log filename and path
+#### Example
+Launch the program in the shell (windows or linux) command line like this:
+```
+$ python3 bppibridge.py -sourcetype excel -filename {myfile.csv} -token {token} -url {BPPI Server URL} [-other.logfilename filenameandpath] 
+```
+
+### Load from an ODBC Data Source
+#### CLI
+* **-sourcetype** (Mandatory) odbc
 * **-configfile** (Mandatory) Config file with all configuration details (INI format, see the template below)
 if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template)  (rename it as an *.ini file)
 #### Example
@@ -48,7 +67,8 @@ $ python3 bppibridge.py -sourcetype odbc -configfile {config.ini}
 **ODBC Connection String example:** DRIVER={ODBC Driver 18 for SQL Server};SERVER=localhost\SQLEXPRESS;DATABASE=***;UID=***;PWD=***;ENCRYPT=No
 
 ### Load from a Blue Prism Repository (from 7.x)  
-#### CLI 
+#### CLI
+* **-sourcetype** (Mandatory) blueprism
 * **-configfile** (Mandatory) Config file with all configuration details (INI format) / must follow the INI format rules. Example/Template -> See the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template) (rename it as an *.ini file)*
 * **-fromdate** [Optional] From Date filtering (Delta load) (Format expected YYYY-MM-DD HH:MM:SS)
 * **-todate** [Optional] To Date filtering (Delta load) (Format expected YYYY-MM-DD HH:MM:SS)
