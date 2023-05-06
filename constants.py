@@ -19,6 +19,7 @@ PARAM_SRCTYPE_SUPPORTED = [PARAM_SRCTYPE_VALCSV,
                            PARAM_SRCTYPE_VALXLS,
                            PARAM_SRCTYPE_VALBP]
 PARAM_FILENAME = "filename"                             # Source file dataset
+PARAM_CSV_SEPARATOR ="sep"                              # CSV fields separator (by default comma)
 PARAM_CONFIGFILE = "configfile"                         # {odbc|blueprism} Config / INI file
 PARAM_EXCELSHEETNAME = "sheet"                          # {excel} Excel spreadsheet name
 # Parameters which can be in the INI file

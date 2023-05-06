@@ -17,6 +17,7 @@ if __name__ == "__main__":
 		parser.add_argument("-" + C.PARAM_SRCTYPE, help="Data source type {csv|excel|odbc|blueprism}", required=True)
 		parser.add_argument("-" + C.PARAM_CONFIGFILE, help="(blueprism|odbc) Config file with all configuration details (INI format)", default="")
 		parser.add_argument("-" + C.PARAM_FILENAME, help="(csv) CSV file name and path to import", default="")
+		parser.add_argument("-" + C.PARAM_CSV_SEPARATOR, help="(csv) CSV file field separator (comma by default)", default=",")
 		parser.add_argument("-" + C.PARAM_BPPITOKEN, help="(csv) BPPI Token from the CLI configuration screen", default="")
 		parser.add_argument("-" + C.PARAM_BPPIURL, help="(csv) BPPI http URL server (no slash ad the end)", default="")
 		parser.add_argument("-" + C.PARAM_LOGFILENAME, help="(csv) Log Filename and path", default="")

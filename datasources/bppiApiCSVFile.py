@@ -32,8 +32,9 @@ class bppiApiCSVFile(bppiApiParent):
         """
         try:
             filename = self.config.getParameter(C.PARAM_FILENAME)
+            separator = self.config.getParameter(C.PARAM_CSV_SEPARATOR, ",")
             # Read the CSV file and provides a DataFrame
-            df = pd.read_csv(filename, encoding=C.ENCODING)
+            df = pd.read_csv(filename, encoding=C.ENCODING, delimiter=separator)
             return df
         except Exception as e:
             self.log.error("collectData() Error" + str(e))

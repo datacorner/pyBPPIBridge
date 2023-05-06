@@ -33,6 +33,7 @@ This project leverages the BPPI API and loads data directly into BPPI. Using thi
 * **-filename** (Mandatory) file to load (CSV format)
 * **-token** (Mandatory) Token (provided while configuring BPPI datasource)
 * **-url** (Mandatory) Server URL (without last slash)
+* **-sep** (Optional/Comma by default) Fields separator
 * **-other.logfilename** [Optional] Log filename and path
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
@@ -41,6 +42,7 @@ $ python3 bppibridge.py -sourcetype csv -filename {myfile.csv} -token {token} -u
 ```
 
 ### Load from an Excel file
+Excel files supported: xls, xlsx, xlsm, xlsb, odf, ods and odt
 #### CLI
 * **-sourcetype** (Mandatory) excel
 * **-filename** (Mandatory) file to load (CSV format)
