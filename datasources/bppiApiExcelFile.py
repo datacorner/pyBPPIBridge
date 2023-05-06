@@ -7,7 +7,6 @@ from bppiapi.bppiApiParent import bppiApiParent
 import pandas as pd
 
 EXCEL_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME, 
-                              C.PARAM_EXCELSHEETNAME, 
                               C.PARAM_BPPITOKEN, 
                               C.PARAM_BPPIURL]
 
@@ -37,9 +36,9 @@ class bppiApiExcelFile(bppiApiParent):
             if (sheet == "0" or sheet == ""):
                 sheet = 0
             # Read the Excel file and provides a DataFrame
-            df = pd.read_excel(filename, sheet_name=sheet)
+            df = pd.read_excel(filename, sheet_name=sheet) #, engine='openpyxl')
             return df
         except Exception as e:
-            self.log.error("collectData() Error" + str(e))
+            self.log.error("collectData() Error -> " + str(e))
             return super().collectData()
         
