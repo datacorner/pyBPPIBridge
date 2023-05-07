@@ -30,11 +30,10 @@ This project leverages the BPPI API and loads data directly into BPPI. Using thi
 ### Load from a CSV file
 #### CLI 
 * **-sourcetype** (Mandatory) csv
+* **-configfile** (Mandatory) Config file with all configuration details (INI format, see the template below)
+if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template)  (rename it as an *.ini file)
 * **-filename** (Mandatory) file to load (CSV format)
-* **-token** (Mandatory) Token (provided while configuring BPPI datasource)
-* **-url** (Mandatory) Server URL (without last slash)
 * **-sep** (Optional/Comma by default) Fields separator
-* **-other.logfilename** [Optional] Log filename and path
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
@@ -45,11 +44,10 @@ $ python3 bppibridge.py -sourcetype csv -filename {myfile.csv} -token {token} -u
 Excel files supported: xls, xlsx, xlsm, xlsb, odf, ods and odt
 #### CLI
 * **-sourcetype** (Mandatory) excel
+* **-configfile** (Mandatory) Config file with all configuration details (INI format, see the template below)
+if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template)  (rename it as an *.ini file)
 * **-filename** (Mandatory) file to load (CSV format)
-* **-token** (Mandatory) Token (provided while configuring BPPI datasource)
-* **-url** (Mandatory) Server URL (without last slash)
 * **-sheet** [Optional] Sheet nema (by default takes the first one
-* **-other.logfilename** [Optional] Log filename and path
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
