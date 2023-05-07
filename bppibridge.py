@@ -15,7 +15,7 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	try:
 		parser.add_argument("-" + C.PARAM_SRCTYPE, help="Data source type {csv|excel|odbc|blueprism}", required=True)
-		parser.add_argument("-" + C.PARAM_CONFIGFILE, help="(blueprism|odbc) Config file with all configuration details (INI format)", required=True)
+		parser.add_argument("-" + C.PARAM_CONFIGFILE, help="Config file with all configuration details (INI format)", required=True)
 		parser.add_argument("-" + C.PARAM_FILENAME, help="(csv) CSV file name and path to import", default="")
 		parser.add_argument("-" + C.PARAM_CSV_SEPARATOR, help="(csv) CSV file field separator (comma by default)", default=",")
 		parser.add_argument("-" + C.PARAM_EXCELSHEETNAME, help="(excel) Excel Sheet name", default="0")
