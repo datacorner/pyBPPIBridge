@@ -58,11 +58,11 @@ class bppiApiBluePrism(bppiApiODBC):
             fromdate = self.config.getParameter(C.PARAM_FROMDATE)
             todate = self.config.getParameter(C.PARAM_TODATE)
             deltasql = "1=1"
-            if ((fromdate != "") and (todate != "")):
+            if ((fromdate != C.EMPTY) and (todate != C.EMPTY)):
                 deltasql = "AND LOG.startdatetime BETWEEN '" + fromdate + "' AND '" + todate + "'"
-            elif (fromdate != ""):
+            elif (fromdate != C.EMPTY):
                 deltasql = "AND LOG.startdatetime > '" + fromdate + "'"
-            elif (todate != ""):
+            elif (todate != C.EMPTY):
                 deltasql = "AND LOG.startdatetime < '" + todate + "'"
             # BP Logs in unicode ? (default no)
             if (self.config.getParameter(C.PARAM_BPUNICODE) == C.YES):
@@ -130,7 +130,7 @@ class bppiApiBluePrism(bppiApiODBC):
         Returns:
             DataFrame: logs altered with parameters
         """
-        parameters = self.config.getParameter(C.PARAM_BPPARAMSATTR, "")
+        parameters = self.config.getParameter(C.PARAM_BPPARAMSATTR, C.EMPTY)
         # Manage the IN/OUT parameters from the logs
         if (len(parameters) > 0):
             # Extract the input and output parameters

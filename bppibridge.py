@@ -16,11 +16,11 @@ if __name__ == "__main__":
 	try:
 		parser.add_argument("-" + C.PARAM_SRCTYPE, help="Data source type {csv|excel|odbc|blueprism}", required=True)
 		parser.add_argument("-" + C.PARAM_CONFIGFILE, help="Config file with all configuration details (INI format)", required=True)
-		parser.add_argument("-" + C.PARAM_FILENAME, help="(csv) CSV file name and path to import", default="")
-		parser.add_argument("-" + C.PARAM_CSV_SEPARATOR, help="(csv) CSV file field separator (comma by default)", default=",")
+		parser.add_argument("-" + C.PARAM_FILENAME, help="(csv) CSV file name and path to import", default=C.EMPTY)
+		parser.add_argument("-" + C.PARAM_CSV_SEPARATOR, help="(csv) CSV file field separator (comma by default)", default=C.DEFCSVSEP)
 		parser.add_argument("-" + C.PARAM_EXCELSHEETNAME, help="(excel) Excel Sheet name", default="0")
-		parser.add_argument("-" + C.PARAM_FROMDATE, help="(blueprism) FROM date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default="")
-		parser.add_argument("-" + C.PARAM_TODATE, help="(blueprism) TO date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default="")
+		parser.add_argument("-" + C.PARAM_FROMDATE, help="(blueprism) FROM date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default=C.EMPTY)
+		parser.add_argument("-" + C.PARAM_TODATE, help="(blueprism) TO date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default=C.EMPTY)
 		args = vars(parser.parse_args())
 		config = iniConfig()
 		src = args[C.PARAM_SRCTYPE]
@@ -63,11 +63,11 @@ if __name__ == "__main__":
     # PROCESS THE DATA
 	if (api.initialize()):
 		if (src == C.PARAM_SRCTYPE_VALBP or src == C.PARAM_SRCTYPE_VALODBC):
-			# Surcharge the Table & To do list parameters / if there's a configuration in the INI file
-			if (config.getParameter(C.PARAM_BPPITABLE, "") != ""):
+			# Surcharge the Table & To do list parameters / if there's a configuration specified in the INI file
+			if (config.getParameter(C.PARAM_BPPITABLE, C.EMPTY) != C.EMPTY):
 				api.repositoryConfig.repositoryTableName = config.getParameter(C.PARAM_BPPITABLE)
-			if (config.getParameter(C.PARAM_BPPITODOS, "") != ""):
-				api.repositoryConfig.todoLists = config.getParameter(C.PARAM_BPPITODOS).split(",")
+			if (config.getParameter(C.PARAM_BPPITODOS, C.EMPT) != C.EMPTY):
+				api.repositoryConfig.todoLists = config.getParameter(C.PARAM_BPPITODOS).split(C.DEFCSVSEP)
 		df = api.collectData()
 		df = api.alterData(df)
 		if (df.empty != None):

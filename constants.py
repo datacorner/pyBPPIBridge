@@ -7,6 +7,8 @@ import logging
 ENCODING = "utf-8"
 YES = "yes"
 NO = "no"
+EMPTY = ""
+DEFCSVSEP = ","
 
 # Parameter Names
 PARAM_SRCTYPE = "sourcetype"                            # Data source type {csv|excel|odbc|blueprism}
