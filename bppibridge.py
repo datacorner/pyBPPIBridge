@@ -66,7 +66,7 @@ if __name__ == "__main__":
 			# Surcharge the Table & To do list parameters / if there's a configuration specified in the INI file
 			if (config.getParameter(C.PARAM_BPPITABLE, C.EMPTY) != C.EMPTY):
 				api.repositoryConfig.repositoryTableName = config.getParameter(C.PARAM_BPPITABLE)
-			if (config.getParameter(C.PARAM_BPPITODOS, C.EMPT) != C.EMPTY):
+			if (config.getParameter(C.PARAM_BPPITODOS, C.EMPTY) != C.EMPTY):
 				api.repositoryConfig.todoLists = config.getParameter(C.PARAM_BPPITODOS).split(C.DEFCSVSEP)
 		df = api.collectData()
 		df = api.alterData(df)
