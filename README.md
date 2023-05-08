@@ -1,6 +1,7 @@
 # Introduction
 
-This repository proposes a Python program that makes a bridge between Blue Prism Process Intelligence (alias BPPI) and external data sources. Its purpose is to access these external datasources, collect them ant automate their importation into a BPPI instance (cloud or on-prem). Currently this bridge can access to
+This repository proposes a Python program that makes a bridge between Blue Prism Process Intelligence (alias BPPI) and external data sources. Its purpose is to access these external datasources, collect them ant automate their importation into a BPPI instance (cloud or on-prem). By executing a TO DO into the BPPI repository it also enables to performs BPPI transformations and load directly in one or several projects.  
+Currently this bridge can access to
 * External file (csv)
 * External Excel Spreadsheet (xls, xlsx, xlsm, xlsb, odf, ods and odt)
 * ODBC Data Sources (checked with SQL Server) by using an configurable SQL query
@@ -25,7 +26,7 @@ pip install -r requirements.txt
 * The configuration file [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template) is mandatory for ODBC and Blue Prism Connection. When the data source is a CSV file all needed parameters are passed through the command line.
 
 # Usage 
-This project leverages the BPPI API and loads data directly into BPPI. Using this bridge is pretty easy as you just have to launch a command line (CLI).
+This project leverages the BPPI API and loads data directly into the BPPI Repository. Using this bridge is pretty easy as you just have to launch a command line (CLI).
 
 ### Load from a CSV file
 #### CLI 
@@ -34,6 +35,9 @@ This project leverages the BPPI API and loads data directly into BPPI. Using thi
 if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template)  (rename it as an *.ini file)
 * **-filename** (Mandatory) file to load (CSV format)
 * **-sep** (Optional/Comma by default) Fields separator
+#### Capabilities
+* Read the CSV file and load it into the BPPI Repository
+* Manages other delimiter (field separators), by default comma.
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
@@ -44,10 +48,12 @@ $ python3 bppibridge.py -sourcetype csv -filename {myfile.csv} -token {token} -u
 Excel files supported: xls, xlsx, xlsm, xlsb, odf, ods and odt
 #### CLI
 * **-sourcetype** (Mandatory) excel
-* **-configfile** (Mandatory) Config file with all configuration details (INI format, see the template below)
-if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template)  (rename it as an *.ini file)
+* **-configfile** (Mandatory) Config file with all configuration details (INI format, see the template below) if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template)  (rename it as an *.ini file)
 * **-filename** (Mandatory) file to load (CSV format)
 * **-sheet** [Optional] Sheet nema (by default takes the first one
+#### Capabilities
+* Read an excel spreadsheet and load it into the BPPI Repository
+* It's possible to choose the sheet to load (by default it takes the first one)
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
@@ -57,8 +63,9 @@ $ python3 bppibridge.py -sourcetype excel -filename {myfile.csv} -token {token} 
 ### Load from an ODBC Data Source
 #### CLI
 * **-sourcetype** (Mandatory) odbc
-* **-configfile** (Mandatory) Config file with all configuration details (INI format, see the template below)
-if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template)  (rename it as an *.ini file)
+* **-configfile** (Mandatory) Config file with all configuration details (INI format, see the template below) if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template)  (rename it as an *.ini file)
+#### Capabilities
+* Get Data from an ODBC Data Source and load it into the BPPI Repository
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
@@ -76,11 +83,11 @@ $ python3 bppibridge.py -sourcetype odbc -configfile {config.ini}
 * Can connect directly to the Blue Prism Repository by using an ODBC Connection String
 * Gather logs from a selected Blue Prism process (use the processname parameter)
 * Collect only the Blue Prism variable from the list (parameters parameter in the ini file)
-* Filter out/remove these stagetype (use the stagetypefilters ini parameter an list all the stages types code not desired)
-* Include or not the VBO logs (use the includevbo option)
+* Filter out/remove the selected stage types (For that, just use the stagetypefilters ini parameter an list all the stages types code not desired)
+* Include or not the VBO logs (use the includevbo option). By including the VBOs activities it's possible to have a full view of the Process Execution.
 * Support Unicode (use the unicode option)
-* Can gather Blue Prism logs data beteween 2 dates (use the command line todate and/or fromdate). By this way it's possible to manage full or delta load
-* Can exclude all the Start and End stages except the First & Last one in the BP parent process (the ones in the Main Page)
+* Can gather Blue Prism logs data beteween 2 dates (use the command line todate and/or fromdate). By this way it's possible to manage full or delta load.
+* Can exclude all the Start and End stages except the First & Last one in the BP parent process (the ones in the Main Page). By this way it removes Starts and Ends potential duplicates (which exists on each pages & VBOs)
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
