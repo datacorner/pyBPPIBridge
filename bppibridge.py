@@ -70,6 +70,6 @@ if __name__ == "__main__":
 				api.repositoryConfig.todoLists = config.getParameter(C.PARAM_BPPITODOS).split(C.DEFCSVSEP)
 		df = api.collectData()
 		df = api.alterData(df)
-		if (df.empty != None):
+		if (df.empty != True):
 			if (api.upload(df)):
 				api.executeToDo()

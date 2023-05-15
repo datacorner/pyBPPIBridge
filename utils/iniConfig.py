@@ -46,8 +46,7 @@ class iniConfig():
         """ Returns the Parameter value based on the INI Section & parameter name.
             If the parameter comes from the INI file we use the SECTION_PARAM_SEP to separate the section with the parameter
         Args:
-            section (str): INI Section
-            parameter (str): INI parameter name
+            parameter (str): INI parameter name (section.parameter)
             default (str): default value if not found (by default empty string)
         Returns:
             str: parameter value, empty if not found
@@ -61,3 +60,4 @@ class iniConfig():
             return default if (param == None or param == "") else param
         except Exception as e:
             return default
+

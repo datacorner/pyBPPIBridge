@@ -10,6 +10,7 @@ import warnings
 import numpy as np
 from string import Template
 import pathlib
+import datetime
 
 warnings.filterwarnings('ignore')
 
@@ -54,16 +55,41 @@ class bppiApiBluePrism(bppiApiODBC):
             novbo = "1=1"
             if (self.config.getParameter(C.PARAM_BPINCLUDEVBO, C.YES) != C.YES):
                 novbo = "processname IS NULL"
-            # Add the delta extraction filters if required (-fromdate and/or -todate filled)
-            fromdate = self.config.getParameter(C.PARAM_FROMDATE)
-            todate = self.config.getParameter(C.PARAM_TODATE)
+
+            # Delta/Full load + Filtering by date
             deltasql = "1=1"
-            if ((fromdate != C.EMPTY) and (todate != C.EMPTY)):
-                deltasql = "AND LOG.startdatetime BETWEEN '" + fromdate + "' AND '" + todate + "'"
-            elif (fromdate != C.EMPTY):
-                deltasql = "AND LOG.startdatetime > '" + fromdate + "'"
-            elif (todate != C.EMPTY):
-                deltasql = "AND LOG.startdatetime < '" + todate + "'"
+            filedelta = self.config.getParameter(C.PARAM_BPDELTA_FILE, C.BP_DEFAULT_DELTAFILE)
+            try:
+                with open(filedelta, "r") as file:
+                    fromdate = file.read()
+                deltaload = (fromdate != "") and (self.config.getParameter(C.PARAM_BPDELTA) == C.YES)
+            except:
+                deltaload = False
+
+            if (deltaload):
+                self.log.info("DELTA Load from <" + str(fromdate) + "> requested")
+                # DELTA LOAD (get date from file first)
+                deltasql = " LOG.startdatetime >= '" + fromdate + "'"
+            else:
+                self.log.info("FULL Load requested")
+                # FULL LOAD / Add the delta extraction filters if required (-fromdate and/or -todate filled)
+                fromdate = self.config.getParameter(C.PARAM_FROMDATE)
+                todate = self.config.getParameter(C.PARAM_TODATE)
+                if ((fromdate != C.EMPTY) and (todate != C.EMPTY)):
+                    deltasql = " LOG.startdatetime BETWEEN '" + fromdate + "' AND '" + todate + "'"
+                elif (fromdate != C.EMPTY):
+                    deltasql = " LOG.startdatetime >= '" + fromdate + "'"
+                elif (todate != C.EMPTY):
+                    deltasql = " LOG.startdatetime <= '" + todate + "'"
+
+            # Modify the date for the next delta load
+            if (self.config.getParameter(C.PARAM_BPDELTA) == C.YES):
+                try:
+                    with open(filedelta, "w") as file:
+                        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                except:
+                    self.log.error("__buildQuery() -> Unable to to write the new delta date")
+
             # BP Logs in unicode ? (default no)
             if (self.config.getParameter(C.PARAM_BPUNICODE) == C.YES):
                 tablelog = C.BPLOG_LOG_UNICODE

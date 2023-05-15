@@ -45,6 +45,8 @@ PARAM_EVENTMAPTABLE = "events.maptable"                 # {odbc|blueprism} Map t
 PARAM_EVENTMAPNAME = "events.column"                    # {odbc|blueprism} Name of the event column name in the original source
 PARAM_BPFILTERSTEND = "blueprism.startendfilter"        # {blueprism} yes/no: filtr out all Start & End stages except the Main Page ones
 PARAM_BPMAINPROCESSPAGE = "blueprism.mainprocesspage"   # {blueprism} BP Process Main Page name
+PARAM_BPDELTA = "blueprism.delta"                       # {blueprism} delta load activated (yes/no), if no full load
+PARAM_BPDELTA_FILE = "blueprism.deltafile"              # {blueprism} file where the latest date load is saved (for delta load only)
 
 # BPPI API
 API_1_0 = "/api/ext/1.0/"
@@ -79,3 +81,4 @@ BPLOG_INI4SQL = "bplogs.sql"                         # File which contains the B
 BP_STAGE_START = "Start"
 BP_STAGE_END = "End"
 BP_MAINPAGE_DEFAULT = "Main Page"
+BP_DEFAULT_DELTAFILE = "bpdelta.tag"
