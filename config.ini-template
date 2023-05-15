@@ -34,6 +34,10 @@ unicode=no
 startendfilter=yes
 # if startendfilter=yes, name of the main Process page (by default Main Page)
 mainprocesspage=Main Page
+# delta load activated (yes/no), if no -> full load
+delta=yes
+# file where the latest date load is saved
+deltafile=delta.tag
 
 [bppi]
 # BPPI URL (without / at the end)
