@@ -86,7 +86,8 @@ $ python3 bppibridge.py -sourcetype odbc -configfile {config.ini}
 * Filter out/remove the selected stage types (For that, just use the stagetypefilters ini parameter an list all the stages types code not desired)
 * Include or not the VBO logs (use the includevbo option). By including the VBOs activities it's possible to have a full view of the Process Execution.
 * Support Unicode (use the unicode option)
-* Can gather Blue Prism logs data beteween 2 dates (use the command line todate and/or fromdate). By this way it's possible to manage full or delta load.
+* Can gather Blue Prism logs data between 2 dates (use the command line todate and/or fromdate). 
+* Support Delta load (automatic). Automatically store the latest loaded date and filter out only the new Process logs.
 * Can exclude all the Start and End stages except the First & Last one in the BP parent process (the ones in the Main Page). By this way it removes Starts and Ends potential duplicates (which exists on each pages & VBOs)
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
