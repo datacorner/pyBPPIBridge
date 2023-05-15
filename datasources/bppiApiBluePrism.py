@@ -13,7 +13,7 @@ import pathlib
 import datetime
 
 warnings.filterwarnings('ignore')
-
+CANCEL_SQL_FILTER = "1=1"
 BP_MANDATORY_PARAM_LIST = [C.PARAM_CONNECTIONSTRING, 
                            C.PARAM_BPPITOKEN, 
                            C.PARAM_BPPIURL, 
@@ -52,38 +52,38 @@ class bppiApiBluePrism(bppiApiODBC):
             # Get the query skeleton in the sql file
             sqlTemplate = Template(pathlib.Path(C.BPLOG_INI4SQL).read_text())
             # Build the filters on the VBO only
-            novbo = "1=1"
+            novbo = CANCEL_SQL_FILTER
             if (self.config.getParameter(C.PARAM_BPINCLUDEVBO, C.YES) != C.YES):
-                novbo = "processname IS NULL"
+                novbo = C.BPLOG_PROCESSNAME_COL + " IS NULL"
 
             # DELTA OR FULL load + Filtering by date
-            deltasql = "1=1"
+            deltasql = CANCEL_SQL_FILTER
             filedelta = self.config.getParameter(C.PARAM_BPDELTA_FILE, C.BP_DEFAULT_DELTAFILE)
             try:
                 with open(filedelta, "r") as file:
                     fromdate = file.read()
-                deltaload = (fromdate != "") and (self.config.getParameter(C.PARAM_BPDELTA) == C.YES)
+                deltaload = (fromdate != C.EMPTY) and (self.config.getParameter(C.PARAM_BPDELTA, C.NO) == C.YES)
             except:
                 deltaload = False
 
             if (deltaload):
                 self.log.info("DELTA Load from <" + str(fromdate) + "> requested")
                 # DELTA LOAD (get date from file first)
-                deltasql = " FORMAT(LOG.startdatetime,'yyyy-MM-dd HH:mm:ss') >= '" + fromdate + "'"
+                deltasql = " FORMAT(LOG." + C.BPLOG_STARTDATETIME_COL + ",'yyyy-MM-dd HH:mm:ss') >= '" + fromdate + "'"
             else:
                 self.log.info("FULL Load requested")
                 # FULL LOAD / Add the delta extraction filters if required (-fromdate and/or -todate filled)
                 fromdate = self.config.getParameter(C.PARAM_FROMDATE)
                 todate = self.config.getParameter(C.PARAM_TODATE)
                 if ((fromdate != C.EMPTY) and (todate != C.EMPTY)):
-                    deltasql = " FORMAT(LOG.startdatetime,'yyyy-MM-dd HH:mm:ss') BETWEEN '" + fromdate + "' AND '" + todate + "'"
+                    deltasql = " FORMAT(LOG." + C.BPLOG_STARTDATETIME_COL + ",'yyyy-MM-dd HH:mm:ss') BETWEEN '" + fromdate + "' AND '" + todate + "'"
                 elif (fromdate != C.EMPTY):
-                    deltasql = " FORMAT(LOG.startdatetime,'yyyy-MM-dd HH:mm:ss') >= '" + fromdate + "'"
+                    deltasql = " FORMAT(LOG." + C.BPLOG_STARTDATETIME_COL + ",'yyyy-MM-dd HH:mm:ss') >= '" + fromdate + "'"
                 elif (todate != C.EMPTY):
-                    deltasql = " FORMAT(LOG.startdatetime,'yyyy-MM-dd HH:mm:ss') <= '" + todate + "'"
+                    deltasql = " FORMAT(LOG." + C.BPLOG_STARTDATETIME_COL + ",'yyyy-MM-dd HH:mm:ss') <= '" + todate + "'"
 
             # Modify the date for the next delta load
-            if (self.config.getParameter(C.PARAM_BPDELTA) == C.YES):
+            if (self.config.getParameter(C.PARAM_BPDELTA, C.NO) == C.YES):
                 try:
                     with open(filedelta, "w") as file: # store in the delta file the latest delta load 
                         file.write(datetime.datetime.now().strftime(C.BP_DELTADATE_FMT))
