@@ -56,7 +56,7 @@ class bppiApiBluePrism(bppiApiODBC):
             if (self.config.getParameter(C.PARAM_BPINCLUDEVBO, C.YES) != C.YES):
                 novbo = "processname IS NULL"
 
-            # Delta/Full load + Filtering by date
+            # DELTA OR FULL load + Filtering by date
             deltasql = "1=1"
             filedelta = self.config.getParameter(C.PARAM_BPDELTA_FILE, C.BP_DEFAULT_DELTAFILE)
             try:
@@ -69,24 +69,24 @@ class bppiApiBluePrism(bppiApiODBC):
             if (deltaload):
                 self.log.info("DELTA Load from <" + str(fromdate) + "> requested")
                 # DELTA LOAD (get date from file first)
-                deltasql = " LOG.startdatetime >= '" + fromdate + "'"
+                deltasql = " FORMAT(LOG.startdatetime,'yyyy-MM-dd HH:mm:ss') >= '" + fromdate + "'"
             else:
                 self.log.info("FULL Load requested")
                 # FULL LOAD / Add the delta extraction filters if required (-fromdate and/or -todate filled)
                 fromdate = self.config.getParameter(C.PARAM_FROMDATE)
                 todate = self.config.getParameter(C.PARAM_TODATE)
                 if ((fromdate != C.EMPTY) and (todate != C.EMPTY)):
-                    deltasql = " LOG.startdatetime BETWEEN '" + fromdate + "' AND '" + todate + "'"
+                    deltasql = " FORMAT(LOG.startdatetime,'yyyy-MM-dd HH:mm:ss') BETWEEN '" + fromdate + "' AND '" + todate + "'"
                 elif (fromdate != C.EMPTY):
-                    deltasql = " LOG.startdatetime >= '" + fromdate + "'"
+                    deltasql = " FORMAT(LOG.startdatetime,'yyyy-MM-dd HH:mm:ss') >= '" + fromdate + "'"
                 elif (todate != C.EMPTY):
-                    deltasql = " LOG.startdatetime <= '" + todate + "'"
+                    deltasql = " FORMAT(LOG.startdatetime,'yyyy-MM-dd HH:mm:ss') <= '" + todate + "'"
 
             # Modify the date for the next delta load
             if (self.config.getParameter(C.PARAM_BPDELTA) == C.YES):
                 try:
-                    with open(filedelta, "w") as file:
-                        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                    with open(filedelta, "w") as file: # store in the delta file the latest delta load 
+                        file.write(datetime.datetime.now().strftime(C.BP_DELTADATE_FMT))
                 except:
                     self.log.error("__buildQuery() -> Unable to to write the new delta date")
 
