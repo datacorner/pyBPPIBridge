@@ -5,7 +5,8 @@ Currently this bridge can access to
 * External file (csv)
 * External Excel Spreadsheet (xls, xlsx, xlsm, xlsb, odf, ods and odt)
 * ODBC Data Sources (checked with SQL Server) by using an configurable SQL query
-* Blue Prism repository (Can gather all the session logs for a specified process)  
+* Blue Prism repository (Can gather all the session logs for a specified process)   
+* SAP Read Table via SAP RFC
 
 This bridge reads the data from the Datasource and upload them into the BPPI Repository. Inside BPPI it's also possible to configure a TODO to automate some transformations and load the data into a BPPI Project (The program can execute thess To Do automatically). To make this bridge usable the user must configure a Data Source in the BPPI Repository, and get a token.  
 
@@ -23,6 +24,7 @@ pip install -r requirements.txt
   * BPASession
   * BPAResource 
   * BPASessionLog_NonUnicode or BPASessionLog_Unicode
+* For the SAP connectivity. The RFC SDK (NWRFCSDK) must be installed and the pyrfc package deployed as well.
 * The configuration file [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template) is mandatory for ODBC and Blue Prism Connection. When the data source is a CSV file all needed parameters are passed through the command line.
 
 # Usage 
@@ -80,17 +82,28 @@ $ python3 bppibridge.py -sourcetype odbc -configfile {config.ini}
 * **-fromdate** [Optional] From Date filtering (Delta load) (Format expected YYYY-MM-DD HH:MM:SS)
 * **-todate** [Optional] To Date filtering (Delta load) (Format expected YYYY-MM-DD HH:MM:SS)
 #### Capabilities
-* Can connect directly to the Blue Prism Repository by using an ODBC Connection String
+* Can connect directly to the Blue Prism Repository by using an ODBC Connection String (on the BP Repository SQL Server / Read only the log tables)
 * Gather logs from a selected Blue Prism process (use the processname parameter)
 * Collect only the Blue Prism variable from the list (parameters parameter in the ini file)
-* Filter out/remove the selected stage types (For that, just use the stagetypefilters ini parameter an list all the stages types code not desired)
 * Include or not the VBO logs (use the includevbo option). By including the VBOs activities it's possible to have a full view of the Process Execution.
-* Support Unicode (use the unicode option)
+* Support BP Unicode or BP Non-Unicode Logs (use the unicode option)
 * Can gather Blue Prism logs data between 2 dates (use the command line todate and/or fromdate). 
-* Support Delta load (automatic). Automatically store the latest loaded date and filter out only the new Process logs.
+* Support Delta or Full load (use the delta option).
+* Filter out/remove the selected stage types (For that, just use the stagetypefilters ini parameter an list all the stages types code not desired)
 * Can exclude all the Start and End stages except the First & Last one in the BP parent process (the ones in the Main Page). By this way it removes Starts and Ends potential duplicates (which exists on each pages & VBOs)
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
 $ python3 bppibridge.py -sourcetype blueprism -configfile {config.ini} [-fromdate YYYY-MM-DD HH:MM:SS] [-todate YYYY-MM-DD HH:MM:SS]
+```
+
+### Load from SAP Table (via RFC)
+* **-sourcetype** (Mandatory) saptable
+* **-configfile** (Mandatory) Config file with all configuration details (INI format, see the template below) if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template)  (rename it as an *.ini file)
+#### Capabilities
+* Get Data from a SAP Table (leverage the RFC_READ_TABLE BAPI)
+#### Example
+Launch the program in the shell (windows or linux) command line like this:
+```
+$ python3 bppibridge.py -sourcetype saptable -configfile {config.ini}
 ```

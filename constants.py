@@ -16,10 +16,12 @@ PARAM_SRCTYPE_VALCSV = "csv"                            # sourcetype = csv
 PARAM_SRCTYPE_VALODBC = "odbc"                          # sourcetype = odbc
 PARAM_SRCTYPE_VALBP = "blueprism"                       # sourcetype = blueprism
 PARAM_SRCTYPE_VALXLS = "excel"                          # sourcetype = excel
+PARAM_SRCTYPE_VALSAPTABLE = "saptable"                          # sourcetype = SAP RFC Table
 PARAM_SRCTYPE_SUPPORTED = [PARAM_SRCTYPE_VALCSV,
                            PARAM_SRCTYPE_VALODBC,
                            PARAM_SRCTYPE_VALXLS,
-                           PARAM_SRCTYPE_VALBP]
+                           PARAM_SRCTYPE_VALBP,
+                           PARAM_SRCTYPE_VALSAPTABLE]
 PARAM_FILENAME = "filename"                             # Source file dataset
 PARAM_CSV_SEPARATOR ="sep"                              # CSV fields separator (by default comma)
 PARAM_CONFIGFILE = "configfile"                         # {odbc|blueprism} Config / INI file
@@ -47,6 +49,15 @@ PARAM_BPFILTERSTEND = "blueprism.startendfilter"        # {blueprism} yes/no: fi
 PARAM_BPMAINPROCESSPAGE = "blueprism.mainprocesspage"   # {blueprism} BP Process Main Page name
 PARAM_BPDELTA = "blueprism.delta"                       # {blueprism} delta load activated (yes/no), if no full load
 PARAM_BPDELTA_FILE = "blueprism.deltafile"              # {blueprism} file where the latest date load is saved (for delta load only)
+PARAM_SAP_ASHOST = "sap.ashost"                         # {saptable} AP Host name or IP
+PARAM_SAP_CLIENT = "sap.client"                         # {saptable} SAP Client
+PARAM_SAP_SYSNR = "sap.sysnr"                           # {saptable} SAP System Number
+PARAM_SAP_USER = "sap.user"                             # {saptable} SAP User
+PARAM_SAP_PASSWD = "sap.passwd"                         # {saptable} SAP Password
+PARAM_SAP_ROUTER = "sap.saprouter"                      # {saptable} SAP Router (if any)
+PARAM_SAP_RFC_TABLE = "sap.rfctable"                    # {saptable} RFC Table to request
+PARAM_SAP_RFC_FIELDS = "sap.rfcfields"                  # {saptable} List of fields to gather (separated by a comma)
+PARAM_SAP_RFC_ROWCOUNT = "sap.rowlimit"                 # {saptable} Row Count limit (Nb Max of rows retreived from SAP)
 
 # BPPI API
 API_1_0 = "/api/ext/1.0/"

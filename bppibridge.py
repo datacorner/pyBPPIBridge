@@ -6,6 +6,7 @@ from datasources.bppiApiCSVFile import bppiApiCSVFile
 from datasources.bppiApiODBC import bppiApiODBC
 from datasources.bppiApiBluePrism import bppiApiBluePrism
 from datasources.bppiApiExcelFile import bppiApiExcelFile
+from datasources.bppiApiSAPRfcTable import bppiApiSAPRfcTable
 import argparse
 from utils.iniConfig import iniConfig
 import constants as C
@@ -14,7 +15,7 @@ if __name__ == "__main__":
 	# MANAGE CLI ARGUMENTS
 	parser = argparse.ArgumentParser()
 	try:
-		parser.add_argument("-" + C.PARAM_SRCTYPE, help="Data source type {csv|excel|odbc|blueprism}", required=True)
+		parser.add_argument("-" + C.PARAM_SRCTYPE, help="Data source type {csv|excel|odbc|blueprism|saptable}", required=True)
 		parser.add_argument("-" + C.PARAM_CONFIGFILE, help="Config file with all configuration details (INI format)", required=True)
 		parser.add_argument("-" + C.PARAM_FILENAME, help="(csv) CSV file name and path to import", default=C.EMPTY)
 		parser.add_argument("-" + C.PARAM_CSV_SEPARATOR, help="(csv) CSV file field separator (comma by default)", default=C.DEFCSVSEP)
@@ -25,11 +26,10 @@ if __name__ == "__main__":
 		config = iniConfig()
 		src = args[C.PARAM_SRCTYPE]
 		if (not(src in C.PARAM_SRCTYPE_SUPPORTED)):
-			raise ("Missing Data Source type {csv|excel|odbc|blueprism}")
+			raise ("Missing Data Source type {csv|excel|odbc|blueprism|saptable}")
 
 		# load configuration via the INI file
 		if (args[C.PARAM_CONFIGFILE] != 0):
-			config = iniConfig()
 			config.loadini(args[C.PARAM_CONFIGFILE])
 		else:
 			raise ("Missing config file argument {}".format(C.PARAM_CONFIGFILE))
@@ -41,7 +41,7 @@ if __name__ == "__main__":
 				config.addParameter(C.PARAM_CSV_SEPARATOR, args[C.PARAM_CSV_SEPARATOR])
 			if (src == C.PARAM_SRCTYPE_VALXLS):
 				config.addParameter(C.PARAM_EXCELSHEETNAME, args[C.PARAM_EXCELSHEETNAME])
-			
+	
 	except Exception as e:
 		print(e)
 		parser.print_help()
@@ -56,6 +56,8 @@ if __name__ == "__main__":
 			api = bppiApiODBC(config)
 		case C.PARAM_SRCTYPE_VALBP:
 			api = bppiApiBluePrism(config)
+		case C.PARAM_SRCTYPE_VALSAPTABLE:
+			api = bppiApiSAPRfcTable(config)
 		case _:
 			parser.print_help()
 			exit()

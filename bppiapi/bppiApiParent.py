@@ -39,7 +39,16 @@ class bppiApiParent:
     @property
     def token(self) -> str:
         return self.__token
-    
+
+    @property
+    def bppiTable(self) -> str:
+        ini = self.config.getParameter(C.PARAM_BPPITABLE, C.EMPTY)
+        return ini if (ini != C.EMPTY) else self.repositoryConfig.repositoryTableName
+    @property
+    def bppiTodos(self) -> str:
+        ini = self.config.getParameter(C.PARAM_BPPITODOS, C.EMPTY)
+        return ini if (ini != C.EMPTY) else self.repositoryConfig.todoLists
+
     def checkParameters(self) -> bool:
         """Check the mandatory parameters
         Returns:
@@ -48,10 +57,11 @@ class bppiApiParent:
         try:
             for param in self.mandatoryParameters:
                 if (self.config.getParameter(param, "") == ""):
-                    raise ("Parameter <{}> is missing".format(param))
+                    self.log.error("Parameter <{}> is missing".format(param))
+                    return False 
             return True
-        except BaseException as e:
-            self.log.error("checkParameters() Error -> " + str(e))
+        except:
+            self.log.error("checkParameters() Error")
             return False
     
     def initialize(self) -> bool:
@@ -94,12 +104,12 @@ class bppiApiParent:
             api = bppiApiWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
                                  self.config.getParameter(C.PARAM_BPPIURL))
             api.log = self.log
-            self.log.info("Execute these TO DO: {}".format(",".join(self.repositoryConfig.todoLists)))
+            self.log.info("Execute these TO DO: {}".format(",".join(self.bppiTodos)))
             if (self.repositoryConfig.loaded):
-                if (len(self.repositoryConfig.todoLists) > 0):
+                if (len(self.bppiTodos) > 0):
                     processId = api.executeTODO(self.repositoryConfig.repositoryId, 
-                                                self.repositoryConfig.todoLists, 
-                                                self.repositoryConfig.repositoryTableName)
+                                                self.bppiTodos, 
+                                                self.bppiTable)
                     self.waitForEndOfProcessing(processId)
                     self.log.info("To Do executed successfully")
                     return True
@@ -267,7 +277,7 @@ class bppiApiParent:
                 if (uploadOK):
                     self.log.info("Load the uploaded data/bloc(s) into the BPPI repository")
                     # 4 - Load the file into the BPPI repository
-                    processId = api.loadFileToBPPIRepository(self.repositoryConfig.repositoryId, keys, self.repositoryConfig.repositoryTableName)
+                    processId = api.loadFileToBPPIRepository(self.repositoryConfig.repositoryId, keys, self.bppiTable)
                     self.waitForEndOfProcessing(processId)
                 else:
                     self.log.error("The data have not been loaded successfully")

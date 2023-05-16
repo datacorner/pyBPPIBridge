@@ -60,3 +60,23 @@ logfilename=bppi-bridge.log
 eventmap=no/yes
 eventmaptable=./test/evtmap.csv
 eventcolumn={column to map in the data source}
+
+[sap]
+# SAP Host name or IP
+ashost=<SAP Server>
+# SAP Client
+client=000
+# SAP System Number
+sysnr=00
+# SAP User
+user=***
+# SAP Password
+passwd=***
+# SAP Router (if any)
+saprouter=...
+# RFC Table to request
+rfctable=<RFC Table Name>
+# List of fields to gather (separated by a comma)
+rfcfields=MANDT,AUFNR,AUART,REFNR,ERNAM,AENAM,KTEXT,BUKRS,LTEXT,ASTNR
+# Row Count limit (Nb Max of rows retreived from SAP)
+rowlimit=

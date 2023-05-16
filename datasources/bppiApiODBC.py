@@ -48,7 +48,7 @@ class bppiApiODBC(bppiApiCSVFile):
                     self.log.debug("Execute the query: {}".format(query))
                     tableResult = pd.read_sql(query, sqlserverConnection)
                     sqlserverConnection.close()
-                    self.log.debug("Data read, close ODBC Data source connection")
+                    self.log.debug("<{}> rows read".format(tableResult.shape[0]))
             return tableResult
         except Exception as e:
             self.log.error("collectData() Error -> " + str(e))
