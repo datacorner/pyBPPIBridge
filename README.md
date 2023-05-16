@@ -24,7 +24,7 @@ pip install -r requirements.txt
   * BPASession
   * BPAResource 
   * BPASessionLog_NonUnicode or BPASessionLog_Unicode
-* For the SAP connectivity. The RFC SDK (NWRFCSDK) must be installed and the pyrfc package deployed as well.
+* For the SAP connectivity. The RFC SDK (NWRFCSDK) must be installed and the [pyrfc package](https://sap.github.io/PyRFC) deployed as well.
 * The configuration file [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template) is mandatory for ODBC and Blue Prism Connection. When the data source is a CSV file all needed parameters are passed through the command line.
 
 # Usage 
