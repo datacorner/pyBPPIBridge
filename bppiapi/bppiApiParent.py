@@ -42,10 +42,12 @@ class bppiApiParent:
 
     @property
     def bppiTable(self) -> str:
+        # Priority on what in inside the config file
         ini = self.config.getParameter(C.PARAM_BPPITABLE, C.EMPTY)
         return ini if (ini != C.EMPTY) else self.repositoryConfig.repositoryTableName
     @property
     def bppiTodos(self) -> str:
+        # Priority on what in inside the config file
         ini = self.config.getParameter(C.PARAM_BPPITODOS, C.EMPTY)
         return ini if (ini != C.EMPTY) else self.repositoryConfig.todoLists
 
