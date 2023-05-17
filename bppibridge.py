@@ -26,13 +26,13 @@ if __name__ == "__main__":
 		config = iniConfig()
 		src = args[C.PARAM_SRCTYPE]
 		if (not(src in C.PARAM_SRCTYPE_SUPPORTED)):
-			raise ("Missing Data Source type {csv|excel|odbc|blueprism|saptable}")
+			raise Exception("Missing Data Source type {csv|excel|odbc|blueprism|saptable}")
 
 		# load configuration via the INI file
 		if (args[C.PARAM_CONFIGFILE] != 0):
 			config.loadini(args[C.PARAM_CONFIGFILE])
 		else:
-			raise ("Missing config file argument {}".format(C.PARAM_CONFIGFILE))
+			raise Exception("Missing config file argument {}".format(C.PARAM_CONFIGFILE))
 			
 		if (src == C.PARAM_SRCTYPE_VALCSV or src == C.PARAM_SRCTYPE_VALXLS):
 			# For File (CSV/Excel) load only, takes the CLI args and put them in the config object

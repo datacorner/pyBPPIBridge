@@ -82,14 +82,14 @@ class bppiApiParent:
             
             self.__trace.info("*** Check Configuration from the server ***")
             if (not self.checkParameters()):
-                raise ("Some mandatory parameters are missing")
+                raise Exception("Some mandatory parameters are missing")
             api = bppiApiWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
                                  self.config.getParameter(C.PARAM_BPPIURL))
             api.log = self.__trace
             # 1 - Get the repository configuration infos
             self.__repositoryInfos = api.getRepositoryConfiguration()
             return True
-        except BaseException as e:
+        except Exception as e:
             self.log.error("initialize() Error -> " + str(e))
             return False
 
@@ -201,14 +201,14 @@ class bppiApiParent:
                 self.log.info("Map the events with the original dataset and the event map table")
                 evtMapFilename = self.config.getParameter(C.PARAM_EVENTMAPTABLE)
                 if (evtMapFilename == ""):
-                    raise ("No Event map filename (CSV) was specified")
+                    raise Exception("No Event map filename (CSV) was specified")
                 evtMapColumnname = self.config.getParameter(C.PARAM_EVENTMAPNAME)
                 if (evtMapColumnname == ""):
-                    raise ("No Event column name (in the data source) was specified")
+                    raise Exception("No Event column name (in the data source) was specified")
                 # Open the event map file (assuming 1st col -> Original Event, 2nd col -> event altered or if nothing to remove)
                 dfevtMap = pd.read_csv(evtMapFilename, encoding=C.ENCODING)
                 if (dfevtMap.shape[1] != 2):
-                    raise("There are more than 2 columns in the event map file.")
+                    raise Exception("There are more than 2 columns in the event map file.")
                 dfevtMap.rename(columns={dfevtMap.columns[0]:evtMapColumnname}, inplace=True)
                 originalRecCount = df.shape[0]
                 self.log.debug("There are {} records in the original dataset".format(originalRecCount))
