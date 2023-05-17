@@ -48,7 +48,7 @@ class bppiApiParent:
     @property
     def bppiTodos(self) -> str:
         # Priority on what in inside the config file
-        ini = self.config.getParameter(C.PARAM_BPPITODOS, C.EMPTY)
+        ini = self.config.getParameter(C.PARAM_BPPITODOS, C.EMPTY).split(',')
         return ini if (ini != C.EMPTY) else self.repositoryConfig.todoLists
 
     def checkParameters(self) -> bool:
