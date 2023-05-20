@@ -29,7 +29,6 @@ PARAM_CSV_SEPARATOR ="sep"                              # {csv} CSV fields separ
 PARAM_CONFIGFILE = "configfile"                         # {odbc|blueprism} Config / INI file
 PARAM_EXCELSHEETNAME = "sheet"                          # {excel} Excel spreadsheet name
 # Parameters which can be in the INI file
-PARAM_LOGFILENAME = "other.logfilename"                 # {csv|xes|excel|odbc|blueprism}Filename of the Log file
 PARAM_BPPITOKEN = "bppi.token"                          # {csv|xes|excel|odbc|blueprism} BPPI Token
 PARAM_BPPIURL = "bppi.url"                              # {csv|xes|excel|odbc|blueprism} BPPI URL
 PARAM_CONNECTIONSTRING = "database.connectionstring"    # {ODBC/Blue Prism} ODBC Connection String
@@ -42,7 +41,10 @@ PARAM_BPINCLUDEVBO = "blueprism.includevbo"             # {blueprism} yes/no : E
 PARAM_BPUNICODE = "blueprism.unicode"                   # {blueprism} yes/no : Blue Prism logs in unicode or not
 PARAM_BPPITABLE = "bppi.table"                          # {odbc|blueprism} Name of the table in the BPPI repository
 PARAM_BPPITODOS = "bppi.todos"                          # {odbc|blueprism} List of BPPI TO DOs to execute after loading
-PARAM_LOGFOLDER = "other.logfolder"                     # {csv|excel|odbc|blueprism} Folder to store the Logs
+PARAM_LOGFILENAME = "other.logfilename"                 # {csv|xes|excel|odbc|blueprism} Filename of the Log file
+PARAM_LOGFOLDER = "other.logfolder"                     # {csv|xes|excel|odbc|blueprism} Folder to store the Logs
+PARAM_LOGLEVEL = "other.loglevel"                       # {csv|xes|excel|odbc|blueprism} Log level (DEBUG|INFO|WARNING|ERROR)
+PARAM_LOGFORMAT = "other.logformat"                     # {csv|xes|excel|odbc|blueprism} Log format (Cf. Python logger doc)
 PARAM_BPPARAMSATTR = "blueprism.parameters"             # {blueprism} List (separated by a comma) of the BP parameters/attributes to gather (will be added in new columns)
 PARAM_EVENTMAP = "events.map"                           # {odbc|blueprism} yes/no : manage event mapping
 PARAM_EVENTMAPTABLE = "events.maptable"                 # {odbc|blueprism} Map the events with the dataset. This param contains the name of the csv file which stores the event map (col 1: source event name, col 2: new event name)
@@ -75,8 +77,8 @@ API_STATUS_ERROR = "ERROR"
 API_BLOC_SIZE_LIMIT = 10000 # Same limitation as the current API call via java
 
 # Logger configuration
-TRACE_LEVEL = logging.DEBUG
-TRACE_FORMAT = "%(asctime)s|%(name)s|%(levelname)s|%(message)s"
+TRACE_DEFAULT_LEVEL = logging.DEBUG
+TRACE_DEFAULT_FORMAT = "%(asctime)s|%(name)s|%(levelname)s|%(message)s"
 TRACE_FILENAME = "bppiapiwrapper.log"
 TRACE_MAXBYTES = 1000000
 

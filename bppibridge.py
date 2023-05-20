@@ -47,6 +47,7 @@ if __name__ == "__main__":
 	except Exception as e:
 		print(e)
 		parser.print_help()
+		exit()
 
     # INSTANCIATE THE RIGHT CLASS / DATA SOURCE TYPE
 	match args[C.PARAM_SRCTYPE]:

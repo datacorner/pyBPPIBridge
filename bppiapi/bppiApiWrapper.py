@@ -20,8 +20,6 @@ class bppiApiWrapper:
 
     @property
     def log(self):
-        if (self.__log == None):
-            self.__log = log(__name__)
         return self.__log
     @log.setter   
     def log(self, value):

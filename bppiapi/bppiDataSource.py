@@ -78,7 +78,9 @@ class bppiDataSource:
             # Init logger
             logfilename = self.config.getParameter(C.PARAM_LOGFOLDER, "") + self.config.getParameter(C.PARAM_LOGFILENAME, C.TRACE_FILENAME)
             print("Log file: {}".format(logfilename))
-            self.__trace = log(__name__, logfilename)
+            level = self.config.getParameter(C.PARAM_LOGLEVEL, C.TRACE_DEFAULT_LEVEL)
+            format = self.config.getParameter(C.PARAM_LOGFORMAT, C.TRACE_DEFAULT_FORMAT)
+            self.__trace = log(__name__, logfilename, level, format)
             
             self.__trace.info("*** Check Configuration from the server ***")
             if (not self.checkParameters()):
