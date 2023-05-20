@@ -13,23 +13,25 @@ DEFCSVSEP = ","
 # Parameter Names
 PARAM_SRCTYPE = "sourcetype"                            # Data source type {csv|excel|odbc|blueprism}
 PARAM_SRCTYPE_VALCSV = "csv"                            # sourcetype = csv
+PARAM_SRCTYPE_VALXES = "xes"                            # sourcetype = xes
 PARAM_SRCTYPE_VALODBC = "odbc"                          # sourcetype = odbc
 PARAM_SRCTYPE_VALBP = "blueprism"                       # sourcetype = blueprism
 PARAM_SRCTYPE_VALXLS = "excel"                          # sourcetype = excel
-PARAM_SRCTYPE_VALSAPTABLE = "saptable"                          # sourcetype = SAP RFC Table
+PARAM_SRCTYPE_VALSAPTABLE = "saptable"                  # sourcetype = SAP RFC Table
 PARAM_SRCTYPE_SUPPORTED = [PARAM_SRCTYPE_VALCSV,
                            PARAM_SRCTYPE_VALODBC,
+                           PARAM_SRCTYPE_VALXES,
                            PARAM_SRCTYPE_VALXLS,
                            PARAM_SRCTYPE_VALBP,
                            PARAM_SRCTYPE_VALSAPTABLE]
-PARAM_FILENAME = "filename"                             # Source file dataset
-PARAM_CSV_SEPARATOR ="sep"                              # CSV fields separator (by default comma)
+PARAM_FILENAME = "filename"                             # {csv|xes} Source file dataset
+PARAM_CSV_SEPARATOR ="sep"                              # {csv} CSV fields separator (by default comma)
 PARAM_CONFIGFILE = "configfile"                         # {odbc|blueprism} Config / INI file
 PARAM_EXCELSHEETNAME = "sheet"                          # {excel} Excel spreadsheet name
 # Parameters which can be in the INI file
-PARAM_LOGFILENAME = "other.logfilename"                 # Filename of the Log file
-PARAM_BPPITOKEN = "bppi.token"                          # {csv|excel|odbc|blueprism} BPPI Token
-PARAM_BPPIURL = "bppi.url"                              # {csv|excel|odbc|blueprism} BPPI URL
+PARAM_LOGFILENAME = "other.logfilename"                 # {csv|xes|excel|odbc|blueprism}Filename of the Log file
+PARAM_BPPITOKEN = "bppi.token"                          # {csv|xes|excel|odbc|blueprism} BPPI Token
+PARAM_BPPIURL = "bppi.url"                              # {csv|xes|excel|odbc|blueprism} BPPI URL
 PARAM_CONNECTIONSTRING = "database.connectionstring"    # {ODBC/Blue Prism} ODBC Connection String
 PARAM_QUERY = "database.query"                          # {ODBC} Query to gather data
 PARAM_FROMDATE = "fromdate"                             # {blueprism}From Date (delta extraction)

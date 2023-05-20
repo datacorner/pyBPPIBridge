@@ -1,9 +1,10 @@
 # Introduction
 ![BPPI Bridge principle](./principle.png)
 This repository proposes a Python program that makes a bridge between Blue Prism Process Intelligence (alias BPPI) and external data sources. Its purpose is to access these external datasources, collect them ant automate their importation into a BPPI instance (cloud or on-prem). By executing a TO DO into the BPPI repository it also enables to performs BPPI transformations and load directly in one or several projects.  
-Currently this bridge can access to
+Currently this bridge can access and load data from
 * External file (csv)
 * External Excel Spreadsheet (xls, xlsx, xlsm, xlsb, odf, ods and odt)
+* External XES File
 * ODBC Data Sources (checked with SQL Server) by using an configurable SQL query
 * Blue Prism repository (Can gather all the session logs for a specified process)   
 * SAP Read Table via SAP RFC
@@ -43,7 +44,22 @@ if a file is specified for the -configfile parameter the parameter file must fol
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
-$ python3 bppibridge.py -sourcetype csv -filename {myfile.csv} -token {token} -url {BPPI Server URL} [-other.logfilename filenameandpath] 
+$ python3 bppibridge.py -sourcetype csv -filename {myfile.csv} -configfile {config.ini}
+```
+
+### Load from a XES file
+#### CLI 
+* **-sourcetype** (Mandatory) xes
+* **-configfile** (Mandatory) Config file with all configuration details (INI format, see the template below)
+if a file is specified for the -configfile parameter the parameter file must follow the INI format rules. Example/Template -> see the [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template)  (rename it as an *.ini file)
+* **-filename** (Mandatory) file to load (XES format)
+#### Capabilities
+* Read the XES file and load it into the BPPI Repository
+* Manages other delimiter (field separators), by default comma.
+#### Example
+Launch the program in the shell (windows or linux) command line like this:
+```
+$ python3 bppibridge.py -sourcetype xes -filename {myfile.xes} -configfile {config.ini}
 ```
 
 ### Load from an Excel file
@@ -59,7 +75,7 @@ Excel files supported: xls, xlsx, xlsm, xlsb, odf, ods and odt
 #### Example
 Launch the program in the shell (windows or linux) command line like this:
 ```
-$ python3 bppibridge.py -sourcetype excel -filename {myfile.csv} -token {token} -url {BPPI Server URL} [-other.logfilename filenameandpath] 
+$ python3 bppibridge.py -sourcetype excel -filename {myfile.xslx} -configfile {config.ini} 
 ```
 
 ### Load from an ODBC Data Source

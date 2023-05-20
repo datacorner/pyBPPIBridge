@@ -3,7 +3,7 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import constants as C
-from datasources.bppiApiODBC import bppiApiODBC
+from datasources.bppiDSODBC import bppiDSODBC
 import pandas as pd
 import xml.etree.ElementTree as ET
 import warnings
@@ -19,7 +19,7 @@ BP_MANDATORY_PARAM_LIST = [C.PARAM_CONNECTIONSTRING,
                            C.PARAM_BPPIURL, 
                            C.PARAM_BPPROCESSNAME]
 
-class bppiApiBluePrism(bppiApiODBC):
+class bppiDSBluePrism(bppiDSODBC):
     def __init__(self, config):
         super().__init__(config)
 

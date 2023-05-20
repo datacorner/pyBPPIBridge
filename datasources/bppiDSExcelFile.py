@@ -3,14 +3,14 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import constants as C
-from bppiapi.bppiApiParent import bppiApiParent
+from bppiapi.bppiDataSource import bppiDataSource
 import pandas as pd
 
 EXCEL_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME, 
                               C.PARAM_BPPITOKEN, 
                               C.PARAM_BPPIURL]
 
-class bppiApiExcelFile(bppiApiParent):
+class bppiDSExcelFile(bppiDataSource):
 
     def __init__(self, config):
         super().__init__(config)

@@ -3,7 +3,7 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import constants as C
-from datasources.bppiApiCSVFile import bppiApiCSVFile
+from datasources.bppiDSCSVFile import bppiDSCSVFile
 import pyodbc
 import pandas as pd
 
@@ -13,7 +13,7 @@ ODBC_MANDATORY_PARAM_LIST = [C.PARAM_CONNECTIONSTRING,
                              C.PARAM_BPPIURL, 
                              C.PARAM_QUERY]
 
-class bppiApiODBC(bppiApiCSVFile):
+class bppiDSODBC(bppiDSCSVFile):
     def __init__(self, config):
         super().__init__(config)
 
