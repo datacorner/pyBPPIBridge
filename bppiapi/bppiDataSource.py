@@ -82,7 +82,7 @@ class bppiDataSource:
             format = self.config.getParameter(C.PARAM_LOGFORMAT, C.TRACE_DEFAULT_FORMAT)
             self.__trace = log(__name__, logfilename, level, format)
             
-            self.__trace.info("*** Check Configuration from the server ***")
+            self.log.info("*** Beggining of Job treatment ***")
             if (not self.checkParameters()):
                 raise Exception("Some mandatory parameters are missing")
             api = bppiApiWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
@@ -97,6 +97,7 @@ class bppiDataSource:
 
     def terminate(self) -> bool:
         # For surcharge
+        self.log.info("*** End of Job treatment ***")
         return True
 
     def executeToDo(self) -> bool:
