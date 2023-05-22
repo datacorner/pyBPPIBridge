@@ -160,4 +160,4 @@ cython_debug/
 .vscode/launch.json
 config.ini
 *.ini
-*.tag
+delta.tag
