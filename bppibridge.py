@@ -76,8 +76,11 @@ if __name__ == "__main__":
 			if (config.getParameter(C.PARAM_BPPITODOS, C.EMPTY) != C.EMPTY):
 				job.repositoryConfig.todoLists = config.getParameter(C.PARAM_BPPITODOS).split(C.DEFCSVSEP)
 		df = job.collectData()
-		df = job.alterData(df)
-		if (df.empty != True):
-			if (job.upload(df)):
-				job.executeToDo()
+		if (df.shape[0] == 0):
+			job.log.info("There are no data to manage, terminate here.")
+		else:
+			df = job.alterData(df)
+			if (df.empty != True):
+				if (job.upload(df) and config.getParameter(C.PARAM_BPPITODOACTIVED, C.NO) == C.YES):
+					job.executeToDo()
 		job.terminate()

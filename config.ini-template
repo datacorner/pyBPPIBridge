@@ -27,15 +27,15 @@ parameters=Customer Number,Product,Investment,Deposit
 # 33554432 -> Exception
 stagetypefilters=1,4,65536,8,536870912
 # Include or not (yes/no) the VBO logs
-includevbo=yes
+includevbo={yes|no}
 # unicode logs (yes/no)
-unicode=no
+unicode={yes|no}
 # Only keep the Start and End stages in the main Process page (remove all the other Start & End stages) (yes/no)
 startendfilter=yes
 # if startendfilter=yes, name of the main Process page (by default Main Page)
 mainprocesspage=Main Page
 # delta load activated (yes/no), if no -> full load
-delta=yes
+delta={yes|no}
 # file where the latest date load is saved
 deltafile=delta.tag
 
@@ -46,8 +46,11 @@ url=https://mybppiserver.com
 token=***
 # Repository Table name (if empty takes the one in the BPPI Configuration)
 table=repotablename
-# To Do list to execute after loading here (separated by comma) (if empty takes the one in the BPPI Configuration)
-todos=TODO_1,TODO_2
+# Launch the TO DO in BPPI {yes|no}
+todos={yes|no}
+# To Do list to execute after loading here (separated by comma) (if empty takes the one in the BPPI Configuration), if todos = yes only
+todolist=TODO_1,TODO_2
+
 
 [other]
 # Log file location (optional)
