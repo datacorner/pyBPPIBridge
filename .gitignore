@@ -10,7 +10,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -160,10 +159,5 @@ cython_debug/
 #.idea/
 .vscode/launch.json
 config.ini
-delta.tag
-delta.tag
 *.ini
-delta.tag
-delta.tag
-delta.tag
-delta.tag
+*.tag
