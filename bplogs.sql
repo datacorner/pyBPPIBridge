@@ -8,7 +8,7 @@ WHERE LOG.sessionnumber IN
             FROM $tablelog 
 		    WHERE processname = '$processname'
             AND $delta)
-AND stagetype NOT IN($stagetypefilters)
 AND LOG.sessionnumber = BPASession.sessionnumber
 AND BPAResource.resourceid = BPASession.runningresourceid
+AND stagetype NOT IN($stagetypefilters)
 AND $onlybpprocess

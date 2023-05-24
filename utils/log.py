@@ -9,7 +9,11 @@ import constants as C
 class log:
     def __init__(self, loggerName, logfilename, level, format):
         self.__logger = logging.getLogger(loggerName)
-        logHandler = logging.handlers.RotatingFileHandler(logfilename, mode="a", maxBytes= C.TRACE_MAXBYTES, backupCount= 1 , encoding=C.ENCODING)
+        logHandler = logging.handlers.RotatingFileHandler(logfilename, 
+                                                          mode="a", 
+                                                          maxBytes= C.TRACE_MAXBYTES, 
+                                                          backupCount=1 , 
+                                                          encoding=C.ENCODING)
         logHandler.setFormatter(logging.Formatter(format))
         if (level == "INFO"):
             loglevel = logging.INFO

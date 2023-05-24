@@ -62,8 +62,8 @@ class bppiDataSource:
                     self.log.error("Parameter <{}> is missing".format(param))
                     return False 
             return True
-        except:
-            self.log.error("checkParameters() Error")
+        except Exception as e:
+            self.log.error("checkParameters() Error -> " + str(e))
             return False
     
     def initialize(self) -> bool:
@@ -132,10 +132,14 @@ class bppiDataSource:
         Returns:
             str: Process status (from BPPI server)
         """
-        api = bppiApiWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
-                             self.config.getParameter(C.PARAM_BPPIURL))
-        api.log = self.log
-        return api.getProcessingStatus(processingId)
+        try:
+            api = bppiApiWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
+                                self.config.getParameter(C.PARAM_BPPIURL))
+            api.log = self.log
+            return api.getProcessingStatus(processingId)
+        except Exception as e:
+            self.log.error("getStatus() Error -> " + str(e))
+            return C.API_STATUS_ERROR
 
     def waitForEndOfProcessing(self, processId) -> str:
         """Wait for the end of the BPPI process execution
@@ -226,7 +230,7 @@ class bppiDataSource:
         
         except Exception as e:
             self.log.error("eventMap() Error -> " + str(e))
-            return super().alterData(df)
+            return df
 
     def upload(self, dfDataset) -> bool:
         """ Upload a dataset (Pandas DataFrame) in the BPPI repository (in one transaction)
