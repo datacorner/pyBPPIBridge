@@ -3,6 +3,7 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import configparser
+import constants as C
 
 SECTION_PARAM_SEP = "."
 
@@ -36,7 +37,10 @@ class iniConfig():
             self.__config.read(filename)
             for section in self.__config:
                 for param in self.__config[section]:
-                    self.__parameters[section + SECTION_PARAM_SEP + param] = self.__config[section][param]
+                    try :
+                        self.__parameters[section + SECTION_PARAM_SEP + param] = self.__config[section][param]
+                    except:
+                        self.__parameters[section + SECTION_PARAM_SEP + param] = C.EMPTY
             return True
         except Exception as e:
             print("loadini() -> " + str(e))

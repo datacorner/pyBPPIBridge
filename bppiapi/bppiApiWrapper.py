@@ -6,7 +6,6 @@ import requests
 import json
 from bppiapi.repConfig import repConfig
 from bppiapi.uploadConfig import uploadConfig
-from utils.log import log
 from urllib import request
 import constants as C
 

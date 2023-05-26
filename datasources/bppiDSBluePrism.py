@@ -8,7 +8,7 @@ import pandas as pd
 import xml.etree.ElementTree as ET
 import warnings
 import numpy as np
-from datasources.blueprismSQLBuilder import blueprismSQLBuilder
+from datasources.builders.blueprismSQLBuilder import blueprismSQLBuilder
 import datetime
 
 warnings.filterwarnings('ignore')
@@ -75,7 +75,9 @@ class bppiDSBluePrism(bppiDSODBC):
             # Get the last delta load if needed:
             lastDeltaDate = self.__getDeltaTag()
             # Build the Query
-            sql = blueprismSQLBuilder(self.log, self.config).build(lastDeltaDate)
+            sqlBuilder = blueprismSQLBuilder(self.log, self.config)
+            sqlBuilder.deltaDate = lastDeltaDate
+            sql = sqlBuilder.build()
             # Update the date for the next delta load
             self.__updDeltaTag()
             return sql

@@ -4,8 +4,11 @@ __license__ = "GPL"
 
 import constants as C
 from datasources.bppiDSCSVFile import bppiDSCSVFile
+from datasources.builders.SQLBuilder import SQLBuilder
 import pyodbc
 import pandas as pd
+import pathlib
+from string import Template
 
 # Mandatory params to check
 ODBC_MANDATORY_PARAM_LIST = [C.PARAM_CONNECTIONSTRING, 
@@ -23,8 +26,8 @@ class bppiDSODBC(bppiDSCSVFile):
 
     @property
     def query(self) -> str:
-        return self.config.getParameter(C.PARAM_QUERY).replace("\n", " ")
-    
+        return SQLBuilder(self.log, self.config).build()
+
     def initialize(self) -> bool:
         return super().initialize()
     
