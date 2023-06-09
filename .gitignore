@@ -165,3 +165,6 @@ delta.tag
 *.tag
 delta.tag
 delta.tag
+.vscode/settings.json
+delta.tag
+delta.tag

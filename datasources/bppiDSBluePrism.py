@@ -188,4 +188,15 @@ class bppiDSBluePrism(bppiDSODBC):
             self.log.warning("{} records have been removed (No <Start> stage outside the Main Process Page)".format(oldCount - df.shape[0]))
         # Get the attributes from the BP logs
         df = self.__getAttributesFromLogs(df)
+
+        # Create a new col OBJECT_TAB with the page name or the VBO action
+        df[C.COL_OBJECT_TAB] = df.apply(lambda row: row["pagename"] if row["pagename"] != None else row["actionname"], axis=1)
+        # Create the unique stage Identifier: STAGE_ID: STAGE_ID format: {VBO|PROC}/{Process or Object Name}/{Process Page or VBO Action}/{Stage name}
+        df[C.COL_STAGE_ID] = df[['OBJECT_TYPE', 'OBJECT_NAME', C.COL_OBJECT_TAB, 'stagename']].agg('/'.join, axis=1)
+        # Change the event to map by default if not filled out (surcharge the events.eventcolumn INI parameter)
+        if (self.config.setParameter(C.PARAM_EVENTMAPTABLE, C.EMPTY) == C.EMPTY):
+            self.config.setParameter(C.PARAM_EVENTMAPTABLE, C.COL_STAGE_ID)
+
+        # Filter and/or update the event names if needed/configured
         return super().alterData(df)
+    

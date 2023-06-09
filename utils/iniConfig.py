@@ -65,3 +65,13 @@ class iniConfig():
         except Exception as e:
             return default
 
+    def setParameter(self, parameter, value):
+        """ Surcharge the existing paramter with a new (but not persistent) value
+        Args:
+            parameter (str): parameter name
+            value (str): new value
+        """
+        try:
+            self.__parameters[parameter] = str(value)
+        except Exception as e:
+            pass

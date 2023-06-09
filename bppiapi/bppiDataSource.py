@@ -158,9 +158,9 @@ class bppiDataSource:
             while (EndOfWait):
                 # 5 - Check the status to veriify if the task is finished
                 status = self.getStatus(processId)
-                if ((status != C.API_STATUS_IN_PROGRESS) or (nbIterations > C.API_NB_ITERATION_MAX)):
+                if ((status != C.API_STATUS_IN_PROGRESS) or (nbIterations > C.API_DEF_NB_ITERATION_MAX)):
                     EndOfWait = False
-                time.sleep(C.API_WAIT_DURATION_SEC)
+                time.sleep(C.API_DEF_WAIT_DURATION_SEC)
                 nbIterations += 1
             return status
         except Exception as e:
@@ -195,7 +195,7 @@ class bppiDataSource:
                     - col 2: new event name (the one to use for event replacement)
             Mapping Rules:
                 * Replace the Col1 per col2 every time (event name replacement)
-                * If Col2 empty -> remove the row (revome not necessary events)
+                * If Col2 empty -> remove the row (remove not necessary events)
         Args:
             df (pd.DataFrame): Data Source
         Returns:
