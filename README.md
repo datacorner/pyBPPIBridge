@@ -13,19 +13,4 @@ This bridge reads the data from the Datasource and upload them into the BPPI Rep
 
 Note: BPPI is the solution provided by Blue Prism for Process and Task Mining (ABBYY Timeline OEM).
 
-# Requirements (Python)
-* [Python 3.10.x minimum](https://www.python.org/downloads/release/python-3100)
-* Python library: Several Python packages are necessary, to install them just execute the command below
-```
-pip install -r requirements.txt
-```
-* To use this API it's mandatory to configure correctly the BPPI repository first (Cf. Data Sources / DBMS CLI tool configuration). Cf. https://help.abbyy.com/en-us/timeline/6/user_guide/connectingtodbmsdatasource/
-* for the ODBC Connectivity and Blue Prism Connectivity an ODBC Connection string and a User/password is necessary to query the data base. Only Read access to the expected tables are mandatory. 
-* For the Blue Prism Connectivity, the read only access is required for these Tables:
-  * BPASession
-  * BPAResource 
-  * BPASessionLog_NonUnicode or BPASessionLog_Unicode
-* For the SAP connectivity. The RFC SDK (NWRFCSDK) must be installed and the [pyrfc package](https://sap.github.io/PyRFC) deployed as well.
-* The configuration file [config.ini-template](https://github.com/datacorner/pyBPPIBridge/blob/main/config.ini-template) is mandatory for ODBC and Blue Prism Connection. When the data source is a CSV file all needed parameters are passed through the command line.
-
 [Look at the wiki for more informations](https://github.com/datacorner/pyBPPIBridge/wiki)
