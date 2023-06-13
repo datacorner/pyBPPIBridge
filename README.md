@@ -1,7 +1,8 @@
 # Presentation
-![BPPI Bridge principle](./schema.png)
-This repository proposes a Python program that makes a bridge between Blue Prism Process Intelligence (alias BPPI) and external data sources. Its purpose is to access these external datasources, collect them ant automate their importation into a BPPI instance (cloud or on-prem). By executing a TO DO into the BPPI repository it also enables to performs BPPI transformations and load directly in one or several projects.  
-Currently this bridge can access and load data from
+![BPPI Data Bridge principle](./schema.png)
+This repository proposes a solution that build a data bridge between Blue Prism Process Intelligence (BPPI) and one or several external data sources. Its purpose is first to access these external datasources. Then its collect the needed data to automate their importation into an existing BPPI instance (cloud or on-prem). By executing a TO DO into the BPPI repository it also performs an automatic import to an existing BPPI Project.
+
+Currently this Data Bridge provides data access and load from:
 * [External file (csv)](https://github.com/datacorner/pyBPPIBridge/wiki/CSV-File)
 * [External Excel Spreadsheet (xls, xlsx, xlsm, xlsb, odf, ods and odt)](https://github.com/datacorner/pyBPPIBridge/wiki/Excel-File)
 * [External XES File](https://github.com/datacorner/pyBPPIBridge/wiki/XES-File)
@@ -9,8 +10,8 @@ Currently this bridge can access and load data from
 * [Blue Prism repository (Can gather all the session logs for a specified process)](https://github.com/datacorner/pyBPPIBridge/wiki/Blue-Prism)
 * [SAP Read Table via SAP RFC](https://github.com/datacorner/pyBPPIBridge/wiki/SAP-RFC-Table)
 
-This bridge reads the data from the Datasource and upload them into the BPPI Repository. Inside BPPI it's also possible to configure a TODO to automate some transformations and load the data into a BPPI Project (The program can execute thess To Do automatically). To make this bridge usable the user must configure a Data Source in the BPPI Repository, and get a token.  
+This BPPI Data Bridge reads the data from the Datasource and upload them into the BPPI Repository. Inside BPPI it's also possible to configure a TODO to automate some transformations and load the data into a BPPI Project (The program can execute thess To Do automatically). To make this bridge usable the user must configure a Data Source in the BPPI Repository, and get a token.  
 
-Note: BPPI is the solution provided by Blue Prism for Process and Task Mining (ABBYY Timeline OEM).
+*Note: BPPI (Blue Prism Process Intelligence) is the solution provided by Blue Prism for Process and Task Mining (ABBYY Timeline OEM)*
 
 [Look at the wiki for more informations](https://github.com/datacorner/pyBPPIBridge/wiki)
