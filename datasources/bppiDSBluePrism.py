@@ -137,66 +137,78 @@ class bppiDSBluePrism(bppiDSODBC):
         Returns:
             DataFrame: logs altered with parameters
         """
-        parameters = self.config.getParameter(C.PARAM_BPPARAMSATTR, C.EMPTY)
-        # Manage the IN/OUT parameters from the logs
-        if (len(parameters) > 0):
-            # Extract the input and output parameters
-            self.log.info("Extract the input and output parameters")
-            dfattributes = pd.DataFrame(columns= ["logid", "Name", "value", "in_out"])
-            for index, row in df.iterrows():
-                if (row[C.BPLOG_ATTRIBUTE_COL] != None):
-                    dfattributes = self.__parseAttrs(row["logid"], row[C.BPLOG_ATTRIBUTE_COL], dfattributes)
-            self.log.debug("Number of attributes found: {}".format(str(dfattributes.shape[0])))
-            # Only keep the desired parameters
-            self.log.debug("Filter out the desired parameters")
-            # Build the filter with the parameters list
-            params = [ "\"" + x + "\"" for x in parameters.split(",") ]
-            paramQuery = "Name in (" + ",".join(params) + ")"
-            dfattributes = dfattributes.query(paramQuery)
-            self.log.debug("Number of attributes found: {}".format(str(dfattributes.shape[0])))
-            # Pivot the parameter values to create one new column per parameter
-            self.log.info("Build the final dataset with the desired parameters")
-            # add the IN or OUT parameter (the commented line below creates 2 differents parameters if the same param for IN and OUT)
-            dfattributes['FullName'] = dfattributes['Name']
-            dfattributesInCols = pd.pivot_table(dfattributes, values='value', index=['logid'], columns=['FullName'], aggfunc=np.sum, fill_value="")
-            dfattributesInCols.reset_index()
-            # Merge the Dataframes
-            dffinal = df.merge(dfattributesInCols, on="logid", how='left')
-            dffinal = dffinal.drop(C.BPLOG_ATTRIBUTE_COL, axis=1)
-            return dffinal
-        else:
-            self.log.info("No parameters required in the configuration file")
+        try:
+            parameters = self.config.getParameter(C.PARAM_BPPARAMSATTR, C.EMPTY)
+            # Manage the IN/OUT parameters from the logs
+            if (len(parameters) > 0):
+                # Extract the input and output parameters
+                self.log.info("Extract the input and output parameters")
+                dfattributes = pd.DataFrame(columns= ["logid", "Name", "value", "in_out"])
+                for index, row in df.iterrows():
+                    if (row[C.BPLOG_ATTRIBUTE_COL] != None):
+                        dfattributes = self.__parseAttrs(row["logid"], row[C.BPLOG_ATTRIBUTE_COL], dfattributes)
+                self.log.debug("Number of attributes found: {}".format(str(dfattributes.shape[0])))
+                # Only keep the desired parameters
+                self.log.debug("Filter out the desired parameters")
+                # Build the filter with the parameters list
+                params = [ "\"" + x + "\"" for x in parameters.split(",") ]
+                paramQuery = "Name in (" + ",".join(params) + ")"
+                dfattributes = dfattributes.query(paramQuery)
+                self.log.debug("Number of attributes found: {}".format(str(dfattributes.shape[0])))
+                # Pivot the parameter values to create one new column per parameter
+                self.log.info("Build the final dataset with the desired parameters")
+                # add the IN or OUT parameter (the commented line below creates 2 differents parameters if the same param for IN and OUT)
+                dfattributes['FullName'] = dfattributes['Name']
+                dfattributesInCols = pd.pivot_table(dfattributes, values='value', index=['logid'], columns=['FullName'], aggfunc=np.sum, fill_value="")
+                dfattributesInCols.reset_index()
+                # Merge the Dataframes
+                dffinal = df.merge(dfattributesInCols, on="logid", how='left')
+                dffinal = dffinal.drop(C.BPLOG_ATTRIBUTE_COL, axis=1)
+                return dffinal
+            else:
+                self.log.info("No parameters required in the configuration file")
+                return df
+            
+        except Exception as e:
+            self.log.error("__getAttributesFromLogs() -> Unable to get attributes from the Blue Prism logs " + str(e))
             return df
-
+        
     def alterData(self, df) -> pd.DataFrame:
-        """Alter the gathered data (from the BP Repository) by managing the attributes (stored in a XML format)
+        """Alter the collected data (from the BP Repository) by managing the attributes (stored in a XML format)
         Args:
             df (pd.DataFrame): Data source
         Returns:
             pd.DataFrame: Altered dataset with the selected parameters as new columns
         """
-        # Filter out the df by selecting only the Start & End (main page / process) stages if requested
-        if (self.config.getParameter(C.PARAM_BPFILTERSTEND) == C.YES):
-            mainpage = self.config.getParameter(C.PARAM_BPMAINPROCESSPAGE, C.BP_MAINPAGE_DEFAULT) 
-            # Remove the logs with stagename = "End" outside the "Main Page"
-            oldCount = df.shape[0]
-            df = df[~((df[C.BPLOG_STAGENAME_COL] == C.BP_STAGE_END) & (df[C.BPLOG_PAGENAME_COL] != mainpage))]
-            self.log.warning("{} records have been removed (No <End> stage outside the Main Process Page)".format(oldCount - df.shape[0]))
-            # Remove the logs with stagename = "Start" outside the "Main Page"
-            oldCount = df.shape[0] 
-            df = df[~((df[C.BPLOG_STAGENAME_COL] == C.BP_STAGE_START) & (df[C.BPLOG_PAGENAME_COL] != mainpage))]
-            self.log.warning("{} records have been removed (No <Start> stage outside the Main Process Page)".format(oldCount - df.shape[0]))
-        # Get the attributes from the BP logs
-        df = self.__getAttributesFromLogs(df)
 
-        # Create a new col OBJECT_TAB with the page name or the VBO action
-        df[C.COL_OBJECT_TAB] = df.apply(lambda row: row["pagename"] if row["pagename"] != None else row["actionname"], axis=1)
-        # Create the unique stage Identifier: STAGE_ID: STAGE_ID format: {VBO|PROC}/{Process or Object Name}/{Process Page or VBO Action}/{Stage name}
-        df[C.COL_STAGE_ID] = df[['OBJECT_TYPE', 'OBJECT_NAME', C.COL_OBJECT_TAB, 'stagename']].agg('/'.join, axis=1)
-        # Change the event to map by default if not filled out (surcharge the events.eventcolumn INI parameter)
-        if (self.config.setParameter(C.PARAM_EVENTMAPTABLE, C.EMPTY) == C.EMPTY):
-            self.config.setParameter(C.PARAM_EVENTMAPTABLE, C.COL_STAGE_ID)
+        try:
+            # Filter out the df by selecting only the Start & End (main page / process) stages if requested
+            if (self.config.getParameter(C.PARAM_BPFILTERSTEND) == C.YES):
+                mainpage = self.config.getParameter(C.PARAM_BPMAINPROCESSPAGE, C.BP_MAINPAGE_DEFAULT) 
+                # Remove the logs with stagename = "End" outside the "Main Page"
+                oldCount = df.shape[0]
+                df = df[~((df[C.BPLOG_STAGENAME_COL] == C.BP_STAGE_END) & (df[C.BPLOG_PAGENAME_COL] != mainpage))]
+                self.log.warning("{} records have been removed (No <End> stage outside the Main Process Page)".format(oldCount - df.shape[0]))
+                # Remove the logs with stagename = "Start" outside the "Main Page"
+                oldCount = df.shape[0] 
+                df = df[~((df[C.BPLOG_STAGENAME_COL] == C.BP_STAGE_START) & (df[C.BPLOG_PAGENAME_COL] != mainpage))]
+                self.log.warning("{} records have been removed (No <Start> stage outside the Main Process Page)".format(oldCount - df.shape[0]))
+            
+            # Get the attributes from the BP logs
+            df = self.__getAttributesFromLogs(df)
 
-        # Filter and/or update the event names if needed/configured
-        return super().alterData(df)
-    
+            # Create a new col OBJECT_TAB with the page name or the VBO action
+            df[C.COL_OBJECT_TAB] = df.apply(lambda row: row["pagename"] if row["pagename"] != None else row["actionname"], axis=1)
+            # Create the unique stage Identifier: STAGE_ID: STAGE_ID format: {VBO|PROC}/{Process or Object Name}/{Process Page or VBO Action}/{Stage name}
+            df[C.COL_STAGE_ID] = df[['OBJECT_TYPE', 'OBJECT_NAME', C.COL_OBJECT_TAB, 'stagename']].agg('/'.join, axis=1)
+            # Change the event to map by default if not filled out (surcharge the events.eventcolumn INI parameter)
+            if (self.config.setParameter(C.PARAM_EVENTMAPTABLE, C.EMPTY) == C.EMPTY):
+                self.config.setParameter(C.PARAM_EVENTMAPTABLE, C.COL_STAGE_ID)
+
+            # Filter and/or update the event names if needed/configured
+            df = super().alterData(df)
+            return df
+        
+        except Exception as e:
+            self.log.error("alterData() -> Unable to update the data " + str(e))
+            return super().alterData(df)
