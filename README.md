@@ -2,7 +2,7 @@
 ![BPPI Bridge principle](./schema.png)
 This repository proposes a Python program that makes a bridge between Blue Prism Process Intelligence (alias BPPI) and external data sources. Its purpose is to access these external datasources, collect them ant automate their importation into a BPPI instance (cloud or on-prem). By executing a TO DO into the BPPI repository it also enables to performs BPPI transformations and load directly in one or several projects.  
 Currently this bridge can access and load data from
-* External file (csv)
+* [External file (csv)](https://github.com/datacorner/pyBPPIBridge/wiki/CSV-File)
 * External Excel Spreadsheet (xls, xlsx, xlsm, xlsb, odf, ods and odt)
 * External XES File
 * ODBC Data Sources (checked with SQL Server) by using an configurable SQL query
