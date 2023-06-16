@@ -2,16 +2,21 @@ __author__ = "Benoit CAYLA"
 __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
-from datasources.bppiDSCSVFile import bppiDSCSVFile
-from datasources.bppiDSODBC import bppiDSODBC
-from datasources.bppiDSBluePrism import bppiDSBluePrism
-from datasources.bppiDSExcelFile import bppiDSExcelFile
-from datasources.bppiDSSAPRfcTable import bppiDSSAPRfcTable
-from datasources.bppiDSXESFile import bppiDSXESFile
-
 import argparse
 from utils.iniConfig import iniConfig
 import constants as C
+
+try:
+	from datasources.bppiDSCSVFile import bppiDSCSVFile
+	from datasources.bppiDSODBC import bppiDSODBC
+	from datasources.bppiDSBluePrism import bppiDSBluePrism
+	from datasources.bppiDSExcelFile import bppiDSExcelFile
+	from datasources.bppiDSSAPRfcTable import bppiDSSAPRfcTable
+	from datasources.bppiDSXESFile import bppiDSXESFile
+	_MODULE_LOADED_ = True
+except Exception as e:
+	_MODULE_LOADED_ = False
+	print("Error when loading some/all pyBPPIBridge Data Sources Connectors" + str(e))
 
 if __name__ == "__main__":
 	# MANAGE CLI ARGUMENTS
