@@ -1,0 +1,1 @@
+The goal of this VBO (Blue Prism Object) is to build the logs directly into the design of the Blue Prism process. This VBO adds a new log (with timestamp, timeline ID and event ID) to each call.
