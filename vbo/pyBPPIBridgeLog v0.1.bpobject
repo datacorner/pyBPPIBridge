@@ -1,0 +1,291 @@
+﻿<process name="pyBPPIBridgeLog" version="1.0" bpversion="7.1.2.3518" narrative="" byrefcollection="true" type="object" runmode="Exclusive" preferredid="fbbe3708-98f5-4123-a115-3acb16f13aa9">
+  <appdef>
+    <element name="Application Root">
+      <id>7b2f9edf-71bb-412d-acd0-63004862c3c0</id>
+      <type>Application</type>
+      <basetype>Application</basetype>
+      <datatype>unknown</datatype>
+      <diagnose>False</diagnose>
+    </element>
+  </appdef>
+  <view>
+    <camerax>0</camerax>
+    <cameray>0</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <subsheet subsheetid="23271dd6-eeaf-4529-80fb-d88273cc4993" type="CleanUp" published="True">
+    <name>Clean Up</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="0596fc50-b833-46e9-87ec-6db81e8ead44" type="Normal" published="True">
+    <name>Init</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>42</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="605f3c6d-d1bb-4f37-a729-c01637e74442" type="Normal" published="True">
+    <name>Trace</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>54</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="ac395d06-3f34-4e6f-97f0-02581d07d810" name="Start" type="Start">
+    <loginhibit />
+    <display x="15" y="-105" />
+    <onsuccess>4ca36781-bb24-42d4-aadd-b79b45a99bb8</onsuccess>
+  </stage>
+  <stage stageid="4ca36781-bb24-42d4-aadd-b79b45a99bb8" name="End" type="End">
+    <loginhibit />
+    <display x="15" y="90" />
+  </stage>
+  <stage stageid="90d03464-b052-425c-88e1-8d8a6bbecb2a" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+    <references>
+      <reference>System.dll</reference>
+      <reference>System.Data.dll</reference>
+      <reference>System.Xml.dll</reference>
+      <reference>System.Drawing.dll</reference>
+    </references>
+    <imports>
+      <import>System</import>
+      <import>System.Drawing</import>
+      <import>System.Data</import>
+    </imports>
+    <language>visualbasic</language>
+    <globalcode><![CDATA[]]></globalcode>
+    <code><![CDATA[]]></code>
+  </stage>
+  <stage stageid="5e37ef0d-f23f-4e0e-af73-3291da82c5aa" name="Clean Up" type="SubSheetInfo">
+    <subsheetid>23271dd6-eeaf-4529-80fb-d88273cc4993</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="8b27cb29-ff9d-4f0b-beba-9565b6c7508b" name="Start" type="Start">
+    <subsheetid>23271dd6-eeaf-4529-80fb-d88273cc4993</subsheetid>
+    <loginhibit />
+    <display x="15" y="-105" />
+    <onsuccess>1a697781-aa7d-4ce0-a1a3-ead6438c1a61</onsuccess>
+  </stage>
+  <stage stageid="1a697781-aa7d-4ce0-a1a3-ead6438c1a61" name="End" type="End">
+    <subsheetid>23271dd6-eeaf-4529-80fb-d88273cc4993</subsheetid>
+    <loginhibit />
+    <display x="15" y="90" />
+  </stage>
+  <stage stageid="ea322b9a-3f01-4af6-9269-f0dddcd40c67" name="Trace" type="SubSheetInfo">
+    <subsheetid>605f3c6d-d1bb-4f37-a729-c01637e74442</subsheetid>
+    <display x="-135" y="-30" w="150" h="90" />
+  </stage>
+  <stage stageid="c8333931-c232-4498-a4bc-65f610676cdb" name="Start" type="Start">
+    <subsheetid>605f3c6d-d1bb-4f37-a729-c01637e74442</subsheetid>
+    <loginhibit />
+    <display x="15" y="-30" />
+    <inputs>
+      <input type="text" name="Event_ID" stage="Event_ID" />
+    </inputs>
+    <onsuccess>a9ce510f-035b-4056-b893-da400974039e</onsuccess>
+  </stage>
+  <stage stageid="8a66e900-9d3f-46f2-bb50-94985302feaf" name="End" type="End">
+    <subsheetid>605f3c6d-d1bb-4f37-a729-c01637e74442</subsheetid>
+    <loginhibit />
+    <display x="15" y="240" />
+  </stage>
+  <stage stageid="06895295-3c69-4a0d-8c0d-508408e30473" name="" type="Note">
+    <subsheetid>23271dd6-eeaf-4529-80fb-d88273cc4993</subsheetid>
+    <narrative>Clean Up Page
+
+This is an optional page where you might choose to perform some finalisation (or "cleanup") tasks as your business object is closed down.
+
+The cleanup action will be called automatically immediately after closing your business object at the end of a business process.
+
+You will not be able to call this action from a business process, nor will it be called at any other time than before the disposal of the business object.</narrative>
+    <display x="-180" y="60" w="180" h="230" />
+  </stage>
+  <stage stageid="a08bba0e-e21c-4f18-987f-872cbae87879" name="" type="Note">
+    <narrative>Initialise Page
+
+This is an optional page where you might choose to perform some initialisation tasks after your business object is loaded.
+
+The initialise action will be called automatically immediately after loading your business object.
+
+You will not be able to call this action from a business process, nor will it be called at any other time than after the creation of the object.</narrative>
+    <display x="-180" y="60" w="180" h="230" />
+  </stage>
+  <stage stageid="841bd1f4-8b53-427b-9e8b-95c4e400a334" name="Init" type="SubSheetInfo">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="cbfc50fd-c6a2-496d-bd1c-91dec4e64749" name="Start" type="Start">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <loginhibit />
+    <display x="15" y="-105" />
+    <inputs>
+      <input type="text" name="filename" narrative="File Name and path" stage="FILENAME" />
+    </inputs>
+    <onsuccess>475a55c1-b57b-47a1-8120-ec77d4c549d1</onsuccess>
+  </stage>
+  <stage stageid="88a7d0da-3a3a-4ac4-bc0b-588d159dbe3f" name="End" type="End">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <loginhibit />
+    <display x="15" y="255" />
+  </stage>
+  <stage stageid="7b62e684-4ee4-47a8-8193-aec89e480567" name="FILENAME" type="Data">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <display x="-180" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\pyBPPIBridge.log</initialvalue>
+    <alwaysinit />
+  </stage>
+  <stage stageid="ea43b936-309c-40ea-866e-c7f8ce134ce7" name="Append to Text File" type="Action">
+    <subsheetid>605f3c6d-d1bb-4f37-a729-c01637e74442</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="165" />
+    <inputs>
+      <input type="text" name="File Name" friendlyname="File Name" narrative="The full path of the text file to append to" expr="[FILENAME]" />
+      <input type="text" name="Text" friendlyname="Text" narrative="The text to append to the file" expr="[Row]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="True if successful" stage="" />
+      <output type="text" name="Message" friendlyname="Message" narrative="An error message if unsuccessful" stage="" />
+    </outputs>
+    <onsuccess>8a66e900-9d3f-46f2-bb50-94985302feaf</onsuccess>
+    <resource object="Utility - File Management" action="Append to Text File" />
+  </stage>
+  <stage stageid="690f66b9-df94-4a36-8b5b-f52da0eec582" name="Event_ID" type="Data">
+    <subsheetid>605f3c6d-d1bb-4f37-a729-c01637e74442</subsheetid>
+    <display x="15" y="-90" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">EVENT_ID</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="151a4821-5aa5-4a62-b1fe-40d00ce94f86" name="Create Row" type="Calculation">
+    <subsheetid>605f3c6d-d1bb-4f37-a729-c01637e74442</subsheetid>
+    <loginhibit />
+    <display x="15" y="105" />
+    <onsuccess>ea43b936-309c-40ea-866e-c7f8ce134ce7</onsuccess>
+    <calculation expression="[MyDate] &amp; &quot;|&quot; &amp; [TIMELINEID] &amp; &quot;|&quot; &amp; [Event_ID]" stage="Row" />
+  </stage>
+  <stage stageid="1fd4462f-9ead-4b3c-8ad5-5927430a6b99" name="Row" type="Data">
+    <subsheetid>605f3c6d-d1bb-4f37-a729-c01637e74442</subsheetid>
+    <display x="90" y="105" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="80e5e390-927e-4cf8-9f30-3edf175e8c6d" name="MyDate" type="Data">
+    <subsheetid>605f3c6d-d1bb-4f37-a729-c01637e74442</subsheetid>
+    <display x="90" y="60" />
+    <datatype>datetime</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a9ce510f-035b-4056-b893-da400974039e" name="Get current timestamp" type="Calculation">
+    <subsheetid>605f3c6d-d1bb-4f37-a729-c01637e74442</subsheetid>
+    <loginhibit />
+    <display x="15" y="45" />
+    <onsuccess>151a4821-5aa5-4a62-b1fe-40d00ce94f86</onsuccess>
+    <calculation expression="FormatDateTime(Now(), &quot;dd/MM/yyyy HH:mm:ss&quot;)" stage="MyDate" />
+  </stage>
+  <stage stageid="475a55c1-b57b-47a1-8120-ec77d4c549d1" name="Get Machine Name" type="Action">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-45" />
+    <outputs>
+      <output type="text" name="Machine Name" friendlyname="Machine Name" narrative="The hostname of the machine running this action" stage="Machine Name" />
+    </outputs>
+    <onsuccess>c78ae9ae-299f-459b-884b-73e0641a1b0d</onsuccess>
+    <resource object="Utility - Environment" action="Get Machine Name" />
+  </stage>
+  <stage stageid="b1ddc31b-2b5d-497d-9f11-0a2e3c64e89a" name="Machine Name" type="Data">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <display x="120" y="-45" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c78ae9ae-299f-459b-884b-73e0641a1b0d" name="Get User Name" type="Action">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="0" />
+    <outputs>
+      <output type="text" name="User Name" friendlyname="User Name" narrative="The name of the logged in user in the current system" stage="User Name" />
+    </outputs>
+    <onsuccess>9124965c-51d6-46a4-ac08-1d9f5803d0f5</onsuccess>
+    <resource object="Utility - Environment" action="Get User Name" />
+  </stage>
+  <stage stageid="f6671d7e-b5a8-44b0-965f-c0dd6fb47564" name="User Name" type="Data">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <display x="120" y="0" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="9124965c-51d6-46a4-ac08-1d9f5803d0f5" name="Get User Name" type="Action">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="45" />
+    <inputs>
+      <input type="collection" name="Process Names" friendlyname="Process Names" narrative="The names of the processes to get memory statistics for" expr="" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Process Statistics" friendlyname="Process Statistics" narrative="A collection of process statistics including the working set and the virtual memory size" stage="Process Statistics" />
+    </outputs>
+    <onsuccess>a9305aa5-13b0-4614-9352-44ab1d39ee6f</onsuccess>
+    <resource object="Utility - Environment" action="Read Memory Stats" />
+  </stage>
+  <stage stageid="fd79e49c-f3ab-4a4d-a7ea-69a3c2362df2" name="Process Statistics" type="Collection">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <display x="120" y="45" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="Process Name" type="text" />
+      <field name="PID" type="number" />
+      <field name="Working Set" type="number" />
+      <field name="Virtual Memory" type="number" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="8744efe7-e5c6-497a-8427-450026742304" name="Build TimelineID" type="Calculation">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <loginhibit />
+    <display x="15" y="165" />
+    <onsuccess>88a7d0da-3a3a-4ac4-bc0b-588d159dbe3f</onsuccess>
+    <calculation expression="[User Name] &amp; &quot;-&quot; &amp; [Machine Name] &amp; &quot;-&quot; &amp; [Process Statistics.PID] &amp; &quot;-&quot; &amp; [TimestampStart]" stage="TIMELINEID" />
+  </stage>
+  <stage stageid="2e0dee8e-e162-401d-8a41-05f6a8c2722e" name="TIMELINEID" type="Data">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <display x="-180" y="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a9305aa5-13b0-4614-9352-44ab1d39ee6f" name="Get current timestamp" type="Calculation">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <loginhibit />
+    <display x="15" y="105" />
+    <onsuccess>8744efe7-e5c6-497a-8427-450026742304</onsuccess>
+    <calculation expression="FormatDateTime(Now(), &quot;ddMMyyyyHHmmssmmm&quot;)" stage="TimestampStart" />
+  </stage>
+  <stage stageid="ae413935-4ada-4c72-ae6c-97137da6f4ca" name="TimestampStart" type="Data">
+    <subsheetid>0596fc50-b833-46e9-87ec-6db81e8ead44</subsheetid>
+    <display x="120" y="105" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+</process>
