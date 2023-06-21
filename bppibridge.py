@@ -5,18 +5,7 @@ __license__ = "GPL"
 import argparse
 from utils.iniConfig import iniConfig
 import constants as C
-
-try:
-	from datasources.bppiDSCSVFile import bppiDSCSVFile
-	from datasources.bppiDSODBC import bppiDSODBC
-	from datasources.bppiDSBluePrism import bppiDSBluePrism
-	from datasources.bppiDSExcelFile import bppiDSExcelFile
-	from datasources.bppiDSSAPRfcTable import bppiDSSAPRfcTable
-	from datasources.bppiDSXESFile import bppiDSXESFile
-	_MODULE_LOADED_ = True
-except Exception as e:
-	_MODULE_LOADED_ = False
-	print("Error when loading some/all pyBPPIBridge Data Sources Connectors" + str(e))
+from jobBuilder import jobBuilder
 
 if __name__ == "__main__":
 	# MANAGE CLI ARGUMENTS
@@ -55,23 +44,8 @@ if __name__ == "__main__":
 		exit()
 
     # INSTANCIATE THE RIGHT CLASS / DATA SOURCE TYPE
-	match args[C.PARAM_SRCTYPE]:
-		case C.PARAM_SRCTYPE_VALCSV:
-			job = bppiDSCSVFile(config)
-		case C.PARAM_SRCTYPE_VALXES:
-			job = bppiDSXESFile(config)
-		case C.PARAM_SRCTYPE_VALXLS:
-			job = bppiDSExcelFile(config)
-		case C.PARAM_SRCTYPE_VALODBC:
-			job = bppiDSODBC(config)
-		case C.PARAM_SRCTYPE_VALBP:
-			job = bppiDSBluePrism(config)
-		case C.PARAM_SRCTYPE_VALSAPTABLE:
-			job = bppiDSSAPRfcTable(config)
-		case _:
-			parser.print_help()
-			exit()
-	
+	job = jobBuilder(args[C.PARAM_SRCTYPE], config)
+
     # PROCESS THE DATA
 	if (job.initialize()):
 		if (src == C.PARAM_SRCTYPE_VALBP or src == C.PARAM_SRCTYPE_VALODBC):
