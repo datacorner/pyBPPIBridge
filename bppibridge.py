@@ -3,48 +3,19 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import argparse
-from utils.iniConfig import iniConfig
 import constants as C
 from jobBuilder import jobBuilder
+from cliargs import cliargs
 
 if __name__ == "__main__":
-	# MANAGE CLI ARGUMENTS
+	# MANAGE CLI ARGUMENTS --> Build Config Object
 	parser = argparse.ArgumentParser()
-	try:
-		parser.add_argument("-" + C.PARAM_SRCTYPE, help="Data source type {csv|xes|excel|odbc|blueprism|saptable}", required=True)
-		parser.add_argument("-" + C.PARAM_CONFIGFILE, help="Config file with all configuration details (INI format)", required=True)
-		parser.add_argument("-" + C.PARAM_FILENAME, help="(csv|xes|excel) File name and path to import", default=C.EMPTY)
-		parser.add_argument("-" + C.PARAM_CSV_SEPARATOR, help="(csv) CSV file field separator (comma by default)", default=C.DEFCSVSEP)
-		parser.add_argument("-" + C.PARAM_EXCELSHEETNAME, help="(excel) Excel Sheet name", default="0")
-		parser.add_argument("-" + C.PARAM_FROMDATE, help="(blueprism) FROM date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default=C.EMPTY)
-		parser.add_argument("-" + C.PARAM_TODATE, help="(blueprism) TO date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default=C.EMPTY)
-		args = vars(parser.parse_args())
-		config = iniConfig()
-		src = args[C.PARAM_SRCTYPE]
-		if (not(src in C.PARAM_SRCTYPE_SUPPORTED)):
-			raise Exception("Missing Data Source type {csv|xes|excel|odbc|blueprism|saptable}")
-
-		# load configuration via the INI file
-		if (args[C.PARAM_CONFIGFILE] != 0):
-			config.loadini(args[C.PARAM_CONFIGFILE])
-		else:
-			raise Exception("Missing config file argument {}".format(C.PARAM_CONFIGFILE))
-			
-		if (src == C.PARAM_SRCTYPE_VALCSV or src == C.PARAM_SRCTYPE_VALXLS or src == C.PARAM_SRCTYPE_VALXES):
-			# For File (CSV/XES/Excel) load only, takes the CLI args and put them in the config object
-			config.addParameter(C.PARAM_FILENAME, args[C.PARAM_FILENAME])
-			if (src == C.PARAM_SRCTYPE_VALCSV):
-				config.addParameter(C.PARAM_CSV_SEPARATOR, args[C.PARAM_CSV_SEPARATOR])
-			if (src == C.PARAM_SRCTYPE_VALXLS):
-				config.addParameter(C.PARAM_EXCELSHEETNAME, args[C.PARAM_EXCELSHEETNAME])
-	
-	except Exception as e:
-		print(e)
-		parser.print_help()
+	config, src = cliargs(parser)
+	if (config == None):
 		exit()
 
-    # INSTANCIATE THE RIGHT CLASS / DATA SOURCE TYPE
-	job = jobBuilder(args[C.PARAM_SRCTYPE], config)
+    # INSTANCIATE ONLY THE NEEDED CLASS / DATA SOURCE TYPE
+	job = jobBuilder(src, config)
 
     # PROCESS THE DATA
 	if (job.initialize()):

@@ -7,7 +7,8 @@ import sys
 
 def jobBuilder(datasource, config):
 	""" This function dynamically instanciate the right datasource class to create the job object. 
-		... This to avoid in loading all the connectors (if any of them failed for example)
+		This to avoid in loading all the connectors (if any of them failed for example) when making a global import, 
+		by this way only the needed import is done on the fly
 		Args:
 			datasource (_type_): Datasource type
 			config (_type_): Configuration set
