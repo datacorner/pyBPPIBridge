@@ -16,13 +16,13 @@ def cliargs(parser):
 		string: Data Source Tag (command line)
 	"""
 	try:
-		parser.add_argument("-" + C.PARAM_SRCTYPE, help="(All) Data source type {csv|xes|excel|odbc|blueprism|saptable}", required=True)
+		parser.add_argument("-" + C.PARAM_SRCTYPE, help="(All) Data source type {csv|xes|excel|odbc|bprepo|bpapi|saptable}", required=True)
 		parser.add_argument("-" + C.PARAM_CONFIGFILE, help="(All) Config file with all configuration details (INI format)", required=True)
 		parser.add_argument("-" + C.PARAM_FILENAME, help="(csv|xes|excel) File name and path to import", default=C.EMPTY)
 		parser.add_argument("-" + C.PARAM_CSV_SEPARATOR, help="(csv) CSV file field separator (comma by default)", default=C.DEFCSVSEP)
 		parser.add_argument("-" + C.PARAM_EXCELSHEETNAME, help="(excel) Excel Sheet name", default="0")
-		parser.add_argument("-" + C.PARAM_FROMDATE, help="(blueprism) FROM date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default=C.EMPTY)
-		parser.add_argument("-" + C.PARAM_TODATE, help="(blueprism) TO date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default=C.EMPTY)
+		parser.add_argument("-" + C.PARAM_FROMDATE, help="(bprepo) FROM date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default=C.EMPTY)
+		parser.add_argument("-" + C.PARAM_TODATE, help="(bprepo) TO date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default=C.EMPTY)
 		args = vars(parser.parse_args())
 		config = iniConfig()
 		src = args[C.PARAM_SRCTYPE]

@@ -196,9 +196,11 @@ class bppiDSBluePrismApi(bppiDataSource):
             if (access_token != None):
                 sessionIDList = self.__getSessionIDList(access_token)
                 logs = pd.DataFrame()
+                # Aggregate the logs from all the sessions
                 for session in sessionIDList:
                     session_info = self.__getSessionDetails(access_token, session)
                     session_logs = self.__getSessionLogs(access_token, session)
+                    # Add Session log data
                     session_logs["ResourceName"] = session_info['resourceName']
                     session_logs["status"] = session_info['status']
                     session_logs["SessionID"] = session
