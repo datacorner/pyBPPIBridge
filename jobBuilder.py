@@ -10,8 +10,8 @@ def jobBuilder(datasource, config):
 		This to avoid in loading all the connectors (if any of them failed for example) when making a global import, 
 		by this way only the needed import is done on the fly
 		Args:
-			datasource (_type_): Datasource type
-			config (_type_): Configuration set
+			datasource (str): Datasource type
+			config (config): Configuration set
 		Returns:
 			Object: Data Source Object
 	"""
@@ -26,7 +26,9 @@ def jobBuilder(datasource, config):
 		elif (datasource == C.PARAM_SRCTYPE_VALODBC):
 			datasourceObject = __import__("bppiDSODBC").bppiDSODBC
 		elif (datasource == C.PARAM_SRCTYPE_VALBP):
-			datasourceObject = __import__("bppiDSBluePrism").bppiDSBluePrism
+			datasourceObject = __import__("bppiDSBluePrismRepo").bppiDSBluePrismRepo
+		elif (datasource == C.PARAM_SRCTYPE_VALBPAPI):
+			datasourceObject = __import__("bppiDSBluePrismApi").bppiDSBluePrismApi
 		elif (datasource == C.PARAM_SRCTYPE_VALSAPTABLE):
 			datasourceObject = __import__("bppiDSSAPRfcTable").bppiDSSAPRfcTable
 		else:

@@ -84,7 +84,7 @@ class bppiApiWrapper:
             return uploadConfig()
 
     def uploadData(self, csvData, url, headersAcl) -> bool:
-        """HTTP PUT Call / Upload data (csv format) to the server / timeline.uploadFileToS3
+        """HTTP PUT Call / Upload data (csv format) to the server
         Args:
             csvData (_type_): Data (CSV format)
             url (_type_): BPPI URL (upload destination <- uploadConfig)

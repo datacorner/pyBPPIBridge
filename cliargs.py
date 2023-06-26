@@ -16,8 +16,8 @@ def cliargs(parser):
 		string: Data Source Tag (command line)
 	"""
 	try:
-		parser.add_argument("-" + C.PARAM_SRCTYPE, help="Data source type {csv|xes|excel|odbc|blueprism|saptable}", required=True)
-		parser.add_argument("-" + C.PARAM_CONFIGFILE, help="Config file with all configuration details (INI format)", required=True)
+		parser.add_argument("-" + C.PARAM_SRCTYPE, help="(All) Data source type {csv|xes|excel|odbc|blueprism|saptable}", required=True)
+		parser.add_argument("-" + C.PARAM_CONFIGFILE, help="(All) Config file with all configuration details (INI format)", required=True)
 		parser.add_argument("-" + C.PARAM_FILENAME, help="(csv|xes|excel) File name and path to import", default=C.EMPTY)
 		parser.add_argument("-" + C.PARAM_CSV_SEPARATOR, help="(csv) CSV file field separator (comma by default)", default=C.DEFCSVSEP)
 		parser.add_argument("-" + C.PARAM_EXCELSHEETNAME, help="(excel) Excel Sheet name", default="0")

@@ -15,7 +15,8 @@ PARAM_SRCTYPE = "sourcetype"                            # Data source type {csv|
 PARAM_SRCTYPE_VALCSV = "csv"                            # sourcetype = csv
 PARAM_SRCTYPE_VALXES = "xes"                            # sourcetype = xes
 PARAM_SRCTYPE_VALODBC = "odbc"                          # sourcetype = odbc
-PARAM_SRCTYPE_VALBP = "blueprism"                       # sourcetype = blueprism
+PARAM_SRCTYPE_VALBP = "bprepo"                          # sourcetype = blueprism Repository
+PARAM_SRCTYPE_VALBPAPI = "bpapi"                        # sourcetype = blueprism api
 PARAM_SRCTYPE_VALXLS = "excel"                          # sourcetype = excel
 PARAM_SRCTYPE_VALSAPTABLE = "saptable"                  # sourcetype = SAP RFC Table
 PARAM_SRCTYPE_SUPPORTED = [PARAM_SRCTYPE_VALCSV,
@@ -23,37 +24,38 @@ PARAM_SRCTYPE_SUPPORTED = [PARAM_SRCTYPE_VALCSV,
                            PARAM_SRCTYPE_VALXES,
                            PARAM_SRCTYPE_VALXLS,
                            PARAM_SRCTYPE_VALBP,
-                           PARAM_SRCTYPE_VALSAPTABLE]
+                           PARAM_SRCTYPE_VALSAPTABLE,
+                           PARAM_SRCTYPE_VALBPAPI]
 PARAM_FILENAME = "filename"                             # {csv|xes} Source file dataset
 PARAM_CSV_SEPARATOR ="sep"                              # {csv} CSV fields separator (by default comma)
-PARAM_CONFIGFILE = "configfile"                         # {odbc|blueprism} Config / INI file
+PARAM_CONFIGFILE = "configfile"                         # {odbc|bprepo} Config / INI file
 PARAM_EXCELSHEETNAME = "sheet"                          # {excel} Excel spreadsheet name
 # Parameters which can be in the INI file
-PARAM_BPPITOKEN = "bppi.token"                          # {csv|xes|excel|odbc|blueprism} BPPI Token
-PARAM_BPPIURL = "bppi.url"                              # {csv|xes|excel|odbc|blueprism} BPPI URL
+PARAM_BPPITOKEN = "bppi.token"                          # {csv|xes|excel|odbc|bprepo} BPPI Token
+PARAM_BPPIURL = "bppi.url"                              # {csv|xes|excel|odbc|bprepo} BPPI URL
 PARAM_CONNECTIONSTRING = "database.connectionstring"    # {ODBC/Blue Prism} ODBC Connection String
-PARAM_QUERY = "database.query"                          # {ODBC|blueprism} Query to gather data
-PARAM_FROMDATE = "fromdate"                             # {blueprism}From Date (delta extraction)
-PARAM_TODATE = "todate"                                 # {blueprism}To Date (delta extraction)
-PARAM_BPPROCESSNAME = "blueprism.processname"           # {blueprism} Process Name  (to gather the logs from)
-PARAM_BPSTAGETYPES = "blueprism.stagetypefilters"       # {blueprism} filter out these stages (list of stages type separated by comma)
-PARAM_BPINCLUDEVBO = "blueprism.includevbo"             # {blueprism} yes/no : Extract the VBO logs
-PARAM_BPUNICODE = "blueprism.unicode"                   # {blueprism} yes/no : Blue Prism logs in unicode or not
-PARAM_BPPITABLE = "bppi.table"                          # {odbc|blueprism} Name of the table in the BPPI repository
-PARAM_BPPITODOACTIVED = "bppi.todos"                    # {csv|xes|excel|odbc|blueprism} Execute the to do (yes/no)
-PARAM_BPPITODOS = "bppi.todolist"                       # {odbc|blueprism} List of BPPI TO DOs to execute after loading
-PARAM_LOGFILENAME = "other.logfilename"                 # {csv|xes|excel|odbc|blueprism} Filename of the Log file
-PARAM_LOGFOLDER = "other.logfolder"                     # {csv|xes|excel|odbc|blueprism} Folder to store the Logs
-PARAM_LOGLEVEL = "other.loglevel"                       # {csv|xes|excel|odbc|blueprism} Log level (DEBUG|INFO|WARNING|ERROR)
-PARAM_LOGFORMAT = "other.logformat"                     # {csv|xes|excel|odbc|blueprism} Log format (Cf. Python logger doc)
-PARAM_BPPARAMSATTR = "blueprism.parameters"             # {blueprism} List (separated by a comma) of the BP parameters/attributes to gather (will be added in new columns)
-PARAM_EVENTMAP = "events.map"                           # {odbc|blueprism} yes/no : manage event mapping
-PARAM_EVENTMAPTABLE = "events.maptable"                 # {odbc|blueprism} Map the events with the dataset. This param contains the name of the csv file which stores the event map (col 1: source event name, col 2: new event name)
-PARAM_EVENTMAPNAME = "events.column"                    # {odbc|blueprism} Name of the event column name in the original source
-PARAM_BPFILTERSTEND = "blueprism.startendfilter"        # {blueprism} yes/no: filtr out all Start & End stages except the Main Page ones
-PARAM_BPMAINPROCESSPAGE = "blueprism.mainprocesspage"   # {blueprism} BP Process Main Page name
-PARAM_BPDELTA = "blueprism.delta"                       # {blueprism} delta load activated (yes/no), if no full load
-PARAM_BPDELTA_FILE = "blueprism.deltafile"              # {blueprism} file where the latest date load is saved (for delta load only)
+PARAM_QUERY = "database.query"                          # {ODBC|bprepo} Query to gather data
+PARAM_FROMDATE = "fromdate"                             # {bprepo}From Date (delta extraction)
+PARAM_TODATE = "todate"                                 # {bprepo}To Date (delta extraction)
+PARAM_BPPROCESSNAME = "blueprism.processname"           # {bprepo} Process Name  (to gather the logs from)
+PARAM_BPSTAGETYPES = "blueprism.stagetypefilters"       # {bprepo} filter out these stages (list of stages type separated by comma)
+PARAM_BPINCLUDEVBO = "blueprism.includevbo"             # {bprepo} yes/no : Extract the VBO logs
+PARAM_BPUNICODE = "blueprism.unicode"                   # {bprepo} yes/no : Blue Prism logs in unicode or not
+PARAM_BPPITABLE = "bppi.table"                          # {odbc|bprepo} Name of the table in the BPPI repository
+PARAM_BPPITODOACTIVED = "bppi.todos"                    # {csv|xes|excel|odbc|bprepo} Execute the to do (yes/no)
+PARAM_BPPITODOS = "bppi.todolist"                       # {odbc|bprepo} List of BPPI TO DOs to execute after loading
+PARAM_LOGFILENAME = "other.logfilename"                 # {csv|xes|excel|odbc|bprepo} Filename of the Log file
+PARAM_LOGFOLDER = "other.logfolder"                     # {csv|xes|excel|odbc|bprepo} Folder to store the Logs
+PARAM_LOGLEVEL = "other.loglevel"                       # {csv|xes|excel|odbc|bprepo} Log level (DEBUG|INFO|WARNING|ERROR)
+PARAM_LOGFORMAT = "other.logformat"                     # {csv|xes|excel|odbc|bprepo} Log format (Cf. Python logger doc)
+PARAM_BPPARAMSATTR = "blueprism.parameters"             # {bprepo} List (separated by a comma) of the BP parameters/attributes to gather (will be added in new columns)
+PARAM_EVENTMAP = "events.map"                           # {odbc|bprepo} yes/no : manage event mapping
+PARAM_EVENTMAPTABLE = "events.maptable"                 # {odbc|bprepo} Map the events with the dataset. This param contains the name of the csv file which stores the event map (col 1: source event name, col 2: new event name)
+PARAM_EVENTMAPNAME = "events.column"                    # {odbc|bprepo} Name of the event column name in the original source
+PARAM_BPFILTERSTEND = "blueprism.startendfilter"        # {bprepo} yes/no: filtr out all Start & End stages except the Main Page ones
+PARAM_BPMAINPROCESSPAGE = "blueprism.mainprocesspage"   # {bprepo} BP Process Main Page name
+PARAM_BPDELTA = "blueprism.delta"                       # {bprepo} delta load activated (yes/no), if no full load
+PARAM_BPDELTA_FILE = "blueprism.deltafile"              # {bprepo} file where the latest date load is saved (for delta load only)
 PARAM_SAP_ASHOST = "sap.ashost"                         # {saptable} AP Host name or IP
 PARAM_SAP_CLIENT = "sap.client"                         # {saptable} SAP Client
 PARAM_SAP_SYSNR = "sap.sysnr"                           # {saptable} SAP System Number
@@ -63,6 +65,22 @@ PARAM_SAP_ROUTER = "sap.saprouter"                      # {saptable} SAP Router 
 PARAM_SAP_RFC_TABLE = "sap.rfctable"                    # {saptable} RFC Table to request
 PARAM_SAP_RFC_FIELDS = "sap.rfcfields"                  # {saptable} List of fields to gather (separated by a comma)
 PARAM_SAP_RFC_ROWCOUNT = "sap.rowlimit"                 # {saptable} Row Count limit (Nb Max of rows retreived from SAP)
+PARAM_BPAPI_SSL_VERIF = "blueprismapi.ssl_verification" # {bpapi} Verification SSL ?
+PARAM_BPAPI_CLIENT_ID = "blueprismapi.client_id"
+PARAM_BPAPI_SECRET = "blueprismapi.client_secret"
+PARAM_BPAPI_AUTH_URL = "blueprismapi.auth_url"
+PARAM_BPAPI_API_URL = "blueprismapi.api_url"
+PARAM_BPAPI_API_PAGESIZE = "blueprismapi.api_page_size"
+
+# GLOBAL HTTP REQUEST
+HTTP_API_OK = 200
+
+# BLUE PRISM API
+PBAPI_VER = "/api/v7"
+BPAPI_SESSIONS_LIST = "/sessions"
+BPAPI_SESSION_HEAD = "/sessions/{}"
+BPAPI_SESSION_LOGS = "/sessions/{}/logs"
+BPAPI_SESSION_PARAMS = "/sessions/{}/parameters"
 
 # BPPI API
 API_1_0 = "/api/ext/1.0/"

@@ -38,6 +38,20 @@ delta={yes|no}
 # file where the latest date load is saved
 deltafile=delta.tag
 
+[blueprismapi]
+# Verify the SSL Certificate when calling API
+ssl_verification={yes|no}
+# Blue Prism API Client ID (Cf. hub)
+client_id = ***
+# Blue Prism API Client Secret (Cf. hub)
+client_secret = ***
+# Blue Prism Authentication server URL (without the slash at the end)
+auth_url = https://authentication.local
+# Blue Prism API URL (without the slash at the end)
+api_url=https://bpapi.local
+# Blue Prism API Page size (for returnning list of results), max value 1000
+api_page_size=300
+
 [bppi]
 # BPPI URL (without / at the end)
 url=https://mybppiserver.com

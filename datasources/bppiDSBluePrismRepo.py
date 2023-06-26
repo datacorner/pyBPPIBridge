@@ -18,7 +18,7 @@ BP_MANDATORY_PARAM_LIST = [C.PARAM_CONNECTIONSTRING,
                            C.PARAM_BPPIURL, 
                            C.PARAM_BPPROCESSNAME]
 
-class bppiDSBluePrism(bppiDSODBC):
+class bppiDSBluePrismRepo(bppiDSODBC):
     def __init__(self, config):
         super().__init__(config)
 
