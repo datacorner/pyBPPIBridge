@@ -31,6 +31,8 @@ def jobBuilder(datasource, config):
 			datasourceObject = __import__("bppiDSBluePrismApi").bppiDSBluePrismApi
 		elif (datasource == C.PARAM_SRCTYPE_VALSAPTABLE):
 			datasourceObject = __import__("bppiDSSAPRfcTable").bppiDSSAPRfcTable
+		elif (datasource == C.PARAM_SRCTYPE_CHORUSFILE):
+			datasourceObject = __import__("bppiDSChorusExtract").bppiDSChorusExtract
 		else:
 			return None
 		

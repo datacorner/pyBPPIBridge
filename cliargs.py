@@ -27,18 +27,19 @@ def cliargs(parser):
 		config = iniConfig()
 		src = args[C.PARAM_SRCTYPE]
 		if (not(src in C.PARAM_SRCTYPE_SUPPORTED)):
-			raise Exception("Missing Data Source type {csv|xes|excel|odbc|blueprism|saptable}")
+			raise Exception("Missing Data Source type {csv|xes|excel|odbc|bprepo|bpapi|saptable}")
 
 		# load configuration via the INI file
 		if (args[C.PARAM_CONFIGFILE] != 0):
 			config.loadini(args[C.PARAM_CONFIGFILE])
 		else:
 			raise Exception("Missing config file argument {}".format(C.PARAM_CONFIGFILE))
-			
-		if (src == C.PARAM_SRCTYPE_VALCSV or src == C.PARAM_SRCTYPE_VALXLS or src == C.PARAM_SRCTYPE_VALXES):
+		
+		file_management = (src == C.PARAM_SRCTYPE_VALCSV or src == C.PARAM_SRCTYPE_VALXLS or src == C.PARAM_SRCTYPE_VALXES  or src == C.PARAM_SRCTYPE_CHORUSFILE)
+		if (file_management):
 			# For File (CSV/XES/Excel) load only, takes the CLI args and put them in the config object
 			config.addParameter(C.PARAM_FILENAME, args[C.PARAM_FILENAME])
-			if (src == C.PARAM_SRCTYPE_VALCSV):
+			if (src == C.PARAM_SRCTYPE_VALCSV or src == C.PARAM_SRCTYPE_CHORUSFILE):
 				config.addParameter(C.PARAM_CSV_SEPARATOR, args[C.PARAM_CSV_SEPARATOR])
 			if (src == C.PARAM_SRCTYPE_VALXLS):
 				config.addParameter(C.PARAM_EXCELSHEETNAME, args[C.PARAM_EXCELSHEETNAME])

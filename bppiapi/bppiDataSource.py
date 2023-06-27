@@ -224,6 +224,7 @@ class bppiDataSource:
                     dfTemplate = pd.DataFrame(columns=["Source", "Target"])
                     dfTemplate["Source"] = colName
                     dfTemplate["Target"] = colName
+                    dfTemplate = dfTemplate.sort_values(by=['Source'])
                     dfTemplate.to_csv(evtMapFilename, encoding=C.ENCODING, index=False)
                 # Manage the event mapping
                 if (dfevtMap.shape[1] != 2):
@@ -232,6 +233,8 @@ class bppiDataSource:
                 originalRecCount = df.shape[0]
                 self.log.debug("There are {} records in the original dataset".format(originalRecCount))
                 dfAltered = pd.merge(df, dfevtMap, on=evtMapColumnname, how ="inner")
+                # Drop rows with a bad/No join (lookup) --> when the Target column is equal to NaN
+                dfAltered = dfAltered.dropna(subset=["Target"])
                 # Reshape the dataset (columns changes)
                 del dfAltered[evtMapColumnname]
                 dfAltered.rename(columns={dfevtMap.columns[1]: evtMapColumnname}, inplace=True)

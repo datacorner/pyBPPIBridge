@@ -19,13 +19,15 @@ PARAM_SRCTYPE_VALBP = "bprepo"                          # sourcetype = blueprism
 PARAM_SRCTYPE_VALBPAPI = "bpapi"                        # sourcetype = blueprism api
 PARAM_SRCTYPE_VALXLS = "excel"                          # sourcetype = excel
 PARAM_SRCTYPE_VALSAPTABLE = "saptable"                  # sourcetype = SAP RFC Table
+PARAM_SRCTYPE_CHORUSFILE = "chfile"                     # sourcetype = SS&C Chorus Extraction file
 PARAM_SRCTYPE_SUPPORTED = [PARAM_SRCTYPE_VALCSV,
                            PARAM_SRCTYPE_VALODBC,
                            PARAM_SRCTYPE_VALXES,
                            PARAM_SRCTYPE_VALXLS,
                            PARAM_SRCTYPE_VALBP,
                            PARAM_SRCTYPE_VALSAPTABLE,
-                           PARAM_SRCTYPE_VALBPAPI]
+                           PARAM_SRCTYPE_VALBPAPI,
+                           PARAM_SRCTYPE_CHORUSFILE]
 PARAM_FILENAME = "filename"                             # {csv|xes} Source file dataset
 PARAM_CSV_SEPARATOR ="sep"                              # {csv} CSV fields separator (by default comma)
 PARAM_CONFIGFILE = "configfile"                         # {odbc|bprepo} Config / INI file
@@ -66,11 +68,11 @@ PARAM_SAP_RFC_TABLE = "sap.rfctable"                    # {saptable} RFC Table t
 PARAM_SAP_RFC_FIELDS = "sap.rfcfields"                  # {saptable} List of fields to gather (separated by a comma)
 PARAM_SAP_RFC_ROWCOUNT = "sap.rowlimit"                 # {saptable} Row Count limit (Nb Max of rows retreived from SAP)
 PARAM_BPAPI_SSL_VERIF = "blueprismapi.ssl_verification" # {bpapi} Verification SSL ?
-PARAM_BPAPI_CLIENT_ID = "blueprismapi.client_id"
-PARAM_BPAPI_SECRET = "blueprismapi.client_secret"
-PARAM_BPAPI_AUTH_URL = "blueprismapi.auth_url"
-PARAM_BPAPI_API_URL = "blueprismapi.api_url"
-PARAM_BPAPI_API_PAGESIZE = "blueprismapi.api_page_size"
+PARAM_BPAPI_CLIENT_ID = "blueprismapi.client_id"        # {bpapi} BP API Client ID
+PARAM_BPAPI_SECRET = "blueprismapi.client_secret"       # {bpapi} BP API Client Secret 
+PARAM_BPAPI_AUTH_URL = "blueprismapi.auth_url"          # {bpapi} BP Authentication Server
+PARAM_BPAPI_API_URL = "blueprismapi.api_url"            # {bpapi} BP API Server
+PARAM_BPAPI_API_PAGESIZE = "blueprismapi.api_page_size" # {bpapi} API Page size
 
 # GLOBAL HTTP REQUEST
 HTTP_API_OK = 200
