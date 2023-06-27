@@ -196,6 +196,8 @@ class bppiDataSource:
             Mapping Rules:
                 * Replace the Col1 per col2 every time (event name replacement)
                 * If Col2 empty -> remove the row (remove not necessary events)
+                * If Name has not match with Col1 -> remove the row
+            If the mapping file does not exists just create a template one with col1 = col2 (so that the user can update himself the column 2)
         Args:
             df (pd.DataFrame): Data Source
         Returns:
@@ -213,7 +215,17 @@ class bppiDataSource:
                 if (evtMapColumnname == ""):
                     raise Exception("No Event column name (in the data source) was specified")
                 # Open the event map file (assuming 1st col -> Original Event, 2nd col -> event altered or if nothing to remove)
-                dfevtMap = pd.read_csv(evtMapFilename, encoding=C.ENCODING)
+                try:
+                    dfevtMap = pd.read_csv(evtMapFilename, encoding=C.ENCODING)
+                except FileNotFoundError as e:
+                    self.log.warning("{} does not exist, create a event map template file instead".format(evtMapFilename))
+                    # Create the file template
+                    colName = df[evtMapColumnname].value_counts().index
+                    dfTemplate = pd.DataFrame(columns=["Source", "Target"])
+                    dfTemplate["Source"] = colName
+                    dfTemplate["Target"] = colName
+                    dfTemplate.to_csv(evtMapFilename, encoding=C.ENCODING, index=False)
+                # Manage the event mapping
                 if (dfevtMap.shape[1] != 2):
                     raise Exception("There are more than 2 columns in the event map file.")
                 dfevtMap.rename(columns={dfevtMap.columns[0]:evtMapColumnname}, inplace=True)
@@ -229,7 +241,7 @@ class bppiDataSource:
             return dfAltered
         
         except Exception as e:
-            self.log.error("eventMap() Error -> " + str(e))
+            self.log.error("eventMap() Error -> {}".format(str(e)))
             return df
 
     def upload(self, dfDataset) -> bool:

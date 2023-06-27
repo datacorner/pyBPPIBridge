@@ -9,10 +9,8 @@ from cliargs import cliargs
 
 if __name__ == "__main__":
 	# MANAGE CLI ARGUMENTS --> Build Config Object
-	parser = argparse.ArgumentParser()
-	config, src = cliargs(parser)
-	if (config == None):
-		exit()
+	config, src = cliargs(argparse.ArgumentParser())
+	if (config == None): exit()
 
     # INSTANCIATE ONLY THE NEEDED CLASS / DATA SOURCE TYPE
 	job = jobBuilder(src, config)
