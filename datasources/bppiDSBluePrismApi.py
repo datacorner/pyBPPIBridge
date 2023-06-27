@@ -4,7 +4,7 @@ __license__ = "GPL"
 
 import constants as C
 import warnings
-from bppiapi.bppiDataSource import bppiDataSource
+from bppiapi.bppiRepository import bppiRepository
 import pandas as pd
 import requests 
 import urllib.parse
@@ -20,7 +20,7 @@ AUTH_TOKEN_SUFFIX_URL = "/connect/token"
 
 warnings.filterwarnings('ignore')
 
-class bppiDSBluePrismApi(bppiDataSource):
+class bppiDSBluePrismApi(bppiRepository):
     def __init__(self, config):
         super().__init__(config)
 

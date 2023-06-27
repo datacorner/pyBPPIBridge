@@ -3,7 +3,7 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import constants as C
-from bppiapi.bppiDataSource import bppiDataSource
+from bppiapi.bppiRepository import bppiRepository
 import pandas as pd
 from pyrfc import Connection, ABAPApplicationError, ABAPRuntimeError, LogonError, CommunicationError, RFCError
 """
@@ -20,7 +20,7 @@ SAP_MANDATORY_PARAM_LIST = [C.PARAM_BPPITOKEN,
                             C.PARAM_SAP_PASSWD,
                             C.PARAM_SAP_RFC_TABLE]
 
-class bppiDSSAPRfcTable(bppiDataSource):
+class bppiDSSAPRfcTable(bppiRepository):
 
     def __init__(self, config):
         super().__init__(config)

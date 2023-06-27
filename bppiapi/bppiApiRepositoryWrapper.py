@@ -9,7 +9,7 @@ from bppiapi.uploadConfig import uploadConfig
 from urllib import request
 import constants as C
 
-class bppiApiWrapper:
+class bppiApiRepositoryWrapper:
     """This class acts as a gateway for the BPPI API calls
     """
     def __init__(self, token, serverURL):

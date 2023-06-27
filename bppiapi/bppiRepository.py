@@ -2,7 +2,7 @@ __author__ = "Benoit CAYLA"
 __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
-from bppiapi.bppiApiWrapper import bppiApiWrapper
+from bppiapi.bppiApiRepositoryWrapper import bppiApiRepositoryWrapper
 from utils.log import log
 import pandas as pd
 import constants as C
@@ -14,7 +14,7 @@ import json
 MANDATORY_PARAM_LIST = [C.PARAM_BPPITOKEN, 
                         C.PARAM_BPPIURL]
 
-class bppiDataSource:
+class bppiRepository:
     def __init__(self, config):
         self.__config = config          # All the configuration parameters
         self.__trace = None             # Logger
@@ -85,8 +85,8 @@ class bppiDataSource:
             self.log.info("*** Beggining of Job treatment ***")
             if (not self.checkParameters()):
                 raise Exception("Some mandatory parameters are missing")
-            api = bppiApiWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
-                                 self.config.getParameter(C.PARAM_BPPIURL))
+            api = bppiApiRepositoryWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
+                                            self.config.getParameter(C.PARAM_BPPIURL))
             api.log = self.__trace
             # 1 - Get the repository configuration infos
             self.__repositoryInfos = api.getRepositoryConfiguration()
@@ -106,8 +106,8 @@ class bppiDataSource:
             bool: False if error or the TO DO does not exists
         """
         try:
-            api = bppiApiWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
-                                 self.config.getParameter(C.PARAM_BPPIURL))
+            api = bppiApiRepositoryWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
+                                            self.config.getParameter(C.PARAM_BPPIURL))
             api.log = self.log
             self.log.info("Execute these TO DO: {}".format(",".join(self.bppiTodos)))
             if (self.repositoryConfig.loaded):
@@ -133,8 +133,8 @@ class bppiDataSource:
             str: Process status (from BPPI server)
         """
         try:
-            api = bppiApiWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
-                                self.config.getParameter(C.PARAM_BPPIURL))
+            api = bppiApiRepositoryWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
+                                            self.config.getParameter(C.PARAM_BPPIURL))
             api.log = self.log
             return api.getProcessingStatus(processingId)
         except Exception as e:
@@ -152,8 +152,8 @@ class bppiDataSource:
             self.log.info("Wait for the end of a process execution")
             EndOfWait = True
             nbIterations = 0
-            api = bppiApiWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
-                                 self.config.getParameter(C.PARAM_BPPIURL))
+            api = bppiApiRepositoryWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
+                                            self.config.getParameter(C.PARAM_BPPIURL))
             api.log = self.log
             while (EndOfWait):
                 # 5 - Check the status to veriify if the task is finished
@@ -256,8 +256,8 @@ class bppiDataSource:
         """
         try:
             self.log.info("Upload the data into the BPPI repository in one transaction")
-            api = bppiApiWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
-                                 self.config.getParameter(C.PARAM_BPPIURL))
+            api = bppiApiRepositoryWrapper(self.config.getParameter(C.PARAM_BPPITOKEN), 
+                                            self.config.getParameter(C.PARAM_BPPIURL))
             api.log = self.log
             if (self.repositoryConfig.loaded):
                 fileKeys = []

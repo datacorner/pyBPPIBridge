@@ -3,12 +3,12 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import constants as C
-from bppiapi.bppiDataSource import bppiDataSource
+from bppiapi.bppiRepository import bppiRepository
 import pandas as pd
 
 CSV_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME]
 
-class bppiDSCSVFile(bppiDataSource):
+class bppiDSCSVFile(bppiRepository):
 
     def __init__(self, config):
         super().__init__(config)

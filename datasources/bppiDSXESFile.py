@@ -3,13 +3,13 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import constants as C
-from bppiapi.bppiDataSource import bppiDataSource
+from bppiapi.bppiRepository import bppiRepository
 import pandas as pd
 import pm4py
 
 XES_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME]
 
-class bppiDSXESFile(bppiDataSource):
+class bppiDSXESFile(bppiRepository):
 
     def __init__(self, config):
         super().__init__(config)
