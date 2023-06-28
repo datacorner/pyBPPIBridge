@@ -20,7 +20,7 @@ SAP_MANDATORY_PARAM_LIST = [C.PARAM_BPPITOKEN,
                             C.PARAM_SAP_PASSWD,
                             C.PARAM_SAP_RFC_TABLE]
 
-class bppiDSSAPRfcTable(bppiRepository):
+class bppiPLRSAPRfcTable(bppiRepository):
 
     def __init__(self, config):
         super().__init__(config)

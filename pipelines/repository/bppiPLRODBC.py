@@ -3,12 +3,10 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import constants as C
-from datasources.bppiDSCSVFile import bppiDSCSVFile
-from datasources.builders.SQLBuilder import SQLBuilder
+from pipelines.repository.bppiPLRCSVFile import bppiPLRCSVFile
+from pipelines.builders.SQLBuilder import SQLBuilder
 import pyodbc
 import pandas as pd
-import pathlib
-from string import Template
 
 # Mandatory params to check
 ODBC_MANDATORY_PARAM_LIST = [C.PARAM_CONNECTIONSTRING, 
@@ -16,7 +14,7 @@ ODBC_MANDATORY_PARAM_LIST = [C.PARAM_CONNECTIONSTRING,
                              C.PARAM_BPPIURL, 
                              C.PARAM_QUERY]
 
-class bppiDSODBC(bppiDSCSVFile):
+class bppiPLRODBC(bppiPLRCSVFile):
     def __init__(self, config):
         super().__init__(config)
 

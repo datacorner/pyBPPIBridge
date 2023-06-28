@@ -3,14 +3,14 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import constants as C
-from datasources.bppiDSCSVFile import bppiDSCSVFile
+from pipelines.repository.bppiPLRCSVFile import bppiPLRCSVFile
 import pandas as pd
 
 CHORUSFILE_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME, 
                                     C.PARAM_BPPITOKEN, 
                                     C.PARAM_BPPIURL]
 
-class bppiDSChorusExtract(bppiDSCSVFile):
+class bppiPLRChorusExtract(bppiPLRCSVFile):
 
     def __init__(self, config):
         super().__init__(config)

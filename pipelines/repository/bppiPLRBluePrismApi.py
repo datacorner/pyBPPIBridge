@@ -20,7 +20,7 @@ AUTH_TOKEN_SUFFIX_URL = "/connect/token"
 
 warnings.filterwarnings('ignore')
 
-class bppiDSBluePrismApi(bppiRepository):
+class bppiPLRBluePrismApi(bppiRepository):
     def __init__(self, config):
         super().__init__(config)
 

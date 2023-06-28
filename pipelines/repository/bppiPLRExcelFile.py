@@ -10,7 +10,7 @@ EXCEL_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME,
                               C.PARAM_BPPITOKEN, 
                               C.PARAM_BPPIURL]
 
-class bppiDSExcelFile(bppiRepository):
+class bppiPLRExcelFile(bppiRepository):
 
     def __init__(self, config):
         super().__init__(config)

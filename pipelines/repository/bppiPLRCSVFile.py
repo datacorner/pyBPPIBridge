@@ -5,18 +5,17 @@ __license__ = "GPL"
 import constants as C
 from bppiapi.bppiRepository import bppiRepository
 import pandas as pd
-import pm4py
 
-XES_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME]
+CSV_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME]
 
-class bppiDSXESFile(bppiRepository):
+class bppiPLRCSVFile(bppiRepository):
 
     def __init__(self, config):
         super().__init__(config)
 
     @property
     def mandatoryParameters(self) -> str:
-        return XES_MANDATORY_PARAM_LIST
+        return CSV_MANDATORY_PARAM_LIST
 
     def initialize(self) -> bool:
         return super().initialize()
@@ -25,14 +24,15 @@ class bppiDSXESFile(bppiRepository):
         return super().alterData(df)
 
     def collectData(self) -> pd.DataFrame: 
-        """Read the XES file and build the dataframe
+        """Read the CSV file and build the dataframe
         Returns:
             pd.DataFrame: Dataframe with the source data
         """
         try:
             filename = self.config.getParameter(C.PARAM_FILENAME)
-            log = pm4py.read_xes(filename, index=False)
-            df = pm4py.convert_to_dataframe(log)
+            separator = self.config.getParameter(C.PARAM_CSV_SEPARATOR, C.DEFCSVSEP)
+            # Read the CSV file and provides a DataFrame
+            df = pd.read_csv(filename, encoding=C.ENCODING, delimiter=separator)
             return df
         except Exception as e:
             self.log.error("collectData() Error" + str(e))

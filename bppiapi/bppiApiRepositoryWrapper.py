@@ -145,7 +145,6 @@ class bppiApiRepositoryWrapper:
         Returns:
             str: Status
         """
-
         try:
             self.log.info("Check status for the BPPI Task {}".format(processID))
             url = self.apiRootPath + C.API_PROCESSING_STATUS + "/" + processID

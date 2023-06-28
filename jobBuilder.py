@@ -16,23 +16,23 @@ def jobBuilder(datasource, config):
 			Object: Data Source Object
 	"""
 	try:
-		sys.path.append('datasources')
+		sys.path.append('pipelines/repository')
 		if (datasource == C.PARAM_SRCTYPE_VALCSV):
-			datasourceObject = __import__("bppiDSCSVFile").bppiDSCSVFile
+			datasourceObject = __import__("bppiPLRCSVFile").bppiPLRCSVFile
 		elif (datasource == C.PARAM_SRCTYPE_VALXES):
-			datasourceObject = __import__("bppiDSXESFile").bppiDSXESFile
+			datasourceObject = __import__("bppiPLRXESFile").bppiPLRXESFile
 		elif (datasource == C.PARAM_SRCTYPE_VALXLS):
-			datasourceObject = __import__("bppiDSExcelFile").bppiDSExcelFile
+			datasourceObject = __import__("bppiPLRExcelFile").bppiPLRExcelFile
 		elif (datasource == C.PARAM_SRCTYPE_VALODBC):
-			datasourceObject = __import__("bppiDSODBC").bppiDSODBC
+			datasourceObject = __import__("bppiPLRODBC").bppiPLRODBC
 		elif (datasource == C.PARAM_SRCTYPE_VALBP):
-			datasourceObject = __import__("bppiDSBluePrismRepo").bppiDSBluePrismRepo
+			datasourceObject = __import__("bppiPLRBluePrismRepo").bppiPLRBluePrismRepo
 		elif (datasource == C.PARAM_SRCTYPE_VALBPAPI):
-			datasourceObject = __import__("bppiDSBluePrismApi").bppiDSBluePrismApi
+			datasourceObject = __import__("bppiPLRBluePrismApi").bppiPLRBluePrismApi
 		elif (datasource == C.PARAM_SRCTYPE_VALSAPTABLE):
-			datasourceObject = __import__("bppiDSSAPRfcTable").bppiDSSAPRfcTable
+			datasourceObject = __import__("bppiPLRSAPRfcTable").bppiPLRSAPRfcTable
 		elif (datasource == C.PARAM_SRCTYPE_CHORUSFILE):
-			datasourceObject = __import__("bppiDSChorusExtract").bppiDSChorusExtract
+			datasourceObject = __import__("bppiPLRChorusExtract").bppiPLRChorusExtract
 		else:
 			return None
 		

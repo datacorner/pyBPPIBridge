@@ -3,12 +3,12 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import constants as C
-from datasources.bppiDSODBC import bppiDSODBC
+from pipelines.repository.bppiPLRODBC import bppiPLRODBC
 import pandas as pd
 import xml.etree.ElementTree as ET
 import warnings
 import numpy as np
-from datasources.builders.blueprismSQLBuilder import blueprismSQLBuilder
+from pipelines.builders.blueprismSQLBuilder import blueprismSQLBuilder
 import datetime
 
 warnings.filterwarnings('ignore')
@@ -18,7 +18,7 @@ BP_MANDATORY_PARAM_LIST = [C.PARAM_CONNECTIONSTRING,
                            C.PARAM_BPPIURL, 
                            C.PARAM_BPPROCESSNAME]
 
-class bppiDSBluePrismRepo(bppiDSODBC):
+class bppiPLRBluePrismRepo(bppiPLRODBC):
     def __init__(self, config):
         super().__init__(config)
 
