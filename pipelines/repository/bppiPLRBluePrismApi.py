@@ -31,8 +31,8 @@ class bppiPLRBluePrismApi(bppiRepository):
     def initialize(self) -> bool:
         return super().initialize()
 
-    def alterData(self, df) -> pd.DataFrame:
-        return super().alterData(df)
+    def transform(self, df) -> pd.DataFrame:
+        return super().transform(df)
 
     def __buildAPIURL(self):
         return self.config.getParameter(C.PARAM_BPAPI_API_URL, C.EMPTY) + C.PBAPI_VER
@@ -186,7 +186,7 @@ class bppiPLRBluePrismApi(bppiRepository):
         api_response = requests.get(api_endpoint, headers=headers, verify=ssl_verification)
         return api_response.json()
 
-    def collectData(self) -> pd.DataFrame: 
+    def extract(self) -> pd.DataFrame: 
         """Read the Excel file and build the dataframe
         Returns:
             pd.DataFrame: Dataframe with the source data
@@ -207,5 +207,5 @@ class bppiPLRBluePrismApi(bppiRepository):
                     logs = pd.concat([logs, session_logs]) 
             return logs
         except Exception as e:
-            self.log.error("collectData() Error -> " + str(e))
-            return super().collectData()
+            self.log.error("Extract() Error -> " + str(e))
+            return super().extract()

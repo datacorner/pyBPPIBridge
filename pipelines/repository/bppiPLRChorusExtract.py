@@ -22,9 +22,9 @@ class bppiPLRChorusExtract(bppiPLRCSVFile):
     def initialize(self) -> bool:
         return super().initialize()
 
-    def alterData(self, df) -> pd.DataFrame:
-        return super().alterData(df)
+    def transform(self, df) -> pd.DataFrame:
+        return super().transform(df)
 
-    def collectData(self) -> pd.DataFrame: 
-        return super().collectData()
+    def extract(self) -> pd.DataFrame: 
+        return super().extract()
         

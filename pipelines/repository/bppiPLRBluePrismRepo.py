@@ -173,7 +173,7 @@ class bppiPLRBluePrismRepo(bppiPLRODBC):
             self.log.error("__getAttributesFromLogs() -> Unable to get attributes from the Blue Prism logs " + str(e))
             return df
         
-    def alterData(self, df) -> pd.DataFrame:
+    def transform(self, df) -> pd.DataFrame:
         """Alter the collected data (from the BP Repository) by managing the attributes (stored in a XML format)
         Args:
             df (pd.DataFrame): Data source
@@ -206,9 +206,9 @@ class bppiPLRBluePrismRepo(bppiPLRODBC):
                 self.config.setParameter(C.PARAM_EVENTMAPTABLE, C.COL_STAGE_ID)
 
             # Filter and/or update the event names if needed/configured
-            df = super().alterData(df)
+            df = super().transform(df)
             return df
         
         except Exception as e:
-            self.log.error("alterData() -> Unable to update the data " + str(e))
-            return super().alterData(df)
+            self.log.error("transform() -> Unable to update the data " + str(e))
+            return super().transform(df)

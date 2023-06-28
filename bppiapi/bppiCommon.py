@@ -120,14 +120,14 @@ class bppiCommon:
             self.log.error("waitForEndOfProcessing() Error -> " + str(e))
             return C.API_STATUS_ERROR
     
-    def collectData(self) -> pd.DataFrame: 
+    def extract(self) -> pd.DataFrame: 
         """This method must be surchaged and aims to collect the data from the datasource to provides the corresponding dataframe
         Returns:
             pd.DataFrame: Dataset in a pd.Dataframe object
         """
         return pd.DataFrame()
 
-    def alterData(self, df) -> pd.DataFrame: 
+    def transform(self, df) -> pd.DataFrame: 
         """ Surcharge this method to enable modification in the Dataset after gathering the data and before uploding them in BPPI
             By default just manage the event mapping.
         Args:
@@ -137,6 +137,15 @@ class bppiCommon:
         """
         return self.eventMap(df)
 
+    def load(self, dfDataset) -> bool:
+        """ Surcharge this method to upload a dataset (Pandas DataFrame) into BPPI
+        Args:
+            dfDataset (pd.DataFrame): DataFrame with the Data to upload
+        Returns:
+            bool: False if error
+        """
+        return True
+    
     def eventMap(self, df) -> pd.DataFrame:
         """ Map the events with the dataset (in parameter df). 
             Event Map file:

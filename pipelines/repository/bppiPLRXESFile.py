@@ -21,10 +21,10 @@ class bppiPLRXESFile(bppiRepository):
     def initialize(self) -> bool:
         return super().initialize()
 
-    def alterData(self, df) -> pd.DataFrame:
-        return super().alterData(df)
+    def transform(self, df) -> pd.DataFrame:
+        return super().transform(df)
 
-    def collectData(self) -> pd.DataFrame: 
+    def extract(self) -> pd.DataFrame: 
         """Read the XES file and build the dataframe
         Returns:
             pd.DataFrame: Dataframe with the source data
@@ -35,6 +35,6 @@ class bppiPLRXESFile(bppiRepository):
             df = pm4py.convert_to_dataframe(log)
             return df
         except Exception as e:
-            self.log.error("collectData() Error" + str(e))
-            return super().collectData()
+            self.log.error("extract() Error" + str(e))
+            return super().extract()
         

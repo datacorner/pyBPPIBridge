@@ -32,8 +32,8 @@ class bppiPLRSAPRfcTable(bppiRepository):
     def initialize(self) -> bool:
         return super().initialize()
 
-    def alterData(self, df) -> pd.DataFrame:
-        return super().alterData(df)
+    def transform(self, df) -> pd.DataFrame:
+        return super().transform(df)
 
     def __connectToSAP(self) -> Connection:
         """ Connect to the SAP instance via RFC
@@ -106,7 +106,7 @@ class bppiPLRSAPRfcTable(bppiRepository):
             self.log.error("call_rfc_read_table() Exception -> " + str(e))
             return pd.DataFrame()
 
-    def collectData(self) -> pd.DataFrame: 
+    def extract(self) -> pd.DataFrame: 
         """Read the SAP Table file and build the dataframe
         Returns:
             pd.DataFrame: Dataframe with the source data
@@ -117,6 +117,6 @@ class bppiPLRSAPRfcTable(bppiRepository):
                 df = self.__callRfcReadTable(sapConn)
             return df
         except Exception as e:
-            self.log.error("collectData() Error -> " + str(e))
-            return super().collectData()
+            self.log.error("extract() Error -> " + str(e))
+            return super().extract()
         

@@ -77,7 +77,7 @@ class bppiRepository(bppiCommon):
             self.log.error("executeToDo() Error -> " + str(e))
             return False
 
-    def upload(self, dfDataset) -> bool:
+    def load(self, dfDataset) -> bool:
         """ Upload a dataset (Pandas DataFrame) in the BPPI repository (in one transaction)
         Args:
             dfDataset (pd.DataFrame): DataFrame with the Data to upload

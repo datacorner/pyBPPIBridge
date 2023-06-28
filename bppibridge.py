@@ -23,12 +23,12 @@ if __name__ == "__main__":
 				job.repositoryConfig.repositoryTableName = config.getParameter(C.PARAM_BPPITABLE)
 			if (config.getParameter(C.PARAM_BPPITODOS, C.EMPTY) != C.EMPTY):
 				job.repositoryConfig.todoLists = config.getParameter(C.PARAM_BPPITODOS).split(C.DEFCSVSEP)
-		df = job.collectData()
+		df = job.extract()
 		if (df.shape[0] == 0):
 			job.log.info("There are no data to manage, terminate here.")
 		else:
-			df = job.alterData(df)
+			df = job.transform(df)
 			if (df.empty != True):
-				if (job.upload(df) and config.getParameter(C.PARAM_BPPITODOACTIVED, C.NO) == C.YES):
+				if (job.load(df) and config.getParameter(C.PARAM_BPPITODOACTIVED, C.NO) == C.YES):
 					job.executeToDo()
 		job.terminate()

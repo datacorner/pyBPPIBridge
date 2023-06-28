@@ -29,10 +29,10 @@ class bppiPLRODBC(bppiPLRCSVFile):
     def initialize(self) -> bool:
         return super().initialize()
     
-    def alterData(self, df) -> pd.DataFrame:
-        return super().alterData(df)
+    def transform(self, df) -> pd.DataFrame:
+        return super().transform(df)
     
-    def collectData(self) -> pd.DataFrame: 
+    def extract(self) -> pd.DataFrame: 
         """Read the DB by executing the query and build the dataframe
         Returns:
             pd.DataFrame: Dataframe with the source data
@@ -52,9 +52,9 @@ class bppiPLRODBC(bppiPLRCSVFile):
                     self.log.debug("<{}> rows read".format(tableResult.shape[0]))
             return tableResult
         except Exception as e:
-            self.log.error("collectData() Error -> " + str(e))
+            self.log.error("extract() Error -> " + str(e))
             try:
                 sqlserverConnection.close()
             except:
-                return super().collectData()
-            return super().collectData()
+                return super().extract()
+            return super().extract()
