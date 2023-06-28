@@ -33,14 +33,6 @@ class bppiApiProjectWrapper:
     
     def getProjectsList(self):
         try: 
-            # Get Api call for getting Repository informations
-            self.log.info("Get API call for gathering the BPPI project list")
-            url = self.apiRootPath + "project"
-            self.log.debug("HTTP GET Request " + url)
-            headers = {}
-            headers["Authorization"] = "Bearer " + self.Token
-            headers["content-type"] = "application/json"
-            httpResponse = requests.get(url , headers=headers) 
             return True
         except Exception as e:
             self.log.error("getRepositoryConfiguration Error | " + str(e))
