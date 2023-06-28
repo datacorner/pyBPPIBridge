@@ -4,7 +4,7 @@ __license__ = "GPL"
 
 import constants as C
 import warnings
-from bppiapi.bppiRepository import bppiRepository
+from bppiapi.repository.bppiRepository import bppiRepository
 import pandas as pd
 import requests 
 import urllib.parse

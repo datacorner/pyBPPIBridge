@@ -2,12 +2,12 @@ __author__ = "Benoit CAYLA"
 __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
-from bppiapi.bppiApiRepositoryWrapper import bppiApiRepositoryWrapper
+from bppiapi.repository.bppiApiRepositoryWrapper import bppiApiRepositoryWrapper
 from utils.log import log
 import pandas as pd
 import constants as C
 import time
-from utils.iniConfig import iniConfig
+from utils.appConfig import appConfig
 
 MANDATORY_PARAM_LIST = [C.PARAM_BPPITOKEN, 
                         C.PARAM_BPPIURL]
@@ -19,7 +19,7 @@ class bppiCommon:
 
     # Contains all the config parameters (from the INI file)
     @property
-    def config(self) -> iniConfig:
+    def config(self) -> appConfig:
         return self.__config
     @property
     def mandatoryParameters(self) -> str:

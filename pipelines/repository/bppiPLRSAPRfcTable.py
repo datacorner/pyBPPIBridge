@@ -3,7 +3,7 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import constants as C
-from bppiapi.bppiRepository import bppiRepository
+from bppiapi.repository.bppiRepository import bppiRepository
 import pandas as pd
 from pyrfc import Connection, ABAPApplicationError, ABAPRuntimeError, LogonError, CommunicationError, RFCError
 """

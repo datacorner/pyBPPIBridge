@@ -2,7 +2,7 @@ __author__ = "Benoit CAYLA"
 __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
-from bppiapi.bppiApiRepositoryWrapper import bppiApiRepositoryWrapper
+from bppiapi.repository.bppiApiRepositoryWrapper import bppiApiRepositoryWrapper
 from bppiapi.bppiCommon import bppiCommon
 import constants as C
 

@@ -3,7 +3,7 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import constants as C
-from utils.iniConfig import iniConfig
+from utils.appConfig import appConfig
 
 def cliargs(parser):
 	""" This function gather the arguments sent in the CLI and build the configuration object.
@@ -12,7 +12,7 @@ def cliargs(parser):
     Raises:
         Exception: Unable to gather the CLI args
     Returns:
-        utils.iniConfig: config object
+        utils.appConfig: config object
 		string: Data Source Tag (command line)
 	"""
 	try:
@@ -24,18 +24,21 @@ def cliargs(parser):
 		parser.add_argument("-" + C.PARAM_FROMDATE, help="(bprepo) FROM date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default=C.EMPTY)
 		parser.add_argument("-" + C.PARAM_TODATE, help="(bprepo) TO date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default=C.EMPTY)
 		args = vars(parser.parse_args())
-		config = iniConfig()
+		config = appConfig()
 		src = args[C.PARAM_SRCTYPE]
 		if (not(src in C.PARAM_SRCTYPE_SUPPORTED)):
 			raise Exception("Missing Data Source type {csv|xes|excel|odbc|bprepo|bpapi|saptable}")
 
 		# load configuration via the INI file
 		if (args[C.PARAM_CONFIGFILE] != 0):
-			config.loadini(args[C.PARAM_CONFIGFILE])
+			config.loadFromINIFile(args[C.PARAM_CONFIGFILE])
 		else:
 			raise Exception("Missing config file argument {}".format(C.PARAM_CONFIGFILE))
 		
-		file_management = (src == C.PARAM_SRCTYPE_VALCSV or src == C.PARAM_SRCTYPE_VALXLS or src == C.PARAM_SRCTYPE_VALXES  or src == C.PARAM_SRCTYPE_CHORUSFILE)
+		file_management = (src == C.PARAM_SRCTYPE_VALCSV or 
+		     			   src == C.PARAM_SRCTYPE_VALXLS or 
+						   src == C.PARAM_SRCTYPE_VALXES or 
+						   src == C.PARAM_SRCTYPE_CHORUSFILE)
 		if (file_management):
 			# For File (CSV/XES/Excel) load only, takes the CLI args and put them in the config object
 			config.addParameter(C.PARAM_FILENAME, args[C.PARAM_FILENAME])

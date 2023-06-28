@@ -9,6 +9,7 @@ YES = "yes"
 NO = "no"
 EMPTY = ""
 DEFCSVSEP = ","
+PIPELINE_FOLDER = 'pipelines/repository'                # Pipeline datasource classes
 
 # Parameter Names
 PARAM_SRCTYPE = "sourcetype"                            # Data source type {csv|excel|odbc|blueprism}

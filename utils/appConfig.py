@@ -7,7 +7,7 @@ import constants as C
 
 SECTION_PARAM_SEP = "."
 
-class iniConfig():
+class appConfig():
     """This class contains all the configuration needed and loaded mainly from the INI file
     """
     def __init__(self):
@@ -25,7 +25,7 @@ class iniConfig():
         except Exception as e:
             print("addParameter() -> " + str(e))
         
-    def loadini(self, filename) -> bool:
+    def loadFromINIFile(self, filename) -> bool:
         """ Load the configuration from the INI file in parameter
         Args:
             filename (str): INI file name

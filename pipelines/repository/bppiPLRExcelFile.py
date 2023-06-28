@@ -3,7 +3,7 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import constants as C
-from bppiapi.bppiRepository import bppiRepository
+from bppiapi.repository.bppiRepository import bppiRepository
 import pandas as pd
 
 EXCEL_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME, 

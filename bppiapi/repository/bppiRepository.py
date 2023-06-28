@@ -2,10 +2,10 @@ __author__ = "Benoit CAYLA"
 __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
-from bppiapi.bppiApiRepositoryWrapper import bppiApiRepositoryWrapper
+from bppiapi.repository.bppiApiRepositoryWrapper import bppiApiRepositoryWrapper
 from bppiapi.bppiCommon import bppiCommon
 import constants as C
-from bppiapi.repConfig import repConfig
+from bppiapi.repository.repConfig import repConfig
 import json
 
 MANDATORY_PARAM_LIST = [C.PARAM_BPPITOKEN, 

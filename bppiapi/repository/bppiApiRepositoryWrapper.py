@@ -4,7 +4,7 @@ __license__ = "GPL"
 
 import requests
 import json
-from bppiapi.repConfig import repConfig
+from bppiapi.repository.repConfig import repConfig
 from bppiapi.uploadConfig import uploadConfig
 from urllib import request
 import constants as C

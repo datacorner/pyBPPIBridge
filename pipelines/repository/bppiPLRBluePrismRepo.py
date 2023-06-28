@@ -133,7 +133,7 @@ class bppiPLRBluePrismRepo(bppiPLRODBC):
             Note: if no parameters in the list, no import
         Args:
             df (Dataframe): Dataframe with the logs
-            config (bppiapi.iniConfig): list of parameters from the INI file
+            config (bppiapi.appConfig): list of parameters from the INI file
         Returns:
             DataFrame: logs altered with parameters
         """
