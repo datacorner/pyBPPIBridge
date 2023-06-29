@@ -14,6 +14,13 @@ ODBC_MANDATORY_PARAM_LIST = [C.PARAM_CONNECTIONSTRING,
                              C.PARAM_BPPIURL, 
                              C.PARAM_QUERY]
 
+""" Manages the Blue Prism Repository extraction interface
+    Class hierarchy:
+    - bppiapi.bppiPipeline
+        - bppiapi.repository.bppiRepository
+            - pipelines.repository.bppiPLRCSVFile
+                - pipelines.repository.bppiPLRODBC
+"""
 class bppiPLRODBC(bppiPLRCSVFile):
     def __init__(self, config):
         super().__init__(config)

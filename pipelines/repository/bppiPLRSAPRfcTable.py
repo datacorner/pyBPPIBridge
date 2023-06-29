@@ -20,6 +20,13 @@ SAP_MANDATORY_PARAM_LIST = [C.PARAM_BPPITOKEN,
                             C.PARAM_SAP_PASSWD,
                             C.PARAM_SAP_RFC_TABLE]
 
+""" Manages the Blue Prism Repository extraction interface
+    Class hierarchy:
+    - bppiapi.bppiPipeline
+        - bppiapi.repository.bppiRepository
+            - pipelines.repository.bppiRepository
+                - pipelines.repository.bppiPLRSAPRfcTable
+"""
 class bppiPLRSAPRfcTable(bppiRepository):
 
     def __init__(self, config):

@@ -8,6 +8,12 @@ import pandas as pd
 
 CSV_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME]
 
+""" Manages the CSV file extraction interface
+    Class hierarchy:
+    - bppiapi.bppiPipeline
+        - bppiapi.repository.bppiRepository
+            - pipelines.repository.bppiPLRCSVFile
+"""
 class bppiPLRCSVFile(bppiRepository):
 
     def __init__(self, config):

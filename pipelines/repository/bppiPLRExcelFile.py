@@ -10,6 +10,12 @@ EXCEL_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME,
                               C.PARAM_BPPITOKEN, 
                               C.PARAM_BPPIURL]
 
+""" Manages the Blue Prism Repository extraction interface
+    Class hierarchy:
+    - bppiapi.bppiPipeline
+        - bppiapi.repository.bppiRepository
+            - pipelines.repository.bppiPLRExcelFile
+"""
 class bppiPLRExcelFile(bppiRepository):
 
     def __init__(self, config):

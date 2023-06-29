@@ -9,6 +9,12 @@ import pm4py
 
 XES_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME]
 
+""" Manages the Blue Prism Repository extraction interface
+    Class hierarchy:
+    - bppiapi.bppiPipeline
+        - bppiapi.repository.bppiRepository
+            - pipelines.repository.bppiPLRXESFile
+"""
 class bppiPLRXESFile(bppiRepository):
 
     def __init__(self, config):

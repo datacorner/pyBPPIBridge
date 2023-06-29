@@ -18,6 +18,14 @@ BP_MANDATORY_PARAM_LIST = [C.PARAM_CONNECTIONSTRING,
                            C.PARAM_BPPIURL, 
                            C.PARAM_BPPROCESSNAME]
 
+""" Manages the Blue Prism Repository extraction interface
+    Class hierarchy:
+    - bppiapi.bppiPipeline
+        - bppiapi.repository.bppiRepository
+            - pipelines.repository.bppiPLRCSVFile
+                - pipelines.repository.bppiPLRODBC
+                    - pipelines.repository.bppiPLRBluePrismRepo
+"""
 class bppiPLRBluePrismRepo(bppiPLRODBC):
     def __init__(self, config):
         super().__init__(config)

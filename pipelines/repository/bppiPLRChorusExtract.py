@@ -10,6 +10,13 @@ CHORUSFILE_MANDATORY_PARAM_LIST = [C.PARAM_FILENAME,
                                     C.PARAM_BPPITOKEN, 
                                     C.PARAM_BPPIURL]
 
+""" Manages the Chorus by file extraction interface
+    Class hierarchy:
+    - bppiapi.bppiPipeline
+        - bppiapi.repository.bppiRepository
+            - pipelines.repository.bppiPLRCSVFile
+                - pipelines.repository.bppiPLRChorusExtract
+"""
 class bppiPLRChorusExtract(bppiPLRCSVFile):
 
     def __init__(self, config):

@@ -20,6 +20,12 @@ AUTH_TOKEN_SUFFIX_URL = "/connect/token"
 
 warnings.filterwarnings('ignore')
 
+""" Manages the Blue Prism API extraction interface
+    Class hierarchy:
+    - bppiapi.bppiPipeline
+        - bppiapi.repository.bppiRepository
+            - pipelines.repository.bppiPLRBluePrismApi
+"""
 class bppiPLRBluePrismApi(bppiRepository):
     def __init__(self, config):
         super().__init__(config)
