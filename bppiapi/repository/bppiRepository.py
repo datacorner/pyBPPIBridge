@@ -3,7 +3,7 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 from bppiapi.repository.bppiApiRepositoryWrapper import bppiApiRepositoryWrapper
-from bppiapi.bppiCommon import bppiCommon
+from bppiapi.bppiPipeline import bppiPipeline
 import constants as C
 from bppiapi.repository.repConfig import repConfig
 import json
@@ -11,7 +11,7 @@ import json
 MANDATORY_PARAM_LIST = [C.PARAM_BPPITOKEN, 
                         C.PARAM_BPPIURL]
 
-class bppiRepository(bppiCommon):
+class bppiRepository(bppiPipeline):
     def __init__(self, config):
         super().__init__(config)
         self.__repositoryInfos = None   # BPPI Repository infos (gathered from the bppi server)

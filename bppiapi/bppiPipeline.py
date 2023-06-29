@@ -12,7 +12,7 @@ from utils.appConfig import appConfig
 MANDATORY_PARAM_LIST = [C.PARAM_BPPITOKEN, 
                         C.PARAM_BPPIURL]
 
-class bppiCommon:
+class bppiPipeline:
     def __init__(self, config):
         self.__config = config          # All the configuration parameters
         self.__trace = None             # Logger
