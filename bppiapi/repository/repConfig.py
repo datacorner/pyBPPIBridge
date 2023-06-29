@@ -23,10 +23,10 @@ class repConfig():
         else:
             self.__jsonContent = httpResponse.content
             self.__httpResponse = httpResponse
-            self.load(httpResponse.content)
+            self.parse(httpResponse.content)
         return
     
-    def load(self, httpResponse):
+    def parse(self, httpResponse):
         try:
             j = json.loads(httpResponse)
             self.__repositoryId = j['repositoryId']
