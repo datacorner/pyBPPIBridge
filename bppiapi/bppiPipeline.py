@@ -5,7 +5,7 @@ __license__ = "GPL"
 from bppiapi.repository.bppiApiRepositoryWrapper import bppiApiRepositoryWrapper
 from utils.log import log
 import pandas as pd
-import constants as C
+import utils.constants as C
 import time
 from utils.appConfig import appConfig
 

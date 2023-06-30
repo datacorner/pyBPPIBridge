@@ -7,7 +7,7 @@ import json
 from bppiapi.repository.repConfig import repConfig
 from bppiapi.uploadConfig import uploadConfig
 from urllib import request
-import constants as C
+import utils.constants as C
 
 class bppiApiRepositoryWrapper:
     """This class acts as a gateway for the BPPI API calls

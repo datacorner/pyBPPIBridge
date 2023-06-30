@@ -4,7 +4,7 @@ __license__ = "GPL"
 
 import logging
 from logging.handlers import RotatingFileHandler
-import constants as C
+import utils.constants as C
 
 class log:
     def __init__(self, loggerName, logfilename, level, format):

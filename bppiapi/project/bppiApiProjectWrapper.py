@@ -4,7 +4,7 @@ __license__ = "GPL"
 
 import requests
 import json
-import constants as C
+import utils.constants as C
 
 class bppiApiProjectWrapper:
     """This class acts as a gateway for the BPPI API calls

@@ -2,7 +2,7 @@ __author__ = "Benoit CAYLA"
 __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
-import constants as C
+import utils.constants as C
 import pathlib
 from string import Template
 

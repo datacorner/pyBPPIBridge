@@ -3,7 +3,7 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import configparser
-import constants as C
+import utils.constants as C
 
 SECTION_PARAM_SEP = "."
 

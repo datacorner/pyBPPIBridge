@@ -4,7 +4,7 @@ __license__ = "GPL"
 
 from bppiapi.repository.bppiApiRepositoryWrapper import bppiApiRepositoryWrapper
 from bppiapi.bppiPipeline import bppiPipeline
-import constants as C
+import utils.constants as C
 from bppiapi.repository.repConfig import repConfig
 import json
 

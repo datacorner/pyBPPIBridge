@@ -3,8 +3,8 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import argparse
-import constants as C
-from pipelineFactory import pipelineFactory
+import utils.constants as C
+from pipelines.pipelineFactory import pipelineFactory
 from configuration import configuration
 
 if __name__ == "__main__":

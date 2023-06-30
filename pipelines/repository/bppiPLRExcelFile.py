@@ -2,7 +2,7 @@ __author__ = "Benoit CAYLA"
 __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
-import constants as C
+import utils.constants as C
 from bppiapi.repository.bppiRepository import bppiRepository
 import pandas as pd
 

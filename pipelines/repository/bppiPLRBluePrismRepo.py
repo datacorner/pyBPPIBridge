@@ -2,7 +2,7 @@ __author__ = "Benoit CAYLA"
 __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
-import constants as C
+import utils.constants as C
 from pipelines.repository.bppiPLRODBC import bppiPLRODBC
 import pandas as pd
 import xml.etree.ElementTree as ET
