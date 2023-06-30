@@ -6,7 +6,7 @@ setup(
     #this will be the package name you will see, e.g. the output of 'conda list' in anaconda prompt
     name = 'pyBPPIBridge', 
     #some version number you may wish to add - increment this after every update
-    version='0.4.2', 
+    version='0.4.3', 
   
     # Use one of the below approach to define package and/or module names:
   
@@ -18,4 +18,5 @@ setup(
   
     #this approach automatically finds out all directories (packages) - those must contain a file named __init__.py (can be empty)
     packages=find_packages(), #include/exclude arguments take * as wildcard, . for any sub-package names
+    
 )

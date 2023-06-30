@@ -24,7 +24,6 @@ class configuration:
 		"""
 		try:
 			config = appConfig()
-
 			# Parser CLI arguments
 			parser.add_argument("-" + C.PARAM_SRCTYPE, help="(All) Data source type {csv|xes|excel|odbc|bprepo|bpapi|saptable}", required=True)
 			parser.add_argument("-" + C.PARAM_CONFIGFILE, help="(All) Config file with all configuration details (INI format)", required=True)
