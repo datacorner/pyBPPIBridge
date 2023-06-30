@@ -172,3 +172,5 @@ test/chorus_example.xlsx
 test/chorus_example_claim.csv
 config-samples/sqlite/pdm.sql
 config-samples/sqlite/bppiconfig.sqlite3
+config-samples/sqlite/dev/bppiconfig.sqlite3
+config-samples/sqlite/dev/pdm.sql
