@@ -3,7 +3,7 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import utils.constants as C
-from utils.appConfig import appConfig
+from config.appConfig import appConfig
 
 class configuration:
 	

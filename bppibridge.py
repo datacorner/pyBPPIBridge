@@ -4,7 +4,7 @@ __license__ = "GPL"
 
 import argparse
 from pipelines.pipelineFactory import pipelineFactory
-from utils.configuration import configuration
+from config.configuration import configuration
 
 if __name__ == "__main__":
 	# Get configuration from cmdline & ini file

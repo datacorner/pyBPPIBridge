@@ -7,7 +7,7 @@ from utils.log import log
 import pandas as pd
 import utils.constants as C
 import time
-from utils.appConfig import appConfig
+from config.appConfig import appConfig
 
 MANDATORY_PARAM_LIST = [C.PARAM_BPPITOKEN, 
                         C.PARAM_BPPIURL]
