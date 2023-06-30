@@ -170,3 +170,5 @@ delta.tag
 delta.tag
 test/chorus_example.xlsx
 test/chorus_example_claim.csv
+config-samples/sqlite/pdm.sql
+config-samples/sqlite/bppiconfig.sqlite3
