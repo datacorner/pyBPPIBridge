@@ -158,19 +158,13 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 .vscode/launch.json
-config.ini
 *.ini
-delta.tag
-*.tag
-*.tag
-delta.tag
-delta.tag
 .vscode/settings.json
-delta.tag
-delta.tag
+*.tag
 test/chorus_example.xlsx
 test/chorus_example_claim.csv
 config-samples/sqlite/pdm.sql
 config-samples/sqlite/bppiconfig.sqlite3
 config-samples/sqlite/dev/bppiconfig.sqlite3
 config-samples/sqlite/dev/pdm.sql
+.venv_pyBPPIBridge/*
