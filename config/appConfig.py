@@ -4,12 +4,20 @@ __license__ = "GPL"
 
 import configparser
 import utils.constants as C
+import sqlite3
 
 SECTION_PARAM_SEP = "."
+
+class cursorbyField(object):
+    def __init__(self, cursor, row):
+        for (attr, val) in zip((d[0] for d in cursor.description), row) :
+            setattr(self, attr, val)
 
 class appConfig():
     """This class contains all the configuration needed and loaded mainly from the INI file
     """
+
+
     def __init__(self):
         self.__parameters = {}
         return
@@ -24,7 +32,7 @@ class appConfig():
             self.__parameters[name] = value
         except Exception as e:
             print("addParameter() -> " + str(e))
-        
+
     def loadFromINIFile(self, filename) -> bool:
         """ Load the configuration from the INI file in parameter
         Args:
@@ -33,17 +41,47 @@ class appConfig():
             bool: False if error
         """
         try:
-            self.__config = configparser.ConfigParser()
-            self.__config.read(filename)
-            for section in self.__config:
-                for param in self.__config[section]:
+            myConfig = configparser.ConfigParser()
+            myConfig.read(filename)
+            for section in myConfig:
+                for param in myConfig[section]:
                     try :
-                        self.__parameters[section + SECTION_PARAM_SEP + param] = self.__config[section][param]
+                        self.__parameters[section + SECTION_PARAM_SEP + param] = myConfig[section][param]
                     except:
                         self.__parameters[section + SECTION_PARAM_SEP + param] = C.EMPTY
             return True
         except Exception as e:
-            print("loadini() -> " + str(e))
+            print("loadFromINIFile() -> " + str(e))
+            return False
+
+    def loadFromSQLite(self, db_file, id) -> bool:
+        """ Load the configuration from the sqlite file in parameter
+        Args:
+            filename (str): sqlite3 file name
+            id (str): id of the configuration
+        Returns:
+            bool: False if error
+        """
+        try:
+            conn = sqlite3.connect(db_file)
+            cur = conn.cursor()
+            sql = "SELECT ID, PIPELINENAME, SERVERNAME, SERVERTOKEN, BPPITABLE, LOGFOLDER, LOGFILENAME, "
+            sql += "LOGLEVEL, LOGFORMAT, BPPITODO, SRC, PROCESSNAME, INCVBO, UNICODE, STARTENDFILTER, "
+            sql += "DELTA, DELTATAG, ODBCONN, QUERY, STAGEFILTERLIST, PARAMLIST"
+            sql += " FROM VIEW_GET_FULLCONFIG_BLUEPRISM_REPO"
+            sql += " WHERE ID={}".format(id)
+            cur.execute(sql)
+            rows = cur.fetchall()
+            if (len(rows) == 1):
+                r = cursorbyField(cur, rows[0])
+                self.__parameters[C.PARAM_BPPIURL] = r.SERVERNAME
+                self.__parameters[C.PARAM_BPPITOKEN] = r.SERVERTOKEN
+            else:
+                raise Exception ("There are more than one configuration (ore none) available.")
+
+            return True
+        except Exception as e:
+            print("loadFromSQLite() -> " + str(e))
             return False
 
     def getParameter(self, parameter, default="") -> str:

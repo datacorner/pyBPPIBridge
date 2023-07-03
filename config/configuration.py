@@ -12,8 +12,48 @@ class configuration:
 		pass
 
 	@staticmethod
-	def fromCmdLine(parser):
-		""" This function gather the arguments sent in the CLI and build the configuration object.
+	def fromCmdLine_sqlite(parser):
+		""" This function gather the arguments sent in the CLI and build the configuration object / USE FOR SQLITE FILE CONFIGURATION FILE ONLY
+		Args:
+			parser (argparse.ArgumentParser): CLI arguments
+		Raises:
+			Exception: Unable to gather the CLI args
+		Returns:
+			utils.appConfig: config object
+			string: Data Source Tag (command line)
+		"""
+		try:
+			config = appConfig()
+			# Parser CLI arguments
+			parser.add_argument("-" + "file", help="SQLite 3 data file", required=True)
+			parser.add_argument("-" + "id", help="Pipeline Configuration ID", required=True)
+			args = vars(parser.parse_args())
+			# Load configuration via the INI file
+			config.loadFromSQLite(args["file"], args["id"])
+
+			src = config.getParameter(C.PARAM_SRCTYPE)
+			# Config "exceptions" ...
+			file_management = (src == C.PARAM_SRCTYPE_VALCSV or 
+							src == C.PARAM_SRCTYPE_VALXLS or 
+							src == C.PARAM_SRCTYPE_VALXES or 
+							src == C.PARAM_SRCTYPE_CHORUSFILE)
+			if (file_management):
+				# For File (CSV/XES/Excel) load only, takes the CLI args and put them in the config object
+				config.addParameter(C.PARAM_FILENAME, args[C.PARAM_FILENAME])
+				if (src == C.PARAM_SRCTYPE_VALCSV or src == C.PARAM_SRCTYPE_CHORUSFILE):
+					config.addParameter(C.PARAM_CSV_SEPARATOR, args[C.PARAM_CSV_SEPARATOR])
+				if (src == C.PARAM_SRCTYPE_VALXLS):
+					config.addParameter(C.PARAM_EXCELSHEETNAME, args[C.PARAM_EXCELSHEETNAME])
+			return config, src
+
+		except Exception as e:
+			print(e)
+			parser.print_help()
+			return None, None
+
+	@staticmethod
+	def fromCmdLine_ini(parser):
+		""" This function gather the arguments sent in the CLI and build the configuration object / USE FOR INI FILE CONFIGURATION FILE ONLY
 		Args:
 			parser (argparse.ArgumentParser): CLI arguments
 		Raises:
@@ -34,6 +74,7 @@ class configuration:
 			parser.add_argument("-" + C.PARAM_TODATE, help="(bprepo) TO date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default=C.EMPTY)
 			args = vars(parser.parse_args())
 			# Check Data Source Type
+			config.setParameter(C.PARAM_SRCTYPE, src)
 			src = args[C.PARAM_SRCTYPE]
 			if (not(src in C.PARAM_SRCTYPE_SUPPORTED)):
 				raise Exception("Missing Data Source type {csv|xes|excel|odbc|bprepo|bpapi|saptable}")

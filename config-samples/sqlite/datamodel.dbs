@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Sqlite" id="Project-16f7" database="Sqlite" >
+	<schema name="Default" >
+		<table name="CFG_BPPISERVER" generator_rows="100" spec="" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="NAME" type="TEXT" jt="-1" mandatory="y" />
+			<column name="DESCRIPTION" type="TEXT" jt="-1" />
+			<column name="TOKEN" type="TEXT" jt="-1" />
+			<index name="pk_CFG_BPPISERVER" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="CFG_BPPI_REPO_TABLE" generator_rows="100" spec="" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="NAME" type="TEXT" jt="-1" mandatory="y" />
+			<column name="DESCRIPTION" type="TEXT" jt="-1" />
+			<index name="pk_CFG_BPPI_REPO_TABLE" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="CFG_BPPI_REPO_TODO" generator_rows="100" spec="" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="NAME" type="TEXT" jt="-1" mandatory="y" />
+			<column name="DESCRIPTION" type="TEXT" jt="-1" />
+			<index name="pk_CFG_BPPI_REPO_TODO" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="CFG_BP_API" prior="CFG_" generator_rows="100" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="SSL_VERIFICATION" type="BIT" jt="-7" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="CLIENT_ID" type="TEXT" jt="-1" />
+			<column name="CLIENT_SECRET" type="TEXT" jt="-1" />
+			<column name="AUTHENTICATION_URL" type="TEXT" jt="-1" />
+			<column name="API_URL" type="TEXT" jt="-1" />
+			<column name="PAGE_SIZE" type="INTEGER" jt="4" />
+			<index name="pk_CFG_BP_API" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="CFG_BP_PARAMS" prior="CFG_BPPI_BP_PARAMS" generator_rows="100" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="NAME" prior="STAGE_NAME" type="TEXT" length="100" jt="-1" />
+			<index name="pk_CFG_BP_PARAMS" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="CFG_BP_PARAMS_COLLECT" prior="CFG_BP_PARAMS_LIST" generator_rows="225" >
+			<column name="FK_PARAMS_ID" prior="BPPI_PARAMS_ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="FK_BPREPO_ID" type="INTEGER" jt="4" mandatory="y" />
+			<index name="pk_CFG_BPPI_BPPARAMS_LIST" unique="PRIMARY_KEY" >
+				<column name="FK_PARAMS_ID" />
+				<column name="FK_BPREPO_ID" />
+			</index>
+			<fk name="fk_CFG_BPPI_BPPARAMS_LIST" to_schema="Default" to_table="CFG_BP_PARAMS" >
+				<fk_column name="FK_PARAMS_ID" pk="ID" />
+			</fk>
+			<fk name="fk_CFG_BPPI_BPPARAMS_LIST_0" to_schema="Default" to_table="CFG_BP_REPO" >
+				<fk_column name="FK_BPREPO_ID" pk="ID" />
+			</fk>
+		</table>
+		<table name="CFG_BP_REPO" prior="CFG_BPPI_BLPREPO" generator_rows="150" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="PROCESS_NAME" type="TEXT" jt="-1" />
+			<column name="INCLUDE_VBO" type="BIT" jt="-7" >
+				<defo><![CDATA[1]]></defo>
+			</column>
+			<column name="UNICODE_SUPPORT" type="BIT" jt="-7" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="START_END_FILTER" type="BIT" jt="-7" >
+				<defo><![CDATA[1]]></defo>
+				<comment><![CDATA[if 1 name of the main Process page (by default Main Page)]]></comment>
+			</column>
+			<column name="DELTA_LOAD" prior="DELATA_LOAD" type="BIT" jt="-7" >
+				<defo><![CDATA[1]]></defo>
+			</column>
+			<column name="DELTA_TAG_FILE" type="TEXT" jt="-1" />
+			<column name="FK_ODBC_ID" type="INTEGER" jt="4" mandatory="y" />
+			<index name="pk_CFG_BP_REPO" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+			<fk name="fk_CFG_BP_REPO" to_schema="Default" to_table="CFG_ODBC_CONNECTION" >
+				<fk_column name="FK_ODBC_ID" pk="ID" />
+			</fk>
+		</table>
+		<table name="CFG_BP_STAGES" prior="CFG_BPPI_BP_STAGES" generator_rows="100" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="CODE" type="TEXT" jt="-1" />
+			<column name="NAME" type="TEXT" length="100" jt="-1" />
+			<index name="pk_CFG_BP_STAGES" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="CFG_BP_STAGE_FILTERS" prior="CFG_BP_STAGES_FILTER" generator_rows="225" >
+			<column name="FK_BPSTAGE_ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="FK_BPREPO_ID" type="INTEGER" jt="4" mandatory="y" />
+			<index name="pk_CFG_BPPI_BPSTAGES_FILTER" unique="PRIMARY_KEY" >
+				<column name="FK_BPSTAGE_ID" />
+				<column name="FK_BPREPO_ID" />
+			</index>
+			<fk name="fk_CFG_BPPI_BPSTAGES_FILTER" to_schema="Default" to_table="CFG_BP_STAGES" >
+				<fk_column name="FK_BPSTAGE_ID" pk="ID" />
+			</fk>
+			<fk name="fk_CFG_BPPI_BPSTAGES_FILTER_0" to_schema="Default" to_table="CFG_BP_REPO" >
+				<fk_column name="FK_BPREPO_ID" pk="ID" />
+			</fk>
+		</table>
+		<table name="CFG_EVENTMAP" prior="CFG_BPPI_EVENTMAP" generator_rows="100" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="MAP_TABLE" type="TEXT" jt="-1" />
+			<column name="MAP_COLUMN" type="TEXT" jt="-1" />
+			<column name="EVENTMAP_TYPE_ID" prior="MAP_TYPE" type="INTEGER" jt="4" mandatory="y" />
+			<index name="pk_CFG_EVENTMAP" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+			<fk name="fk_CFG_EVENTMAP" to_schema="Default" to_table="CFG_EVENTMAP_TABLETYPE" >
+				<fk_column name="EVENTMAP_TYPE_ID" pk="ID" />
+			</fk>
+		</table>
+		<table name="CFG_EVENTMAP_TABLETYPE" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="TABLE_TYPE" type="TEXT" jt="-1" />
+			<index name="pk_CFG_EVENTMAP_TABLETYPE" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="CFG_FILE" prior="CFG" generator_rows="100" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="TYPE" type="TEXT" jt="-1" />
+			<column name="SEPARATOR" type="TEXT" jt="-1" />
+			<column name="DESCRIPTION" type="TEXT" jt="-1" />
+			<index name="pk_CFG_FILE" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="CFG_ODBC_CONNECTION" prior="CFG_ODBC" generator_rows="100" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="CONNECTION_STRING" type="TEXT" jt="-1" />
+			<column name="QUERY" type="TEXT" jt="-1" />
+			<index name="pk_CFG_ODBC_CONNECTION" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="CFG_OTHER" prior="CFG_BPPI_OTHER" generator_rows="100" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="LOG_FOLDER" type="TEXT" jt="-1" />
+			<column name="LOG_FILENAME" type="TEXT" jt="-1" />
+			<column name="LOG_LEVEL" type="TEXT" jt="-1" />
+			<column name="LOG_FORMAT" type="TEXT" jt="-1" />
+			<index name="pk_CFG_OTHER" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="CFG_PIPELINE" prior="CFG_BPPI_PIPELINE" generator_rows="225" spec="" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="NAME" type="TEXT" jt="-1" mandatory="y" />
+			<column name="DESCRIPTION" type="TEXT" jt="-1" />
+			<column name="FK_SERVER_ID" prior="BPPI_SERVER_ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="FK_REPO_TABLE_ID" prior="BPPI_REPO_TABLE_ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="FK_REPO_TODO_ID" prior="BPPI_REPO_TODO_ID" type="INTEGER" jt="4" />
+			<column name="FK_OTHER_ID" prior="BPPI_OTHER_ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="FK_EVENTMAP_ID" prior="FK_EVENTMAP_IDX" type="INTEGER" jt="4" />
+			<column name="FK_BPREPO_ID" prior="BPPI_BPREPO_ID" type="INTEGER" jt="4" />
+			<column name="FK_BPAPI_ID" prior="FK_BPAPI" type="INTEGER" jt="4" />
+			<column name="FK_FILE_ID" type="INTEGER" jt="4" />
+			<column name="FK_SAP_ID" type="INTEGER" jt="4" />
+			<column name="SOURCE_TYPE_ID" type="INTEGER" jt="4" mandatory="y" />
+			<index name="pk_CFG_PIPELINE" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+			<fk name="fk_CFG_BPPI_PIPELINE" to_schema="Default" to_table="CFG_OTHER" >
+				<fk_column name="FK_OTHER_ID" pk="ID" />
+			</fk>
+			<fk name="FK_CFG_BPPI_PIPELINE CFG_BPPISERVER" to_schema="Default" to_table="CFG_BPPISERVER" options="ON UPDATE NO ACTION" >
+				<fk_column name="FK_SERVER_ID" pk="ID" />
+			</fk>
+			<fk name="FK_CFG_BPPI_PIPELINE CFG_BPPI_REPO_TABLE" to_schema="Default" to_table="CFG_BPPI_REPO_TABLE" options="ON UPDATE NO ACTION" >
+				<fk_column name="FK_REPO_TABLE_ID" pk="ID" />
+			</fk>
+			<fk name="FK_CFG_BPPI_PIPELINE CFG_BPPI_REPO_TODO" to_schema="Default" to_table="CFG_BPPI_REPO_TODO" options="ON UPDATE NO ACTION" >
+				<fk_column name="FK_REPO_TODO_ID" pk="ID" />
+			</fk>
+			<fk name="fk_CFG_BPPI_PIPELINE_0" to_schema="Default" to_table="CFG_EVENTMAP" >
+				<fk_column name="FK_EVENTMAP_ID" pk="ID" />
+			</fk>
+			<fk name="fk_CFG_BPPI_PIPELINE_1" to_schema="Default" to_table="CFG_BP_REPO" >
+				<fk_column name="FK_BPREPO_ID" pk="ID" />
+			</fk>
+			<fk name="fk_CFG_PIPELINE" to_schema="Default" to_table="CFG_BP_API" >
+				<fk_column name="FK_BPAPI_ID" pk="ID" />
+			</fk>
+			<fk name="fk_CFG_PIPELINE_0" to_schema="Default" to_table="CFG_FILE" >
+				<fk_column name="FK_FILE_ID" pk="ID" />
+			</fk>
+			<fk name="fk_CFG_PIPELINE_1" to_schema="Default" to_table="CFG_SAP" >
+				<fk_column name="FK_SAP_ID" pk="ID" />
+			</fk>
+			<fk name="fk_CFG_PIPELINE_2" to_schema="Default" to_table="CFG_SOURCETYPE" >
+				<fk_column name="SOURCE_TYPE_ID" pk="ID" />
+			</fk>
+		</table>
+		<table name="CFG_SAP" prior="Tbl" generator_rows="100" >
+			<column name="ASHOST" type="TEXT" jt="-1" />
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="CLIENT" type="TEXT" jt="-1" />
+			<column name="SYSNR" type="TEXT" jt="-1" />
+			<column name="USER" type="TEXT" jt="-1" />
+			<column name="PASSWORD" type="TEXT" jt="-1" />
+			<column name="ROUTER" type="TEXT" jt="-1" />
+			<column name="RFCTABLE" type="TEXT" jt="-1" />
+			<column name="RFCFIELDS" prior="FIELDS" type="TEXT" jt="-1" />
+			<column name="ROWLIMIT" type="INTEGER" jt="4" />
+			<index name="pk_CFG_SAP" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="CFG_SOURCETYPE" >
+			<column name="ID" type="INTEGER" jt="4" mandatory="y" />
+			<column name="NAME" type="TEXT" jt="-1" />
+			<index name="pk_CFG_SOURCETYPE" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<view name="VIEW_GET_CONFIG_BLUEPRISM_REPO" >
+			<view_script><![CDATA[CREATE VIEW ${nameWithSchemaName} AS 
+SELECT pipeline.ID, 
+       pipeline.NAME AS PIPELINENAME, 
+       server.NAME AS SERVERNAME, 
+       server.TOKEN AS SERVERTOKEN, 
+       bppitable.NAME AS BPPITABLE, 
+       other.LOG_FOLDER AS LOGFOLDER, 
+       other.LOG_FILENAME AS LOGFILENAME, 
+       other.LOG_LEVEL AS LOGLEVEL, 
+       other.LOG_FORMAT AS LOGFORMAT, 
+       bppitodo.NAME AS BPPITODO, 
+       src.NAME AS SRC, 
+	   cbr.PROCESS_NAME AS PROCESSNAME, 
+	   cbr.INCLUDE_VBO AS INCVBO, 
+	   cbr.UNICODE_SUPPORT AS UNICODE, 
+	   cbr.START_END_FILTER AS STARTENDFILTER, 
+	   cbr.DELTA_LOAD AS DELTA, 
+	   cbr.DELTA_TAG_FILE AS DELTATAG, 
+	   coc.CONNECTION_STRING AS ODBCONN, 
+	   coc.QUERY AS QUERY
+FROM CFG_PIPELINE pipeline 
+	LEFT JOIN CFG_BPPISERVER server ON ( server.ID = pipeline.FK_SERVER_ID  )  
+	LEFT JOIN CFG_BPPI_REPO_TABLE bppitable ON ( bppitable.ID = pipeline.FK_REPO_TABLE_ID  )  
+	LEFT JOIN CFG_OTHER other ON ( other.ID = pipeline.FK_OTHER_ID  )  
+	LEFT JOIN CFG_BPPI_REPO_TODO bppitodo ON ( bppitodo.ID = pipeline.FK_REPO_TODO_ID  )  
+	LEFT JOIN CFG_SOURCETYPE src ON ( src.ID = pipeline.SOURCE_TYPE_ID  )  
+	LEFT JOIN CFG_BP_REPO cbr ON ( cbr.ID = pipeline.FK_BPREPO_ID  )  
+	LEFT JOIN CFG_ODBC_CONNECTION coc ON ( coc.ID = cbr.FK_ODBC_ID  ) 
+WHERE src.NAME = "bprepo" ]]></view_script>
+			<column name="ID" type="INTEGER" />
+			<column name="QUERY" type="TEXT" />
+			<column name="PIPELINENAME" type="TEXT" />
+			<column name="SERVERNAME" type="TEXT" />
+			<column name="SERVERTOKEN" type="TEXT" />
+			<column name="BPPITABLE" type="TEXT" />
+			<column name="LOGFOLDER" type="TEXT" />
+			<column name="LOGFILENAME" type="TEXT" />
+			<column name="LOGLEVEL" type="TEXT" />
+			<column name="LOGFORMAT" type="TEXT" />
+			<column name="BPPITODO" type="TEXT" />
+			<column name="SRC" type="TEXT" />
+			<column name="PROCESSNAME" type="TEXT" />
+			<column name="INCVBO" type="BIT" />
+			<column name="UNICODE" type="BIT" />
+			<column name="STARTENDFILTER" type="BIT" />
+			<column name="DELTA" type="BIT" />
+			<column name="DELTATAG" type="TEXT" />
+			<column name="ODBCONN" type="TEXT" />
+		</view>
+		<view name="VIEW_GET_FULLCONFIG_BLUEPRISM_REPO" >
+			<view_script><![CDATA[CREATE VIEW ${nameWithSchemaName} AS 
+SELECT cfg.*, stg.STAGEFILTERLIST,  prm.PARAMLIST
+FROM VIEW_GET_CONFIG_BLUEPRISM_REPO cfg
+LEFT JOIN VIEW_GET_STAGEFILTERSLIST stg ON cfg.ID = stg.CONFIG_ID
+LEFT JOIN VIEW_GET_PARAMLIST prm ON  cfg.ID = stg.CONFIG_ID
+]]></view_script>
+			<column name="ID" type="INTEGER" />
+			<column name="PIPELINENAME" type="TEXT" />
+			<column name="SERVERNAME" type="TEXT" />
+			<column name="SERVERTOKEN" type="TEXT" />
+			<column name="BPPITABLE" type="TEXT" />
+			<column name="LOGFOLDER" type="TEXT" />
+			<column name="LOGFILENAME" type="TEXT" />
+			<column name="LOGLEVEL" type="TEXT" />
+			<column name="LOGFORMAT" type="TEXT" />
+			<column name="BPPITODO" type="TEXT" />
+			<column name="SRC" type="TEXT" />
+			<column name="PROCESSNAME" type="TEXT" />
+			<column name="INCVBO" type="BIT" />
+			<column name="UNICODE" type="BIT" />
+			<column name="STARTENDFILTER" type="BIT" />
+			<column name="DELTA" type="BIT" />
+			<column name="DELTATAG" type="TEXT" />
+			<column name="ODBCONN" type="TEXT" />
+			<column name="QUERY" type="TEXT" />
+			<column name="STAGEFILTERLIST" type="ENUM" />
+			<column name="PARAMLIST" type="ENUM" />
+		</view>
+		<view name="VIEW_GET_PARAMLIST" >
+			<view_script><![CDATA[CREATE VIEW ${nameWithSchemaName} AS 
+SELECT cbp.ID AS CONFIG_ID,
+       group_concat(cbp.NAME) AS PARAMLIST
+FROM CFG_BP_PARAMS_COLLECT params 
+	INNER JOIN CFG_BP_PARAMS cbp ON ( cbp.ID = params.FK_PARAMS_ID  )]]></view_script>
+			<column name="CONFIG_ID" type="INTEGER" />
+			<column name="PARAMLIST" type="ENUM" />
+		</view>
+		<view name="VIEW_GET_STAGEFILTERSLIST" >
+			<view_script><![CDATA[CREATE VIEW ${nameWithSchemaName} AS  
+SELECT stg.ID AS CONFIG_ID,
+       group_concat(stg.CODE) AS STAGEFILTERLIST
+FROM CFG_BP_STAGE_FILTERS stages 
+	INNER JOIN CFG_BP_STAGES stg ON ( stg.ID = stages.FK_BPSTAGE_ID  )]]></view_script>
+			<column name="CONFIG_ID" type="INTEGER" />
+			<column name="STAGEFILTERLIST" type="ENUM" />
+		</view>
+	</schema>
+	<connector name="Sqlite" database="Sqlite" driver_class="org.sqlite.JDBC" driver_jar="sqlite-jdbc-3.40.0.0.jar" driver_desc="Standard" host="localhost" port="7210" instance="C:/Git/pyBPPIBridge/config-samples/sqlite/dev/bppiconfig.sqlite3" useSystemProxy="false" />
+	<layout name="Main Layout" id="Layout-1a15" show_relation="columns" >
+		<entity schema="Default" name="CFG_BPPISERVER" color="BED3F4" x="496" y="224" />
+		<entity schema="Default" name="CFG_BPPI_REPO_TABLE" color="BED3F4" x="496" y="480" />
+		<entity schema="Default" name="CFG_BPPI_REPO_TODO" color="BED3F4" x="240" y="480" />
+		<entity schema="Default" name="CFG_PIPELINE" color="BED3F4" x="240" y="224" />
+		<callout x="48" y="80" pointer="Round" >
+			<comment><![CDATA[This is a layout. 
+- Double-click table headers, columns, or foreign keys to edit 
+- Drag tables to the layout from the structure tree, or 
+   add them by pressing the arrow icon near columns 
+- Create multiple layouts with the same or different tables 
+- Right-click the layout to create new tables]]></comment>
+		</callout>
+		<group name="CFG_BPPI_PIPELINE" color="ECF0F7" >
+			<entity schema="Default" name="CFG_PIPELINE" />
+			<entity schema="Default" name="CFG_BPPISERVER" />
+			<entity schema="Default" name="CFG_BPPI_REPO_TABLE" />
+			<entity schema="Default" name="CFG_BPPI_REPO_TODO" />
+		</group>
+	</layout>
+	<layout name="~Layout with Sample Tools" id="Layout-775" joined_routing="y" show_column_type="y" show_relation="columns" >
+		<entity schema="Default" name="CFG_BPPISERVER" color="BED3F4" x="208" y="48" />
+		<entity schema="Default" name="CFG_BPPI_REPO_TABLE" color="BED3F4" x="544" y="64" />
+		<entity schema="Default" name="CFG_BPPI_REPO_TODO" color="BED3F4" x="768" y="128" />
+		<entity schema="Default" name="CFG_BP_API" color="C1D8EE" x="832" y="512" />
+		<entity schema="Default" name="CFG_BP_PARAMS" color="C1D8EE" x="1424" y="176" />
+		<entity schema="Default" name="CFG_BP_PARAMS_COLLECT" color="C1D8EE" x="1152" y="176" />
+		<entity schema="Default" name="CFG_BP_REPO" color="C1D8EE" x="832" y="304" />
+		<entity schema="Default" name="CFG_BP_STAGES" color="C1D8EE" x="1440" y="320" />
+		<entity schema="Default" name="CFG_BP_STAGE_FILTERS" color="C1D8EE" x="1152" y="320" />
+		<entity schema="Default" name="CFG_EVENTMAP" color="C1D8EE" x="48" y="352" />
+		<entity schema="Default" name="CFG_EVENTMAP_TABLETYPE" color="C1D8EE" x="48" y="480" />
+		<entity schema="Default" name="CFG_FILE" color="C1D8EE" x="656" y="576" />
+		<entity schema="Default" name="CFG_ODBC_CONNECTION" color="C1D8EE" x="1152" y="480" />
+		<entity schema="Default" name="CFG_OTHER" color="C1D8EE" x="96" y="176" />
+		<entity schema="Default" name="CFG_PIPELINE" color="BED3F4" x="368" y="208" />
+		<entity schema="Default" name="CFG_SAP" color="C1D8EE" x="400" y="528" />
+		<entity schema="Default" name="CFG_SOURCETYPE" color="C1D8EE" x="112" y="640" />
+		<entity schema="Default" name="VIEW_GET_CONFIG_BLUEPRISM_REPO" color="3986C1" x="1344" y="608" />
+		<entity schema="Default" name="VIEW_GET_FULLCONFIG_BLUEPRISM_REPO" color="3986C1" x="752" y="768" />
+		<entity schema="Default" name="VIEW_GET_PARAMLIST" color="3986C1" x="1152" y="704" />
+		<entity schema="Default" name="VIEW_GET_STAGEFILTERSLIST" color="3986C1" x="1120" y="608" />
+		<script name="SQL_Editor" id="Editor-1893" language="SQL" >
+			<string><![CDATA[SELECT cfg.*, stg.STAGEFILTERLIST,  prm.PARAMLIST
+FROM VIEW_GET_CONFIG_BLUEPRISM_REPO cfg
+LEFT JOIN VIEW_GET_STAGEFILTERSLIST stg ON cfg.ID = stg.CONFIG_ID
+LEFT JOIN VIEW_GET_PARAMLIST prm ON  cfg.ID = stg.CONFIG_ID]]></string>
+		</script>
+		<script name="SQL_Editor_001" id="Editor-267a" language="SQL" >
+			<string><![CDATA[select * from VIEW_GET_CONFIG_BLUEPRISM_REPO
+]]></string>
+		</script>
+		<browser id="Browse-eb8" name="Relational Data Explorer" confirm_updates="y" >
+			<browse_table schema="Default" entity="CFG_PIPELINE" x="20" y="20" width="400" height="300" >
+				<browse_table schema="Default" entity="CFG_BPPISERVER" fk="FK_CFG_BPPI_PIPELINE CFG_BPPISERVER" x="440" y="20" width="500" height="350" record_view="y" />
+			</browse_table>
+		</browser>
+	</layout>
+</project>
