@@ -27,8 +27,13 @@ class SQLBuilder():
             Template: Return the String template
         """
         try:
-            filename = self.config.getParameter(C.PARAM_QUERY) 
-            return Template(pathlib.Path(filename).read_text())
+            content = self.config.getParameter(C.PARAM_QUERY)
+            if (self.config.getParameter(C.CONFIG_SOURCE_NAME, C.EMPTY) == C.CONFIG_SOURCE_SQ3):
+                # If config from SQLite or DB, the content is inside the field
+                return Template(content)
+            else:
+                # If config from INI file, the content is inside a file
+                return Template(pathlib.Path(content).read_text())
         except Exception as e:
             self.log.error("getTemplate() -> Error when reading the SQL template " + str(e))
             return ""
@@ -55,5 +60,5 @@ class SQLBuilder():
             return sqlTemplate.substitute(valuesToReplace)
 
         except Exception as e:
-            self.log.error("build() -> Unable to build the Blue Prism Query " + str(e))
+            self.log.error("build() -> Unable to build the Blue Prism Query -> " + str(e))
             return C.EMPTY

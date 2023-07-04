@@ -4,19 +4,14 @@ __license__ = "GPL"
 
 import configparser
 import utils.constants as C
+from utils import cursorByField 
 import sqlite3
 
 SECTION_PARAM_SEP = "."
 
-class cursorbyField(object):
-    def __init__(self, cursor, row):
-        for (attr, val) in zip((d[0] for d in cursor.description), row) :
-            setattr(self, attr, val)
-
 class appConfig():
     """This class contains all the configuration needed and loaded mainly from the INI file
     """
-
 
     def __init__(self):
         self.__parameters = {}
@@ -55,7 +50,9 @@ class appConfig():
             return False
 
     def loadFromSQLite(self, db_file, id) -> bool:
-        """ Load the configuration from the sqlite file in parameter
+        """ Load the configuration from the sqlite file in parameter. ALl the parameters comes from a VIEW (VIEW_GET_FULLCONFIG_BLUEPRISM_REPO) 
+            in SQLite and must have the format:
+            * section_param (with a _ instead of a .), the _ is replaced in the parameter list automatically
         Args:
             filename (str): sqlite3 file name
             id (str): id of the configuration
@@ -65,17 +62,13 @@ class appConfig():
         try:
             conn = sqlite3.connect(db_file)
             cur = conn.cursor()
-            sql = "SELECT ID, PIPELINENAME, SERVERNAME, SERVERTOKEN, BPPITABLE, LOGFOLDER, LOGFILENAME, "
-            sql += "LOGLEVEL, LOGFORMAT, BPPITODO, SRC, PROCESSNAME, INCVBO, UNICODE, STARTENDFILTER, "
-            sql += "DELTA, DELTATAG, ODBCONN, QUERY, STAGEFILTERLIST, PARAMLIST"
-            sql += " FROM VIEW_GET_FULLCONFIG_BLUEPRISM_REPO"
-            sql += " WHERE ID={}".format(id)
-            cur.execute(sql)
+            cur.execute(C.SQLITE_GETCONFIG.format(id))
             rows = cur.fetchall()
+            params = [d[0] for d in cur.description]
             if (len(rows) == 1):
-                r = cursorbyField(cur, rows[0])
-                self.__parameters[C.PARAM_BPPIURL] = r.SERVERNAME
-                self.__parameters[C.PARAM_BPPITOKEN] = r.SERVERTOKEN
+                r = cursorByField(cur, rows[0])
+                for item in params:
+                    self.__parameters[item.replace("_", ".")] = str(r.get(item))
             else:
                 raise Exception ("There are more than one configuration (ore none) available.")
 

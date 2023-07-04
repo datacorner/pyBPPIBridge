@@ -24,9 +24,10 @@ class blueprismSQLBuilder(SQLBuilder):
         try: 
             processname = self.config.getParameter(C.PARAM_BPPROCESSNAME)
             stagetypes = self.config.getParameter(C.PARAM_BPSTAGETYPES, "0")
+            deltasql = NO_FILTER
+            novbo = NO_FILTER
 
             # Build the filters on the VBO only
-            novbo = NO_FILTER
             if (self.config.getParameter(C.PARAM_BPINCLUDEVBO, C.YES) != C.YES):
                 novbo = C.BPLOG_PROCESSNAME_COL + " IS NULL"
 
@@ -37,6 +38,7 @@ class blueprismSQLBuilder(SQLBuilder):
                 deltasql = " FORMAT(LOG." + C.BPLOG_STARTDATETIME_COL + ",'yyyy-MM-dd HH:mm:ss') >= '" + self.deltaDate + "'"
             else:
                 self.log.info("FULL Load requested")
+                
                 # FULL LOAD / Add the delta extraction filters if required (-fromdate and/or -todate filled)
                 fromdate = self.config.getParameter(C.PARAM_FROMDATE)
                 todate = self.config.getParameter(C.PARAM_TODATE)

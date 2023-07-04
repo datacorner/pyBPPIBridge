@@ -2,7 +2,8 @@ CREATE TABLE CFG_BPPISERVER (
 	ID                   INTEGER NOT NULL  PRIMARY KEY  ,
 	NAME                 TEXT NOT NULL    ,
 	DESCRIPTION          TEXT     ,
-	TOKEN                TEXT     
+	TOKEN                TEXT     ,
+	URL                  TEXT     
  );
 
 CREATE TABLE CFG_BPPI_REPO_TABLE ( 
@@ -145,25 +146,24 @@ CREATE TABLE CFG_BP_PARAMS_COLLECT (
  );
 
 CREATE VIEW VIEW_GET_CONFIG_BLUEPRISM_REPO AS 
-SELECT pipeline.ID, 
-       pipeline.NAME AS PIPELINENAME, 
-       server.NAME AS SERVERNAME, 
-       server.TOKEN AS SERVERTOKEN, 
-       bppitable.NAME AS BPPITABLE, 
-       other.LOG_FOLDER AS LOGFOLDER, 
-       other.LOG_FILENAME AS LOGFILENAME, 
-       other.LOG_LEVEL AS LOGLEVEL, 
-       other.LOG_FORMAT AS LOGFORMAT, 
-       bppitodo.NAME AS BPPITODO, 
-       src.NAME AS SRC, 
-	   cbr.PROCESS_NAME AS PROCESSNAME, 
-	   cbr.INCLUDE_VBO AS INCVBO, 
-	   cbr.UNICODE_SUPPORT AS UNICODE, 
-	   cbr.START_END_FILTER AS STARTENDFILTER, 
-	   cbr.DELTA_LOAD AS DELTA, 
-	   cbr.DELTA_TAG_FILE AS DELTATAG, 
-	   coc.CONNECTION_STRING AS ODBCONN, 
-	   coc.QUERY AS QUERY
+SELECT pipeline.ID as ID,
+       server.URL AS bppi_url, 
+       server.TOKEN AS bppi_token, 
+       bppitable.NAME AS bppi_table, 
+       other.LOG_FOLDER AS other_logfolder, 
+       other.LOG_FILENAME AS other_logfilename, 
+       other.LOG_LEVEL AS other_loglevel, 
+       other.LOG_FORMAT AS other_logformat, 
+       bppitodo.NAME AS bppi_todolist, 
+       src.NAME AS sourcetype, 
+	   cbr.PROCESS_NAME AS blueprism_processname, 
+	   cbr.INCLUDE_VBO AS blueprism_includevbo, 
+	   cbr.UNICODE_SUPPORT AS blueprism_unicode, 
+	   cbr.START_END_FILTER AS blueprism_startendfilter, 
+	   cbr.DELTA_LOAD AS blueprism_delta, 
+	   cbr.DELTA_TAG_FILE AS blueprism_deltafile, 
+	   coc.CONNECTION_STRING AS database_connectionstring, 
+	   coc.QUERY AS database_query
 FROM CFG_PIPELINE pipeline 
 	LEFT JOIN CFG_BPPISERVER server ON ( server.ID = pipeline.FK_SERVER_ID  )  
 	LEFT JOIN CFG_BPPI_REPO_TABLE bppitable ON ( bppitable.ID = pipeline.FK_REPO_TABLE_ID  )  
@@ -175,7 +175,10 @@ FROM CFG_PIPELINE pipeline
 WHERE src.NAME = "bprepo";
 
 CREATE VIEW VIEW_GET_FULLCONFIG_BLUEPRISM_REPO AS 
-SELECT cfg.*, stg.STAGEFILTERLIST,  prm.PARAMLIST
+SELECT cfg.*, 
+        "sqlite3" AS configsource,
+        stg.STAGEFILTERLIST AS blueprism_stagetypefilters,  
+        prm.PARAMLIST AS blueprism_parameters 
 FROM VIEW_GET_CONFIG_BLUEPRISM_REPO cfg
 LEFT JOIN VIEW_GET_STAGEFILTERSLIST stg ON cfg.ID = stg.CONFIG_ID
 LEFT JOIN VIEW_GET_PARAMLIST prm ON  cfg.ID = stg.CONFIG_ID;

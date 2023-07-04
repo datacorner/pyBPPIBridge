@@ -6,6 +6,7 @@
 			<column name="NAME" type="TEXT" jt="-1" mandatory="y" />
 			<column name="DESCRIPTION" type="TEXT" jt="-1" />
 			<column name="TOKEN" type="TEXT" jt="-1" />
+			<column name="URL" type="TEXT" jt="-1" />
 			<index name="pk_CFG_BPPISERVER" unique="PRIMARY_KEY" >
 				<column name="ID" />
 			</index>
@@ -226,25 +227,24 @@
 		</table>
 		<view name="VIEW_GET_CONFIG_BLUEPRISM_REPO" >
 			<view_script><![CDATA[CREATE VIEW ${nameWithSchemaName} AS 
-SELECT pipeline.ID, 
-       pipeline.NAME AS PIPELINENAME, 
-       server.NAME AS SERVERNAME, 
-       server.TOKEN AS SERVERTOKEN, 
-       bppitable.NAME AS BPPITABLE, 
-       other.LOG_FOLDER AS LOGFOLDER, 
-       other.LOG_FILENAME AS LOGFILENAME, 
-       other.LOG_LEVEL AS LOGLEVEL, 
-       other.LOG_FORMAT AS LOGFORMAT, 
-       bppitodo.NAME AS BPPITODO, 
-       src.NAME AS SRC, 
-	   cbr.PROCESS_NAME AS PROCESSNAME, 
-	   cbr.INCLUDE_VBO AS INCVBO, 
-	   cbr.UNICODE_SUPPORT AS UNICODE, 
-	   cbr.START_END_FILTER AS STARTENDFILTER, 
-	   cbr.DELTA_LOAD AS DELTA, 
-	   cbr.DELTA_TAG_FILE AS DELTATAG, 
-	   coc.CONNECTION_STRING AS ODBCONN, 
-	   coc.QUERY AS QUERY
+SELECT pipeline.ID as ID,
+       server.URL AS bppi_url, 
+       server.TOKEN AS bppi_token, 
+       bppitable.NAME AS bppi_table, 
+       other.LOG_FOLDER AS other_logfolder, 
+       other.LOG_FILENAME AS other_logfilename, 
+       other.LOG_LEVEL AS other_loglevel, 
+       other.LOG_FORMAT AS other_logformat, 
+       bppitodo.NAME AS bppi_todolist, 
+       src.NAME AS sourcetype, 
+	   cbr.PROCESS_NAME AS blueprism_processname, 
+	   cbr.INCLUDE_VBO AS blueprism_includevbo, 
+	   cbr.UNICODE_SUPPORT AS blueprism_unicode, 
+	   cbr.START_END_FILTER AS blueprism_startendfilter, 
+	   cbr.DELTA_LOAD AS blueprism_delta, 
+	   cbr.DELTA_TAG_FILE AS blueprism_deltafile, 
+	   coc.CONNECTION_STRING AS database_connectionstring, 
+	   coc.QUERY AS database_query
 FROM CFG_PIPELINE pipeline 
 	LEFT JOIN CFG_BPPISERVER server ON ( server.ID = pipeline.FK_SERVER_ID  )  
 	LEFT JOIN CFG_BPPI_REPO_TABLE bppitable ON ( bppitable.ID = pipeline.FK_REPO_TABLE_ID  )  
@@ -254,54 +254,55 @@ FROM CFG_PIPELINE pipeline
 	LEFT JOIN CFG_BP_REPO cbr ON ( cbr.ID = pipeline.FK_BPREPO_ID  )  
 	LEFT JOIN CFG_ODBC_CONNECTION coc ON ( coc.ID = cbr.FK_ODBC_ID  ) 
 WHERE src.NAME = "bprepo" ]]></view_script>
+			<column name="bppi_url" type="TEXT" />
+			<column name="bppi_token" type="TEXT" />
+			<column name="bppi_table" type="TEXT" />
+			<column name="other_logfolder" type="TEXT" />
+			<column name="other_logfilename" type="TEXT" />
+			<column name="other_loglevel" type="TEXT" />
+			<column name="other_logformat" type="TEXT" />
+			<column name="bppi_todolist" type="TEXT" />
+			<column name="sourcetype" type="TEXT" />
+			<column name="blueprism_processname" type="TEXT" />
+			<column name="blueprism_includevbo" type="BIT" />
+			<column name="blueprism_unicode" type="BIT" />
+			<column name="blueprism_startendfilter" type="BIT" />
+			<column name="blueprism_delta" type="BIT" />
+			<column name="blueprism_deltafile" type="TEXT" />
+			<column name="database_connectionstring" type="TEXT" />
+			<column name="database_query" type="TEXT" />
 			<column name="ID" type="INTEGER" />
-			<column name="QUERY" type="TEXT" />
-			<column name="PIPELINENAME" type="TEXT" />
-			<column name="SERVERNAME" type="TEXT" />
-			<column name="SERVERTOKEN" type="TEXT" />
-			<column name="BPPITABLE" type="TEXT" />
-			<column name="LOGFOLDER" type="TEXT" />
-			<column name="LOGFILENAME" type="TEXT" />
-			<column name="LOGLEVEL" type="TEXT" />
-			<column name="LOGFORMAT" type="TEXT" />
-			<column name="BPPITODO" type="TEXT" />
-			<column name="SRC" type="TEXT" />
-			<column name="PROCESSNAME" type="TEXT" />
-			<column name="INCVBO" type="BIT" />
-			<column name="UNICODE" type="BIT" />
-			<column name="STARTENDFILTER" type="BIT" />
-			<column name="DELTA" type="BIT" />
-			<column name="DELTATAG" type="TEXT" />
-			<column name="ODBCONN" type="TEXT" />
 		</view>
 		<view name="VIEW_GET_FULLCONFIG_BLUEPRISM_REPO" >
 			<view_script><![CDATA[CREATE VIEW ${nameWithSchemaName} AS 
-SELECT cfg.*, stg.STAGEFILTERLIST,  prm.PARAMLIST
+SELECT cfg.*, 
+        "sqlite3" AS configsource,
+        stg.STAGEFILTERLIST AS blueprism_stagetypefilters,  
+        prm.PARAMLIST AS blueprism_parameters 
 FROM VIEW_GET_CONFIG_BLUEPRISM_REPO cfg
 LEFT JOIN VIEW_GET_STAGEFILTERSLIST stg ON cfg.ID = stg.CONFIG_ID
-LEFT JOIN VIEW_GET_PARAMLIST prm ON  cfg.ID = stg.CONFIG_ID
-]]></view_script>
+LEFT JOIN VIEW_GET_PARAMLIST prm ON  cfg.ID = stg.CONFIG_ID]]></view_script>
 			<column name="ID" type="INTEGER" />
-			<column name="PIPELINENAME" type="TEXT" />
-			<column name="SERVERNAME" type="TEXT" />
-			<column name="SERVERTOKEN" type="TEXT" />
-			<column name="BPPITABLE" type="TEXT" />
-			<column name="LOGFOLDER" type="TEXT" />
-			<column name="LOGFILENAME" type="TEXT" />
-			<column name="LOGLEVEL" type="TEXT" />
-			<column name="LOGFORMAT" type="TEXT" />
-			<column name="BPPITODO" type="TEXT" />
-			<column name="SRC" type="TEXT" />
-			<column name="PROCESSNAME" type="TEXT" />
-			<column name="INCVBO" type="BIT" />
-			<column name="UNICODE" type="BIT" />
-			<column name="STARTENDFILTER" type="BIT" />
-			<column name="DELTA" type="BIT" />
-			<column name="DELTATAG" type="TEXT" />
-			<column name="ODBCONN" type="TEXT" />
-			<column name="QUERY" type="TEXT" />
-			<column name="STAGEFILTERLIST" type="ENUM" />
-			<column name="PARAMLIST" type="ENUM" />
+			<column name="bppi_url" type="TEXT" />
+			<column name="bppi_token" type="TEXT" />
+			<column name="bppi_table" type="TEXT" />
+			<column name="other_logfolder" type="TEXT" />
+			<column name="other_logfilename" type="TEXT" />
+			<column name="other_loglevel" type="TEXT" />
+			<column name="other_logformat" type="TEXT" />
+			<column name="bppi_todolist" type="TEXT" />
+			<column name="sourcetype" type="TEXT" />
+			<column name="blueprism_processname" type="TEXT" />
+			<column name="blueprism_includevbo" type="BIT" />
+			<column name="blueprism_unicode" type="BIT" />
+			<column name="blueprism_startendfilter" type="BIT" />
+			<column name="blueprism_delta" type="BIT" />
+			<column name="blueprism_deltafile" type="TEXT" />
+			<column name="database_connectionstring" type="TEXT" />
+			<column name="database_query" type="TEXT" />
+			<column name="blueprism_stagetypefilters" type="ENUM" />
+			<column name="blueprism_parameters" type="ENUM" />
+			<column name="configsource" type="ENUM" />
 		</view>
 		<view name="VIEW_GET_PARAMLIST" >
 			<view_script><![CDATA[CREATE VIEW ${nameWithSchemaName} AS 
@@ -344,36 +345,29 @@ FROM CFG_BP_STAGE_FILTERS stages
 		</group>
 	</layout>
 	<layout name="~Layout with Sample Tools" id="Layout-775" joined_routing="y" show_column_type="y" show_relation="columns" >
-		<entity schema="Default" name="CFG_BPPISERVER" color="BED3F4" x="208" y="48" />
-		<entity schema="Default" name="CFG_BPPI_REPO_TABLE" color="BED3F4" x="544" y="64" />
-		<entity schema="Default" name="CFG_BPPI_REPO_TODO" color="BED3F4" x="768" y="128" />
-		<entity schema="Default" name="CFG_BP_API" color="C1D8EE" x="832" y="512" />
-		<entity schema="Default" name="CFG_BP_PARAMS" color="C1D8EE" x="1424" y="176" />
-		<entity schema="Default" name="CFG_BP_PARAMS_COLLECT" color="C1D8EE" x="1152" y="176" />
-		<entity schema="Default" name="CFG_BP_REPO" color="C1D8EE" x="832" y="304" />
-		<entity schema="Default" name="CFG_BP_STAGES" color="C1D8EE" x="1440" y="320" />
-		<entity schema="Default" name="CFG_BP_STAGE_FILTERS" color="C1D8EE" x="1152" y="320" />
-		<entity schema="Default" name="CFG_EVENTMAP" color="C1D8EE" x="48" y="352" />
-		<entity schema="Default" name="CFG_EVENTMAP_TABLETYPE" color="C1D8EE" x="48" y="480" />
-		<entity schema="Default" name="CFG_FILE" color="C1D8EE" x="656" y="576" />
-		<entity schema="Default" name="CFG_ODBC_CONNECTION" color="C1D8EE" x="1152" y="480" />
-		<entity schema="Default" name="CFG_OTHER" color="C1D8EE" x="96" y="176" />
-		<entity schema="Default" name="CFG_PIPELINE" color="BED3F4" x="368" y="208" />
-		<entity schema="Default" name="CFG_SAP" color="C1D8EE" x="400" y="528" />
-		<entity schema="Default" name="CFG_SOURCETYPE" color="C1D8EE" x="112" y="640" />
-		<entity schema="Default" name="VIEW_GET_CONFIG_BLUEPRISM_REPO" color="3986C1" x="1344" y="608" />
-		<entity schema="Default" name="VIEW_GET_FULLCONFIG_BLUEPRISM_REPO" color="3986C1" x="752" y="768" />
-		<entity schema="Default" name="VIEW_GET_PARAMLIST" color="3986C1" x="1152" y="704" />
-		<entity schema="Default" name="VIEW_GET_STAGEFILTERSLIST" color="3986C1" x="1120" y="608" />
-		<script name="SQL_Editor" id="Editor-1893" language="SQL" >
-			<string><![CDATA[SELECT cfg.*, stg.STAGEFILTERLIST,  prm.PARAMLIST
-FROM VIEW_GET_CONFIG_BLUEPRISM_REPO cfg
-LEFT JOIN VIEW_GET_STAGEFILTERSLIST stg ON cfg.ID = stg.CONFIG_ID
-LEFT JOIN VIEW_GET_PARAMLIST prm ON  cfg.ID = stg.CONFIG_ID]]></string>
-		</script>
-		<script name="SQL_Editor_001" id="Editor-267a" language="SQL" >
-			<string><![CDATA[select * from VIEW_GET_CONFIG_BLUEPRISM_REPO
-]]></string>
+		<entity schema="Default" name="CFG_BPPISERVER" color="BED3F4" x="224" y="48" />
+		<entity schema="Default" name="CFG_BPPI_REPO_TABLE" color="BED3F4" x="544" y="80" />
+		<entity schema="Default" name="CFG_BPPI_REPO_TODO" color="BED3F4" x="768" y="144" />
+		<entity schema="Default" name="CFG_BP_API" color="C1D8EE" x="832" y="528" />
+		<entity schema="Default" name="CFG_BP_PARAMS" color="C1D8EE" x="1424" y="192" />
+		<entity schema="Default" name="CFG_BP_PARAMS_COLLECT" color="C1D8EE" x="1152" y="192" />
+		<entity schema="Default" name="CFG_BP_REPO" color="C1D8EE" x="832" y="320" />
+		<entity schema="Default" name="CFG_BP_STAGES" color="C1D8EE" x="1440" y="336" />
+		<entity schema="Default" name="CFG_BP_STAGE_FILTERS" color="C1D8EE" x="1152" y="336" />
+		<entity schema="Default" name="CFG_EVENTMAP" color="C1D8EE" x="48" y="368" />
+		<entity schema="Default" name="CFG_EVENTMAP_TABLETYPE" color="C1D8EE" x="48" y="496" />
+		<entity schema="Default" name="CFG_FILE" color="C1D8EE" x="656" y="592" />
+		<entity schema="Default" name="CFG_ODBC_CONNECTION" color="C1D8EE" x="1152" y="496" />
+		<entity schema="Default" name="CFG_OTHER" color="C1D8EE" x="96" y="192" />
+		<entity schema="Default" name="CFG_PIPELINE" color="BED3F4" x="368" y="224" />
+		<entity schema="Default" name="CFG_SAP" color="C1D8EE" x="400" y="544" />
+		<entity schema="Default" name="CFG_SOURCETYPE" color="C1D8EE" x="112" y="656" />
+		<entity schema="Default" name="VIEW_GET_CONFIG_BLUEPRISM_REPO" color="3986C1" x="1344" y="624" />
+		<entity schema="Default" name="VIEW_GET_FULLCONFIG_BLUEPRISM_REPO" color="3986C1" x="768" y="736" />
+		<entity schema="Default" name="VIEW_GET_PARAMLIST" color="3986C1" x="1152" y="720" />
+		<entity schema="Default" name="VIEW_GET_STAGEFILTERSLIST" color="3986C1" x="1120" y="624" />
+		<script name="SQL_Editor" id="Editor-c05" language="SQL" >
+			<string><![CDATA[select * from VIEW_GET_CONFIG_BLUEPRISM_REPO]]></string>
 		</script>
 		<browser id="Browse-eb8" name="Relational Data Explorer" confirm_updates="y" >
 			<browse_table schema="Default" entity="CFG_PIPELINE" x="20" y="20" width="400" height="300" >

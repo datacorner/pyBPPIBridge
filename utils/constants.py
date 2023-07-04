@@ -11,7 +11,12 @@ EMPTY = ""
 DEFCSVSEP = ","
 PIPELINE_FOLDER = 'pipelines/repository'                # Pipeline datasource classes
 
-# Parameter Names
+# Configuration type
+CONFIG_SOURCE_NAME = "configsource"
+CONFIG_SOURCE_SQ3 = "sqlite3"
+CONFIG_SOURCE_INI = "ini"   
+
+# Parameter Names (INI/Command line)
 PARAM_SRCTYPE = "sourcetype"                            # Data source type {csv|excel|odbc|blueprism}
 PARAM_SRCTYPE_VALCSV = "csv"                            # sourcetype = csv
 PARAM_SRCTYPE_VALXES = "xes"                            # sourcetype = xes
@@ -33,6 +38,7 @@ PARAM_FILENAME = "filename"                             # {csv|xes} Source file 
 PARAM_CSV_SEPARATOR ="sep"                              # {csv} CSV fields separator (by default comma)
 PARAM_CONFIGFILE = "configfile"                         # {odbc|bprepo} Config / INI file
 PARAM_EXCELSHEETNAME = "sheet"                          # {excel} Excel spreadsheet name
+PARAM_SQ_ID = "id"                                      # When using SQLite config / ID of the config
 # Parameters which can be in the INI file
 PARAM_BPPITOKEN = "bppi.token"                          # {csv|xes|excel|odbc|bprepo} BPPI Token
 PARAM_BPPIURL = "bppi.url"                              # {csv|xes|excel|odbc|bprepo} BPPI URL
@@ -124,3 +130,7 @@ BP_DEFAULT_DELTAFILE = "bpdelta.tag"                # Default filename for the d
 BP_DELTADATE_FMT = "%Y-%m-%d %H:%M:%S"              # Delta date format %Y-%m-%d %H:%M:%S
 COL_STAGE_ID = "STAGE_ID"
 COL_OBJECT_TAB = "OBJECT_TAB"
+
+# SQLite configuration SPecifics
+SQLITE_GETCONFIG = "SELECT * FROM VIEW_GET_FULLCONFIG_BLUEPRISM_REPO WHERE ID={}"
+       

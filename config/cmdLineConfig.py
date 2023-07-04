@@ -5,14 +5,14 @@ __license__ = "GPL"
 import utils.constants as C
 from config.appConfig import appConfig
 
-class configuration:
+class cmdLineConfig:
 	
 	@staticmethod
-	def fromDB(id):
-		pass
+	def readDatabase(parser):
+		return None, None
 
 	@staticmethod
-	def fromCmdLine_sqlite(parser):
+	def readSqlite(parser):
 		""" This function gather the arguments sent in the CLI and build the configuration object / USE FOR SQLITE FILE CONFIGURATION FILE ONLY
 		Args:
 			parser (argparse.ArgumentParser): CLI arguments
@@ -25,11 +25,11 @@ class configuration:
 		try:
 			config = appConfig()
 			# Parser CLI arguments
-			parser.add_argument("-" + "file", help="SQLite 3 data file", required=True)
-			parser.add_argument("-" + "id", help="Pipeline Configuration ID", required=True)
+			parser.add_argument("-" + C.PARAM_FILENAME, help="SQLite 3 data file", required=True)
+			parser.add_argument("-" + C.PARAM_SQ_ID, help="Pipeline Configuration ID inside the configuration file", required=True)
 			args = vars(parser.parse_args())
 			# Load configuration via the INI file
-			config.loadFromSQLite(args["file"], args["id"])
+			config.loadFromSQLite(args[C.PARAM_FILENAME], args[C.PARAM_SQ_ID])
 
 			src = config.getParameter(C.PARAM_SRCTYPE)
 			# Config "exceptions" ...
@@ -52,7 +52,7 @@ class configuration:
 			return None, None
 
 	@staticmethod
-	def fromCmdLine_ini(parser):
+	def readIni(parser):
 		""" This function gather the arguments sent in the CLI and build the configuration object / USE FOR INI FILE CONFIGURATION FILE ONLY
 		Args:
 			parser (argparse.ArgumentParser): CLI arguments
@@ -74,8 +74,9 @@ class configuration:
 			parser.add_argument("-" + C.PARAM_TODATE, help="(bprepo) TO date -> Delta extraction (Format YYYY-MM-DD HH:MM:SS)", default=C.EMPTY)
 			args = vars(parser.parse_args())
 			# Check Data Source Type
-			config.setParameter(C.PARAM_SRCTYPE, src)
 			src = args[C.PARAM_SRCTYPE]
+			config.setParameter(C.PARAM_SRCTYPE, src)
+			config.setParameter(C.CONFIG_SOURCE_NAME, C.CONFIG_SOURCE_INI)
 			if (not(src in C.PARAM_SRCTYPE_SUPPORTED)):
 				raise Exception("Missing Data Source type {csv|xes|excel|odbc|bprepo|bpapi|saptable}")
 			# Load configuration via the INI file
@@ -98,6 +99,6 @@ class configuration:
 			return config, src
 
 		except Exception as e:
-			print(e)
+			print("ERROR> " + str(e))
 			parser.print_help()
 			return None, None

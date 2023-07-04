@@ -4,10 +4,10 @@ __license__ = "GPL"
 
 import argparse
 from pipelines.pipelineFactory import pipelineFactory
-from config.configuration import configuration
+from config.cmdLineConfig import cmdLineConfig
 
 if __name__ == "__main__":
 	# Get configuration from cmdline & ini file
-	config, src = configuration.fromCmdLine_sqlite(argparse.ArgumentParser())
+	config, src = cmdLineConfig.readSqlite(argparse.ArgumentParser())
 	# Process 
 	pipelineFactory(src, config).createAndExecute()
