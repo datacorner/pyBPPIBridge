@@ -1,5 +1,5 @@
 # Presentation
-![BPPI Data Bridge principle](./schema.png)
+![BPPI Data Bridge principle](https://raw.githubusercontent.com/wiki/datacorner/pyBPPIBridge/img/schema.png)
 This repository proposes a solution that build a data bridge between Blue Prism Process Intelligence (BPPI) and one or several external data sources. Its purpose is first to access these external datasources. Then its collect the needed data to automate their importation into an existing BPPI instance (cloud or on-prem). By executing a TO DO into the BPPI repository it also performs an automatic import to an existing BPPI Project.
 
 Currently this Data Bridge provides data access and load from:
