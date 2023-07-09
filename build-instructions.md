@@ -4,3 +4,7 @@ $ pip freeze > requirements.txt
 2) build the wheel
 (Modify setup.py accordindly)
 $ python setup.py bdist_wheel
+
+3) deploy /pyPI
+twine upload --verbose dist/pyBPPIBridge-0.x.x-py3-none-any.whl
+(may install twine via pip install twine)

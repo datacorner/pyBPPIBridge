@@ -225,6 +225,29 @@
 				<column name="ID" />
 			</index>
 		</table>
+		<table name="Users" spec="" >
+			<column name="id" type="INTEGER" jt="4" mandatory="y" />
+			<column name="username" type="VARCHAR" length="64" jt="12" />
+			<column name="email" type="VARCHAR" length="64" jt="12" />
+			<column name="password" type="BLOB" jt="2004" />
+			<column name="oauth_github" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_Users" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="flask_dance_oauth" spec="" >
+			<column name="id" type="INTEGER" jt="4" mandatory="y" />
+			<column name="provider" type="VARCHAR" length="50" jt="12" mandatory="y" />
+			<column name="created_at" type="DATETIME" jt="93" mandatory="y" />
+			<column name="token" type="VARCHAR" jt="12" mandatory="y" />
+			<column name="user_id" type="INTEGER" jt="4" mandatory="y" />
+			<index name="pk_flask_dance_oauth" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="FK_flask_dance_oauth Users" to_schema="Default" to_table="Users" delete_action="cascade" >
+				<fk_column name="user_id" pk="id" />
+			</fk>
+		</table>
 		<view name="VIEW_GET_CONFIG_BLUEPRISM_REPO" >
 			<view_script><![CDATA[CREATE VIEW ${nameWithSchemaName} AS 
 SELECT pipeline.ID as ID,
@@ -323,7 +346,7 @@ FROM CFG_BP_STAGE_FILTERS stages
 			<column name="STAGEFILTERLIST" type="ENUM" />
 		</view>
 	</schema>
-	<connector name="Sqlite" database="Sqlite" driver_class="org.sqlite.JDBC" driver_jar="sqlite-jdbc-3.40.0.0.jar" driver_desc="Standard" host="localhost" port="7210" instance="C:/Git/pyBPPIBridge/config-samples/sqlite/dev/bppiconfig.sqlite3" useSystemProxy="false" />
+	<connector name="Sqlite" database="Sqlite" driver_class="org.sqlite.JDBC" driver_jar="sqlite-jdbc-3.40.0.0.jar" driver_desc="Standard" host="localhost" port="7210" instance="/home/benoit/git/pyBPPIBridgeUI/apps/db/bppiconfig.sqlite3" useSystemProxy="false" />
 	<layout name="Main Layout" id="Layout-1a15" show_relation="columns" >
 		<entity schema="Default" name="CFG_BPPISERVER" color="BED3F4" x="496" y="224" />
 		<entity schema="Default" name="CFG_BPPI_REPO_TABLE" color="BED3F4" x="496" y="480" />
@@ -345,27 +368,29 @@ FROM CFG_BP_STAGE_FILTERS stages
 		</group>
 	</layout>
 	<layout name="~Layout with Sample Tools" id="Layout-775" joined_routing="y" show_column_type="y" show_relation="columns" >
-		<entity schema="Default" name="CFG_BPPISERVER" color="BED3F4" x="224" y="48" />
-		<entity schema="Default" name="CFG_BPPI_REPO_TABLE" color="BED3F4" x="544" y="80" />
-		<entity schema="Default" name="CFG_BPPI_REPO_TODO" color="BED3F4" x="768" y="144" />
-		<entity schema="Default" name="CFG_BP_API" color="C1D8EE" x="832" y="528" />
-		<entity schema="Default" name="CFG_BP_PARAMS" color="C1D8EE" x="1424" y="192" />
-		<entity schema="Default" name="CFG_BP_PARAMS_COLLECT" color="C1D8EE" x="1152" y="192" />
-		<entity schema="Default" name="CFG_BP_REPO" color="C1D8EE" x="832" y="320" />
-		<entity schema="Default" name="CFG_BP_STAGES" color="C1D8EE" x="1440" y="336" />
-		<entity schema="Default" name="CFG_BP_STAGE_FILTERS" color="C1D8EE" x="1152" y="336" />
-		<entity schema="Default" name="CFG_EVENTMAP" color="C1D8EE" x="48" y="368" />
-		<entity schema="Default" name="CFG_EVENTMAP_TABLETYPE" color="C1D8EE" x="48" y="496" />
-		<entity schema="Default" name="CFG_FILE" color="C1D8EE" x="656" y="592" />
-		<entity schema="Default" name="CFG_ODBC_CONNECTION" color="C1D8EE" x="1152" y="496" />
-		<entity schema="Default" name="CFG_OTHER" color="C1D8EE" x="96" y="192" />
-		<entity schema="Default" name="CFG_PIPELINE" color="BED3F4" x="368" y="224" />
-		<entity schema="Default" name="CFG_SAP" color="C1D8EE" x="400" y="544" />
-		<entity schema="Default" name="CFG_SOURCETYPE" color="C1D8EE" x="112" y="656" />
-		<entity schema="Default" name="VIEW_GET_CONFIG_BLUEPRISM_REPO" color="3986C1" x="1344" y="624" />
-		<entity schema="Default" name="VIEW_GET_FULLCONFIG_BLUEPRISM_REPO" color="3986C1" x="768" y="736" />
-		<entity schema="Default" name="VIEW_GET_PARAMLIST" color="3986C1" x="1152" y="720" />
-		<entity schema="Default" name="VIEW_GET_STAGEFILTERSLIST" color="3986C1" x="1120" y="624" />
+		<entity schema="Default" name="CFG_BPPISERVER" color="BED3F4" x="224" y="80" />
+		<entity schema="Default" name="CFG_BPPI_REPO_TABLE" color="BED3F4" x="544" y="112" />
+		<entity schema="Default" name="CFG_BPPI_REPO_TODO" color="BED3F4" x="816" y="144" />
+		<entity schema="Default" name="CFG_BP_API" color="C1D8EE" x="832" y="560" />
+		<entity schema="Default" name="CFG_BP_PARAMS" color="C1D8EE" x="1424" y="224" />
+		<entity schema="Default" name="CFG_BP_PARAMS_COLLECT" color="C1D8EE" x="1152" y="224" />
+		<entity schema="Default" name="CFG_BP_REPO" color="C1D8EE" x="832" y="352" />
+		<entity schema="Default" name="CFG_BP_STAGES" color="C1D8EE" x="1440" y="368" />
+		<entity schema="Default" name="CFG_BP_STAGE_FILTERS" color="C1D8EE" x="1152" y="368" />
+		<entity schema="Default" name="CFG_EVENTMAP" color="C1D8EE" x="48" y="400" />
+		<entity schema="Default" name="CFG_EVENTMAP_TABLETYPE" color="C1D8EE" x="48" y="528" />
+		<entity schema="Default" name="CFG_FILE" color="C1D8EE" x="656" y="624" />
+		<entity schema="Default" name="CFG_ODBC_CONNECTION" color="C1D8EE" x="1152" y="528" />
+		<entity schema="Default" name="CFG_OTHER" color="C1D8EE" x="96" y="224" />
+		<entity schema="Default" name="CFG_PIPELINE" color="BED3F4" x="368" y="256" />
+		<entity schema="Default" name="CFG_SAP" color="C1D8EE" x="400" y="576" />
+		<entity schema="Default" name="CFG_SOURCETYPE" color="C1D8EE" x="112" y="688" />
+		<entity schema="Default" name="Users" color="3986C1" x="1072" y="80" />
+		<entity schema="Default" name="VIEW_GET_CONFIG_BLUEPRISM_REPO" color="3986C1" x="1344" y="656" />
+		<entity schema="Default" name="VIEW_GET_FULLCONFIG_BLUEPRISM_REPO" color="3986C1" x="768" y="768" />
+		<entity schema="Default" name="VIEW_GET_PARAMLIST" color="3986C1" x="1152" y="752" />
+		<entity schema="Default" name="VIEW_GET_STAGEFILTERSLIST" color="3986C1" x="1120" y="656" />
+		<entity schema="Default" name="flask_dance_oauth" color="3986C1" x="1392" y="48" />
 		<script name="SQL_Editor" id="Editor-c05" language="SQL" >
 			<string><![CDATA[select * from VIEW_GET_CONFIG_BLUEPRISM_REPO]]></string>
 		</script>
