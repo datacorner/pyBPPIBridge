@@ -5,7 +5,9 @@ import os, sys
 import pathlib
 import pkg_resources
 
-dependencies = [
+VERSION = "0.4.6"
+
+DEPENDENCIES = [
 'blinker==1.6.2',
 'certifi==2023.5.7',
 'charset-normalizer==3.1.0',
@@ -51,7 +53,7 @@ dependencies = [
 
 setup(
     name = 'pyBPPIBridge', 
-    version='0.4.5', 
+    version=VERSION, 
     license = 'GPL V3',
     url = 'https://github.com/datacorner/pyBPPIBridge/wiki',
     download_url = 'https://github.com/datacorner/pyBPPIBridge',
@@ -61,5 +63,5 @@ setup(
                                      'config-samples/sqlite/config.ddl', 
                                      'config-samples/ini/config.ini-template'])],
     packages=find_packages(),
-    install_requires=dependencies,
+    install_requires=DEPENDENCIES,
 )
