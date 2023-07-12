@@ -4,11 +4,11 @@ This repository proposes a solution that build a data bridge between Blue Prism 
 
 🚀 Currently this Data Bridge provides data access and load from these data sources :
 
-✅  [External file (csv)](https://github.com/datacorner/pyBPPIBridge/wiki/CSV-File)
-✅  [External Excel Spreadsheet (xls, xlsx, xlsm, xlsb, odf, ods and odt)](https://github.com/datacorner/pyBPPIBridge/wiki/Excel-File)
-✅  [External XES File](https://github.com/datacorner/pyBPPIBridge/wiki/XES-File)
-✅  [ODBC Data Sources (checked with SQL Server) by using an configurable SQL query](https://github.com/datacorner/pyBPPIBridge/wiki/ODBC)
-✅  [Blue Prism (Via session logs, Blue Prism API or vbo uses)](https://github.com/datacorner/pyBPPIBridge/wiki/Blue-Prism)
+✅  [External file (csv)](https://github.com/datacorner/pyBPPIBridge/wiki/CSV-File)  
+✅  [External Excel Spreadsheet (xls, xlsx, xlsm, xlsb, odf, ods and odt)](https://github.com/datacorner/pyBPPIBridge/wiki/Excel-File)  
+✅  [External XES File](https://github.com/datacorner/pyBPPIBridge/wiki/XES-File)  
+✅  [ODBC Data Sources (checked with SQL Server) by using an configurable SQL query](https://github.com/datacorner/pyBPPIBridge/wiki/ODBC)  
+✅  [Blue Prism (Via session logs, Blue Prism API or vbo uses)](https://github.com/datacorner/pyBPPIBridge/wiki/Blue-Prism)  
 ✅  [SAP Read Table via SAP RFC](https://github.com/datacorner/pyBPPIBridge/wiki/SAP-RFC-Table)
 
 This BPPI Data Bridge reads the data from the Datasource and upload them into the BPPI Repository. Inside BPPI it's also possible to configure a TODO to automate some transformations and load the data into a BPPI Project (The program can execute thess To Do automatically). To make this bridge usable the user must configure a Data Source in the BPPI Repository, and get a token.  
