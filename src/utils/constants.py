@@ -9,7 +9,7 @@ YES = "yes"
 NO = "no"
 EMPTY = ""
 DEFCSVSEP = ","
-PIPELINE_FOLDER = 'src/pipelines/repository'                # Pipeline datasource classes
+PIPELINE_FOLDER = 'pipelines.repository.'                # Pipeline datasource classes
 
 # Configuration type
 CONFIG_SOURCE_NAME = "configsource"

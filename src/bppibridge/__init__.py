@@ -7,6 +7,8 @@ from pipelines.pipelineFactory import pipelineFactory
 from config.cmdLineConfig import cmdLineConfig
 
 def main() -> None:
+	"""Entry point for the application script"""
+	
 	# Get configuration from cmdline & ini file
 	config, src = cmdLineConfig.readIni(argparse.ArgumentParser())
 	# Process 

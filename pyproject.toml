@@ -1,27 +1,22 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [project]
 name = "pyBPPIBridge"
-version = "0.4.7"
+version = "0.4.8.8"
 authors = [
   { name="Benoit Cayla", email="benoit@datacorner.fr" },
 ]
 description = "This solution builds a bridge between Blue Prism Process Intelligence (alias BPPI) and some external data sources (like files, databases via ODBC, SAP and Blue Prism)."
 readme = "README.md"
 requires-python = ">=3.10"
+license = {file = "LICENSE"}
 classifiers = [
   # How mature is this project? Common values are
   #   3 - Alpha
   #   4 - Beta
   #   5 - Production/Stable
     "Development Status :: 3 - Alpha",
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: GPL V3",
     "Operating System :: OS Independent",
     "Environment :: Console",
-    "Topic :: Process Mining - BPPI",
+    "Programming Language :: Python :: 3.10",
 ]
 dependencies = [
   'blinker==1.6.2',
@@ -68,9 +63,22 @@ dependencies = [
 ]
 
 [project.urls]
-"Source" = "https://github.com/datacorner/pyBPPIBridge"
+Source = "https://github.com/datacorner/pyBPPIBridge"
 "Bug Tracker" = "https://github.com/datacorner/pyBPPIBridge/issues"
-"Homepage" = "https://github.com/datacorner/pyBPPIBridge/wiki"
+Homepage = "https://github.com/datacorner/pyBPPIBridge/wiki"
 
 [project.scripts]
 bppibridge = "bppibridge:main"
+
+[tool.setuptools]
+package-data = { "bppibridge" = ["config-samples/bplogs.sql", 
+                                     'config-samples/sqlite/config.ddl', 
+                                     'config-samples/ini/config.ini-template' 
+                                ] }
+
+
+[build-system]
+# These are the assumed default build requirements from pip:
+# https://pip.pypa.io/en/stable/reference/pip/#pep-517-and-518-support
+requires = ["setuptools>=43.0.0", "wheel"]
+build-backend = "setuptools.build_meta"

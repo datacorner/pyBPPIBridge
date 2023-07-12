@@ -4,6 +4,8 @@ __license__ = "GPL"
 
 import utils.constants as C
 import sys
+import os
+import importlib
 
 class pipelineFactory:
 	def __init__(self, datasource, config):
@@ -20,6 +22,7 @@ class pipelineFactory:
 	def createAndExecute(self):
 		# INSTANCIATE ONLY THE NEEDED CLASS / DATA SOURCE TYPE
 		pipeline = self.create()
+		if (pipeline == None): exit()
 		# PROCESS THE DATA
 		if (pipeline.initialize()):
 			df = pipeline.extract()	# EXTRACT (E of ETL)
@@ -48,26 +51,26 @@ class pipelineFactory:
 				raise Exception("The configuration is not available or is invalid.")
 			if (self.datasource == None): 
 				raise Exception("The datasource is not correctly specified or is invalid.")
-			sys.path.append(C.PIPELINE_FOLDER)
 			if (self.datasource == C.PARAM_SRCTYPE_VALCSV):
-				datasourceObject = __import__("bppiPLRCSVFile").bppiPLRCSVFile
+				datasourceObject = importlib.import_module(C.PIPELINE_FOLDER + "bppiPLRCSVFile").bppiPLRCSVFile
 			elif (self.datasource == C.PARAM_SRCTYPE_VALXES):
-				datasourceObject = __import__("bppiPLRXESFile").bppiPLRXESFile
+				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRXESFile").bppiPLRXESFile
 			elif (self.datasource == C.PARAM_SRCTYPE_VALXLS):
-				datasourceObject = __import__("bppiPLRExcelFile").bppiPLRExcelFile
+				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRExcelFile").bppiPLRExcelFile
 			elif (self.datasource == C.PARAM_SRCTYPE_VALODBC):
-				datasourceObject = __import__("bppiPLRODBC").bppiPLRODBC
+				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRODBC").bppiPLRODBC
 			elif (self.datasource == C.PARAM_SRCTYPE_VALBP):
-				datasourceObject = __import__("bppiPLRBluePrismRepo").bppiPLRBluePrismRepo
+				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRBluePrismRepo").bppiPLRBluePrismRepo
 			elif (self.datasource == C.PARAM_SRCTYPE_VALBPAPI):
-				datasourceObject = __import__("bppiPLRBluePrismApi").bppiPLRBluePrismApi
+				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRBluePrismApi").bppiPLRBluePrismApi
 			elif (self.datasource == C.PARAM_SRCTYPE_VALSAPTABLE):
-				datasourceObject = __import__("bppiPLRSAPRfcTable").bppiPLRSAPRfcTable
+				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRSAPRfcTable").bppiPLRSAPRfcTable
 			elif (self.datasource == C.PARAM_SRCTYPE_CHORUSFILE):
-				datasourceObject = __import__("bppiPLRChorusExtract").bppiPLRChorusExtract
+				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRChorusExtract").bppiPLRChorusExtract
 			else:
-				return None
+				raise Exception ("Error when loading the Data Source Factory in pipeline folder")
 			return datasourceObject(self.config)
 		
 		except Exception as e:
-			print("Error when loading the Data Source connector: " + str(e))
+			print("Error when loading the Data Source Factory: " + str(e))
+			return None
