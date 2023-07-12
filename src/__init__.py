@@ -6,7 +6,7 @@ import argparse
 from pipelines.pipelineFactory import pipelineFactory
 from config.cmdLineConfig import cmdLineConfig
 
-if __name__ == "__main__":
+def main() -> None:
 	# Get configuration from cmdline & ini file
 	config, src = cmdLineConfig.readIni(argparse.ArgumentParser())
 	# Process 
