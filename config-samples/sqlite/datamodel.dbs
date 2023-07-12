@@ -345,8 +345,8 @@ FROM CFG_BP_STAGE_FILTERS stages
 		</group>
 	</layout>
 	<layout name="~Layout with Sample Tools" id="Layout-775" joined_routing="y" show_column_type="y" show_relation="columns" >
-		<entity schema="Default" name="CFG_BPPISERVER" color="BED3F4" x="224" y="48" />
-		<entity schema="Default" name="CFG_BPPI_REPO_TABLE" color="BED3F4" x="544" y="80" />
+		<entity schema="Default" name="CFG_BPPISERVER" color="BED3F4" x="128" y="48" />
+		<entity schema="Default" name="CFG_BPPI_REPO_TABLE" color="BED3F4" x="544" y="96" />
 		<entity schema="Default" name="CFG_BPPI_REPO_TODO" color="BED3F4" x="768" y="144" />
 		<entity schema="Default" name="CFG_BP_API" color="C1D8EE" x="832" y="528" />
 		<entity schema="Default" name="CFG_BP_PARAMS" color="C1D8EE" x="1424" y="192" />
