@@ -54,19 +54,19 @@ class pipelineFactory:
 			if (self.datasource == C.PARAM_SRCTYPE_VALCSV):
 				datasourceObject = importlib.import_module(C.PIPELINE_FOLDER + "bppiPLRCSVFile").bppiPLRCSVFile
 			elif (self.datasource == C.PARAM_SRCTYPE_VALXES):
-				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRXESFile").bppiPLRXESFile
+				datasourceObject = importlib.import_module(C.PIPELINE_FOLDER + "bppiPLRXESFile").bppiPLRXESFile
 			elif (self.datasource == C.PARAM_SRCTYPE_VALXLS):
-				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRExcelFile").bppiPLRExcelFile
+				datasourceObject = importlib.import_module(C.PIPELINE_FOLDER + "bppiPLRExcelFile").bppiPLRExcelFile
 			elif (self.datasource == C.PARAM_SRCTYPE_VALODBC):
-				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRODBC").bppiPLRODBC
+				datasourceObject = importlib.import_module(C.PIPELINE_FOLDER + "bppiPLRODBC").bppiPLRODBC
 			elif (self.datasource == C.PARAM_SRCTYPE_VALBP):
-				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRBluePrismRepo").bppiPLRBluePrismRepo
+				datasourceObject = importlib.import_module(C.PIPELINE_FOLDER + "bppiPLRBluePrismRepo").bppiPLRBluePrismRepo
 			elif (self.datasource == C.PARAM_SRCTYPE_VALBPAPI):
-				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRBluePrismApi").bppiPLRBluePrismApi
+				datasourceObject = importlib.import_module(C.PIPELINE_FOLDER + "bppiPLRBluePrismApi").bppiPLRBluePrismApi
 			elif (self.datasource == C.PARAM_SRCTYPE_VALSAPTABLE):
-				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRSAPRfcTable").bppiPLRSAPRfcTable
+				datasourceObject = importlib.import_module(C.PIPELINE_FOLDER + "bppiPLRSAPRfcTable").bppiPLRSAPRfcTable
 			elif (self.datasource == C.PARAM_SRCTYPE_CHORUSFILE):
-				datasourceObject = __import__(C.PIPELINE_FOLDER + "bppiPLRChorusExtract").bppiPLRChorusExtract
+				datasourceObject = importlib.import_module(C.PIPELINE_FOLDER + "bppiPLRChorusExtract").bppiPLRChorusExtract
 			else:
 				raise Exception ("Error when loading the Data Source Factory in pipeline folder")
 			return datasourceObject(self.config)
