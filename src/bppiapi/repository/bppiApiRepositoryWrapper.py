@@ -41,20 +41,22 @@ class bppiApiRepositoryWrapper:
         """
         try: 
             # Get Api call for getting Repository informations
-            self.log.info("bppiApiRepositoryWrapper.getRepositoryConfiguration() - Get Api call for getting Repository informations")
+            self.log.info("BPPI API - Get Api call for getting Repository informations ...")
             url = self.apiRootPath + C.API_REPOSITORY_CONFIG
-            self.log.debug("bppiApiRepositoryWrapper.getRepositoryConfiguration() - HTTP GET Request " + url)
+            self.log.debug("BPPI API - HTTP GET Request sent: " + url)
             headers = {}
             headers["Authorization"] = "Bearer " + self.Token
             headers["content-type"] = "application/json"
             httpResponse = requests.get(url , headers=headers) 
-            repositoryCfg = repConfig(httpResponse)
-            self.log.debug("bppiApiRepositoryWrapper.getRepositoryConfiguration() - HTTP Response: {}".format(repositoryCfg.jsonContent))
+            repositoryCfg = repConfig(httpResponse) # content in repositoryCfg.jsonContent
             if (repositoryCfg.loaded):
-                self.log.info("bppiApiRepositoryWrapper.getRepositoryConfiguration() - Information from BPPI Repository collected successfully")
+                self.log.info("BPPI API - Informations from BPPI Repository collected successfully")
+            else:
+                raise Exception ("Impossible to collect repository informations.")
             return repositoryCfg
+        
         except Exception as e:
-            self.log.error("bppiApiRepositoryWrapper.getRepositoryConfiguration() - GetRepositoryConfiguration Error | " + str(e))
+            self.log.error("bppiApiRepositoryWrapper.getRepositoryConfiguration() - " + str(e))
             return repConfig()
 
     def prepareUpload(self, repositoryId) -> uploadConfig:
@@ -65,22 +67,24 @@ class bppiApiRepositoryWrapper:
             uploadConfig: Upload details configuration
         """
         try: 
-            self.log.info("bppiApiRepositoryWrapper.prepareUpload() - Get the Server info for upload")
+            self.log.info("BPPI API - Get the Server info for upload ...")
             url = self.apiRootPath + C.API_SERVER_UPLOAD_INFOS.format(repositoryId)
-            self.log.debug("bppiApiRepositoryWrapper.prepareUpload() - HTTP POST Request " + url)
+            self.log.debug("BPPI API - HTTP POST Request " + url)
             jsondata = json.dumps({"fileName": "timeline.csv"}).encode("utf8")
-            self.log.debug("bppiApiRepositoryWrapper.prepareUpload() - HTTP POST Data sent: ", jsondata)
+            self.log.debug("BPPI API - HTTP POST Data sent: ", jsondata)
             req = request.Request(url)
             req.add_header('Content-Type', 'application/json; charset=utf-8')
             req.add_header('Authorization', 'Bearer ' + self.Token)
             httpResponse = request.urlopen(req, jsondata).read().decode("utf8")
-            cfg = uploadConfig(httpResponse)
-            self.log.debug("bppiApiRepositoryWrapper.prepareUpload() - HTTP Response: {}".format(cfg.jsonContent))
+            cfg = uploadConfig(httpResponse) # see cfg.jsonContent
             if (cfg.loaded):
-                self.log.info("bppiApiRepositoryWrapper.prepareUpload() - Upload informations from BPPI collected successfully")
+                self.log.info("BPPI API - Upload prepared successfully")
+            else:
+                raise Exception ("Impossible to prepare the upload")
             return cfg
+        
         except Exception as e:
-            self.log.error("bppiApiRepositoryWrapper.prepareUpload() - PrepareUpload Error | " + str(e))
+            self.log.error("bppiApiRepositoryWrapper.prepareUpload() - " + str(e))
             return uploadConfig()
 
     def uploadData(self, csvData, url, headersAcl) -> bool:
@@ -93,14 +97,14 @@ class bppiApiRepositoryWrapper:
             bool: _description_
         """
         try:
-            self.log.info("bppiApiRepositoryWrapper.uploadData() - Upload CSV formatted data to the BPPI Server")
+            self.log.info("BPPI API - Upload CSV formatted data to the BPPI Server")
             headers = {}
             headers["Authorization"] = "Bearer " + self.Token
             headers["content-type"] = "text/csv"
             headers.update(headersAcl)
-            self.log.debug("bppiApiRepositoryWrapper.uploadData() - HTTP PUT Request " + url)
+            self.log.debug("BPPI API - HTTP PUT Request " + url)
             response = requests.put(url , data=csvData, headers=headers)
-            self.log.debug("bppiApiRepositoryWrapper.uploadData() - HTTP Response {}".format(str(response)))
+            self.log.debug("BPPI API - HTTP Response {}".format(str(response)))
             return response.ok
         except Exception as e:
             self.log.error("bppiApiRepositoryWrapper.uploadData() - UploadData Error | " + str(e))
@@ -116,9 +120,9 @@ class bppiApiRepositoryWrapper:
             str: ID of the Process execution
         """
         try:
-            self.log.info("bppiApiRepositoryWrapper.loadFileToBPPIRepository() - Load the file to the BPPI repository")
+            self.log.info("BPPI API - Load the file to the BPPI repository")
             url = self.apiRootPath + C.API_SERVER_LOAD_2_REPO.format(repositoryId)
-            self.log.debug("HTTP POST Request " + url)
+            self.log.debug("BPPI API - HTTP POST Request " + url)
             req = request.Request(url)
             req.add_header('Content-Type', 'application/json; charset=utf-8')
             req.add_header('Authorization', 'Bearer ' + self.Token)
@@ -129,9 +133,10 @@ class bppiApiRepositoryWrapper:
             self.log.debug("HTTP POST Data sent: ", jsondata)
             httpResponse = request.urlopen(req, jsondata).read()
             jres2 = json.loads(httpResponse.decode("utf8"))
-            self.log.debug("bppiApiRepositoryWrapper.loadFileToBPPIRepository() - HTTP Response {}".format(jres2))
-            self.log.info("bppiApiRepositoryWrapper.loadFileToBPPIRepository() - Loading the file with process ID {} ".format(jres2["processingId"]))
+            self.log.debug("BPPI API - HTTP Response {}".format(jres2))
+            self.log.info("BPPI API - Loading the file with process ID {} ".format(jres2["processingId"]))
             return jres2["processingId"]
+        
         except Exception as e:
             self.log.error("bppiApiRepositoryWrapper.loadFileToBPPIRepository() - loadFileToBPPIRepository Error | " + str(e))
             return str(-1)
@@ -146,16 +151,17 @@ class bppiApiRepositoryWrapper:
             str: Status
         """
         try:
-            self.log.info("bppiApiRepositoryWrapper.getProcessingStatus() - Check status for the BPPI Task {}".format(processID))
+            self.log.info("BPPI API - Check status for the BPPI Task {}".format(processID))
             url = self.apiRootPath + C.API_PROCESSING_STATUS + "/" + processID
             self.log.debug("HTTP GET Request " + url)
             response = requests.get(url, headers={ 'Authorization': 'Bearer ' + self.Token, 'content-type': 'application/json' })
             jres = json.loads(response.content)
-            self.log.debug("bppiApiRepositoryWrapper.getProcessingStatus() - HTTP Response {}".format(response.content))
-            self.log.info("bppiApiRepositoryWrapper.getProcessingStatus() - BPPI Task {} status is {} ".format(processID, jres["status"]))
+            self.log.debug("BPPI API - HTTP Response {}".format(response.content))
+            self.log.info("BPPI API - BPPI Task {} status is {} ".format(processID, jres["status"]))
             if (jres["status"] == C.API_STATUS_ERROR):
                 raise Exception(json.dumps(jres))
             return jres["status"]
+        
         except Exception as e:
             self.log.error("bppiApiRepositoryWrapper.getProcessingStatus() - getProcessingStatus Error | " + str(e))
             return C.API_STATUS_ERROR
@@ -170,18 +176,18 @@ class bppiApiRepositoryWrapper:
             str: Process ID
         """
         try: 
-            self.log.info("bppiApiRepositoryWrapper.executeTODO() - Execute a To Do in BPPI repository")
+            self.log.info("BPPI API - Execute a To Do in BPPI repository")
             url = self.apiRootPath + C.API_EXECUTE_TODO.format(repositoryId)
-            self.log.debug("bppiApiRepositoryWrapper.executeTODO() - HTTP POST Request " + url)
+            self.log.debug("bBPPI API - HTTP POST Request " + url)
             jsondata = json.dumps({"todoListNames": todo, "tableName" : tableName}).encode("utf8")
-            self.log.debug("bppiApiRepositoryWrapper.executeTODO() - HTTP POST Data sent: ", jsondata)
+            self.log.debug("BPPI API - HTTP POST Data sent: ", jsondata)
             req = request.Request(url)
             req.add_header('Content-Type', 'application/json; charset=utf-8')
             req.add_header('Authorization', 'Bearer ' + self.Token)
             httpResponse = request.urlopen(req, jsondata).read()
             jres2 = json.loads(httpResponse.decode("utf8"))
-            self.log.debug("bppiApiRepositoryWrapper.executeTODO() - HTTP Response {}".format(jres2))
-            self.log.info("bppiApiRepositoryWrapper.executeTODO() - Loading the file with process ID: " + jres2["processingId"])
+            self.log.debug("BPPI API - HTTP Response {}".format(jres2))
+            self.log.info("BPPI API - Loading the file with process ID: " + jres2["processingId"])
             return jres2["processingId"]
         except Exception as e:
             self.log.error(e)

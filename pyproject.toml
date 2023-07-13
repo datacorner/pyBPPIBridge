@@ -1,6 +1,6 @@
 [project]
 name = "pyBPPIBridge"
-version = "0.4.8.8"
+version = "0.4.8.9"
 authors = [
   { name="Benoit Cayla", email="benoit@datacorner.fr" },
 ]
@@ -71,11 +71,7 @@ Homepage = "https://github.com/datacorner/pyBPPIBridge/wiki"
 bppibridge = "bppibridge:main"
 
 [tool.setuptools]
-package-data = { "bppibridge" = ["config-samples/bplogs.sql", 
-                                     'config-samples/sqlite/config.ddl', 
-                                     'config-samples/ini/config.ini-template' 
-                                ] }
-
+package-data = { bppibridge = ["config-samples/bplogs.sql" ] }
 
 [build-system]
 # These are the assumed default build requirements from pip:

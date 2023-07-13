@@ -55,7 +55,7 @@ class bppiPLRBluePrismApi(bppiRepository):
             str: Blue Prism API Access Token
         """
         try:
-            self.log.debug("__getAccessToken() -> Get the Blue Prism API access token")
+            self.log.debug("BP API - Get the Blue Prism API access token")
             # Blue Prism Hub/API, OAuth2 credentials
             client_id = self.config.getParameter(C.PARAM_BPAPI_CLIENT_ID, C.EMPTY)
             client_secret = self.config.getParameter(C.PARAM_BPAPI_SECRET, C.EMPTY)
@@ -70,11 +70,12 @@ class bppiPLRBluePrismApi(bppiRepository):
                                            data=token_params, 
                                            verify=self.__getSSLVerification())
             token_data = token_response.json()
-            self.log.debug("__getAccessToken() -> Blue Prism Access Token has been returned successfully")
+            self.log.debug("BP API - Blue Prism Access Token has been returned successfully")
             # The access token can be extracted from the response
             return token_data["access_token"]
+        
         except Exception as e:
-            self.log.error("__getAccessToken() -> Unable to get the Blue Prism API Access Token, " + str(e))
+            self.log.error("bppiPLRBluePrismApi.__getAccessToken() -> Unable to get the Blue Prism API Access Token, " + str(e))
             return None
 
     def __getSessionIDList(self, access_token):
@@ -85,7 +86,7 @@ class bppiPLRBluePrismApi(bppiRepository):
             DataFrame: List of Session ID
         """
         try:
-            self.log.debug("__getSessionIDList() -> Get the Blue Prism session list")
+            self.log.debug("BP API - Get the Blue Prism session list")
             headers = {
                 "Authorization": "Bearer " + access_token,
             }
@@ -97,13 +98,14 @@ class bppiPLRBluePrismApi(bppiRepository):
                                         verify=self.__getSSLVerification())
             if (api_response.status_code == C.HTTP_API_OK):
                 df = pd.DataFrame.from_dict(api_response.json()["items"], orient='columns')
-                self.log.debug("__getSessionIDList() -> {} sessions have been returned.".format(len(df)))
+                self.log.debug("BP API - {} sessions have been returned.".format(len(df)))
                 return df["sessionId"]
             else:
-                self.log.error("__getSessionIDList() -> API Call error, {}".format((api_response.status_code)))
+                self.log.error("bppiPLRBluePrismApi.__getSessionIDList() -> API Call error, {}".format((api_response.status_code)))
                 return pd.DataFrame()
+            
         except Exception as e:
-            self.log.error("__getSessionIDList() -> Unable to get the Blue Prism session list, " + str(e))
+            self.log.error("bppiPLRBluePrismApi.__getSessionIDList() -> Unable to get the Blue Prism session list, " + str(e))
             return pd.DataFrame()
  
     def __getSessionDetails(self, access_token, sessionID):
@@ -115,7 +117,7 @@ class bppiPLRBluePrismApi(bppiRepository):
             DataFrame: Session details
         """
         try:
-            self.log.debug("__getSessionInfos() -> Get the Blue Prism session information (header)")
+            self.log.debug("BP API - Get the Blue Prism session information (header)")
             api_endpoint = (self.__buildAPIURL() + C.BPAPI_SESSION_HEAD).format(sessionID)
             headers = {
                 "Authorization": "Bearer " + access_token,
@@ -126,10 +128,10 @@ class bppiPLRBluePrismApi(bppiRepository):
             if (api_response.status_code == C.HTTP_API_OK):
                 return api_response.json()
             else:
-                self.log.error("__getSessionDetails() -> API Call error, {}".format((api_response.status_code)))
-                return pd.DataFrame()
+                raise Exception("API Call error, {}".format((api_response.status_code)))
+            
         except Exception as e:
-            self.log.error("__getSessionDetails() -> Unable to get the Blue Prism session global info, " + str(e))
+            self.log.error("bppiPLRBluePrismApi.__getSessionDetails() -> Unable to get the Blue Prism session global info, " + str(e))
             return pd.DataFrame()
         
     def __getSessionLogs(self, access_token, sessionID):
@@ -141,14 +143,14 @@ class bppiPLRBluePrismApi(bppiRepository):
             DataFrame: Session logs
         """
         try:
-            self.log.debug("__getSessionInfos() -> Get the Blue Prism session [{}] details".format(sessionID))
+            self.log.debug("BP API - Get the Blue Prism session [{}] details".format(sessionID))
             loop_on_page = True
             all_logs = pd.DataFrame()
             next_page_token = ""
             iteration = 1
             # The API returns logs per pages (Max 1000 logs per page)
             while (loop_on_page):
-                self.log.debug("__getSessionInfos() -> Get logs per page, iteration N°{}".format(iteration))
+                self.log.debug("BP API - Get logs per page, iteration N°{}".format(iteration))
                 # Build URL API Call
                 api_endpoint = (self.__buildAPIURL() + C.BPAPI_SESSION_LOGS).format(sessionID)
                 params = { 'sessionLogsParameters.itemsPerPage': self.__getPageSize() }
@@ -169,10 +171,11 @@ class bppiPLRBluePrismApi(bppiRepository):
                     self.log.debug("__getSessionInfos() -> No more pages")
                     loop_on_page = False
                 iteration += 1
-            self.log.debug("__getSessionIDList() -> {} sessions details (steps/stages) have been returned.".format(len(all_logs)))
+            self.log.debug("BP API - {} sessions details (steps/stages) have been returned.".format(len(all_logs)))
             return all_logs
+        
         except Exception as e:
-            self.log.error("__getSessionLogs() -> Unable to get the Blue Prism session [{}] details, {}".format(sessionID, str(e)))
+            self.log.error("bppiPLRBluePrismApi.__getSessionLogs() -> Unable to get the Blue Prism session [{}] details, {}".format(sessionID, str(e)))
             return pd.DataFrame()
 
     def __getSessionParameters(self, access_token, sessionID):
@@ -204,6 +207,7 @@ class bppiPLRBluePrismApi(bppiRepository):
                 logs = pd.DataFrame()
                 # Aggregate the logs from all the sessions
                 for session in sessionIDList:
+                    self.log.debug("BP API - Collect logs from session {} ...".format(session))
                     session_info = self.__getSessionDetails(access_token, session)
                     session_logs = self.__getSessionLogs(access_token, session)
                     # Add Session log data
@@ -211,7 +215,9 @@ class bppiPLRBluePrismApi(bppiRepository):
                     session_logs["status"] = session_info['status']
                     session_logs["SessionID"] = session
                     logs = pd.concat([logs, session_logs]) 
+                    self.log.debug("BP API - session {} logs collected successfully, Total: {} rows/logs".format(session, logs.shape[0]))
             return logs
+        
         except Exception as e:
             self.log.error("Extract() Error -> " + str(e))
             return super().extract()

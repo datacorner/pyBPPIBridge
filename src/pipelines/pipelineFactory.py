@@ -3,8 +3,6 @@ __email__ = "benoit@datacorner.fr"
 __license__ = "GPL"
 
 import utils.constants as C
-import sys
-import os
 import importlib
 
 class pipelineFactory:
@@ -20,22 +18,46 @@ class pipelineFactory:
 		return self.__datasource
 	
 	def createAndExecute(self):
-		# INSTANCIATE ONLY THE NEEDED CLASS / DATA SOURCE TYPE
-		pipeline = self.create()
-		if (pipeline == None): exit()
-		# PROCESS THE DATA
-		if (pipeline.initialize()):
-			df = pipeline.extract()	# EXTRACT (E of ETL)
-			if (df.shape[0] == 0):
-				pipeline.log.info("There are no data to process, terminate here.")
+		try:
+			# INSTANCIATE ONLY THE NEEDED CLASS / DATA SOURCE TYPE
+			print("Info> BPPI Bridge initialisation ...")
+			pipeline = self.create()
+			if (pipeline == None):
+				raise Exception ("The Data pipeline cannot be created")
+		except Exception as e:
+			print("Error> pipelineFactory.createAndExecute(): The bridge cannot be initialized: {}"/format(str(e)))
+			return None
+		
+		try:
+			# PROCESS THE DATA
+			if (pipeline.initialize()):
+				pipeline.log.info("The BPPI Bridge has been initialized successfully")
+				pipeline.log.info("Extract data from Data Source ...")
+				df = pipeline.extract()	# EXTRACT (E of ETL)
+				pipeline.log.info("Data extracted successfully, {} rows to import into BPPI".format(df.shape[0]))
+				if (df.shape[0] == 0):
+					pipeline.log.info("** There are no data to process, terminate here **")
+				else:
+					pipeline.log.info("Transform imported data ...")
+					df = pipeline.transform(df)	# TRANSFORM (T of ETL)
+					pipeline.log.info("Data transformed successfully, {} rows - after transformation - to import into BPPI".format(df.shape[0]))
+					if (df.empty != True): 
+						# LOAD (L of ETL)
+						pipeline.log.info("Load data into the BPPI Repository table ...")
+						if pipeline.load(df):
+							pipeline.log.info("Data loaded successfully")
+							if (self.config.getParameter(C.PARAM_BPPITODOACTIVED, C.NO) == C.YES):
+								pipeline.log.info("Execute BPPI To Do ...")
+								if (pipeline.executeToDo()):
+									pipeline.log.info("BPPI To Do executed successfully")
+				pipeline.terminate()
 			else:
-				df = pipeline.transform(df)	# TRANSFORM (T of ETL)
-				if (df.empty != True): 
-					# LOAD (L of ETL)
-					if (pipeline.load(df) and self.config.getParameter(C.PARAM_BPPITODOACTIVED, C.NO) == C.YES):
-						pipeline.executeToDo()
-			pipeline.terminate()
-
+				print("pipelineFactory.createAndExecute(): The Data pipeline has not been initialized properly")
+			
+		except Exception as e:
+			pipeline.log.error("pipelineFactory.createAndExecute(): Error when processing the data: {}".format(str(e)))
+			return None
+	
 	def create(self):
 		""" This function dynamically instanciate the right data pipeline (manages ETL) class to create a pipeline object. 
 			This to avoid in loading all the connectors (if any of them failed for example) when making a global import, 
@@ -72,5 +94,5 @@ class pipelineFactory:
 			return datasourceObject(self.config)
 		
 		except Exception as e:
-			print("Error when loading the Data Source Factory: " + str(e))
+			print("pipelineFactory.create(): Error when loading the Data Source Factory: {}"/format(str(e)))
 			return None
